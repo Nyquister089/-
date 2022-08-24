@@ -6,7 +6,7 @@ INSERT INTO `tripdb`.`prenotazione`
   `DataDiConferma`, 
   `DataSaldo`)
 VALUES
-('1',
+('gdn@mail.com',
   '2022-07-09',
   NULL, 
   NULL

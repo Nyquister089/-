@@ -47,4 +47,39 @@ INSERT INTO `tripdb`.`utente`
  ('mngr@mail.com',
   '1',
   '5');
+   INSERT INTO `tripdb`.`utente` 
+(`EmailUtente`,
+  `Pswrd`,
+  `TipoUtente`)
+ VALUES 
+ ('ldn@mail.com',
+  '1',
+  '2');
+ INSERT INTO `tripdb`.`utente` 
+(`EmailUtente`,
+  `Pswrd`,
+  `TipoUtente`)
+ VALUES 
+ ('gdn@mail.com',
+  '1',
+  '2');
+  INSERT INTO `tripdb`.`utente` 
+(`EmailUtente`,
+  `Pswrd`,
+  `TipoUtente`)
+ VALUES 
+ ('gvnn@mail.com',
+  '1',
+  '2');
+ INSERT INTO `tripdb`.`utente` 
+(`EmailUtente`,
+  `Pswrd`,
+  `TipoUtente`)
+ VALUES 
+ ('smn@mail.com',
+  '1',
+  '2');
+
+
+  
 

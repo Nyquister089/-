@@ -9,7 +9,7 @@ INSERT INTO `tripdb`.`cliente`
   `RecapitoTelefonico`,
   `Fax`)
 VALUES
-('1',
+('gdn@mail.com',
   'Giordano',
   'Di Censo',
   'Via Bagheria 18',

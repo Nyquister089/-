@@ -113,6 +113,8 @@ void drop_tables()
 
 void create_tables()
 {   //execute_query_from_file_sql("../sql/ddl/table/create_all.sql");
+
+    execute_query_from_file_sql("../sql/ddl/table/utente.sql");
     execute_query_from_file_sql("../sql/ddl/table/localita.sql");
     execute_query_from_file_sql("../sql/ddl/table/meta.sql");
     execute_query_from_file_sql("../sql/ddl/table/servizio.sql");
@@ -139,7 +141,6 @@ void create_tables()
     execute_query_from_file_sql("../sql/ddl/table/tome.sql");
     execute_query_from_file_sql("../sql/ddl/table/mappa.sql");
     execute_query_from_file_sql("../sql/ddl/table/visita.sql");
-    execute_query_from_file_sql("../sql/ddl/table/utente.sql");
     execute_query_from_file_sql("../sql/ddl/table/sostituito.sql");
     execute_query_from_file_sql("../sql/ddl/table/competenze.sql"); 
     
@@ -161,7 +162,8 @@ void create_views()
 }
 
 void populate_tables()
-{
+{   
+    execute_query_from_file_sql("../sql/dml/delete_and_insert_utente.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_tour.sql"); 
     execute_query_from_file_sql("../sql/dml/delete_and_insert_servizio.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_localita.sql");
@@ -170,7 +172,6 @@ void populate_tables()
     execute_query_from_file_sql("../sql/dml/delete_and_insert_mezzo.sql"); 
     execute_query_from_file_sql("../sql/dml/delete_and_insert_comfort.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_meta.sql");
-    execute_query_from_file_sql("../sql/dml/delete_and_insert_utente.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_viaggio.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_cliente.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_camera.sql");
