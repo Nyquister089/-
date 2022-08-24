@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/giordano/db_prg/tripbus'
+make: Leaving directory '/home/giordano/db_prg/tripbus'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+
