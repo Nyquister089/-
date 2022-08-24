@@ -27,7 +27,7 @@ grant execute on procedure insert_skills to 'Manager'@'localhost';
 grant execute on procedure insert_costumer to 'Manager'@'localhost'; 
 grant execute on procedure insert_reservation to 'Manager'@'localhost';  
 grant execute on procedure insert_seat to 'Manager'@'localhost';  		
-grant execute on procedure insert_assoc to 'Manager'@'localhost'; 
+grant execute on procedure insert_stay to 'Manager'@'localhost'; 
 grant execute on procedure insert_review to 'Manager'@'localhost';  
 grant execute on procedure insert_sostitution to 'Manager'@'localhost';  	
 

@@ -22,6 +22,6 @@ grant execute on procedure delete_skills to 'Manager'@'localhost';
 grant execute on procedure delete_costumer to 'Manager'@'localhost'; 
 grant execute on procedure delete_reservation to 'Manager'@'localhost';  
 grant execute on procedure delete_seat to 'Manager'@'localhost';  		
-grant execute on procedure delete_assoc to 'Manager'@'localhost'; 
+grant execute on procedure delete_stay to 'Manager'@'localhost'; 
 grant execute on procedure delete_review to 'Manager'@'localhost';  
 /*grant execute on procedure delete_sostitution to 'Manager'@'localhost';  */	

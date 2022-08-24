@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `tripdb`.`associata` (
+CREATE TABLE IF NOT EXISTS `tripdb`.`soggiorno` (
   `CameraPrenotata` int NOT NULL,
   `Ospite` int unsigned NOT NULL,
   `AlbergoInQuestione` int unsigned NOT NULL,

@@ -45,7 +45,7 @@ extern void db_switch_to_login(void);
 extern role_t attempt_login(struct credentials *cred);
 extern void db_switch_to_administrator(void);
 
-struct associata{
+struct soggiorno{
 	int  cameraprenotata; 				//FK //Corretto trasformandolo da carattere a puntatore di carattere
 	int  ospite; 						//FK //Corretto trasformandolo da carattere a puntatore di carattere
 	int  albergoinquestione; 			//FK //Corretto trasformandolo da carattere a puntatore di carattere
@@ -334,7 +334,6 @@ struct tour_info{
 }; 
 
 struct utente {
-	int id; 
 	char email[VARCHAR_LEN];
 	char pswrd[PASSWORD_LEN]; 
 	int tipo;
@@ -433,7 +432,7 @@ extern void do_insert_room(struct camera *camera);
 extern void do_insert_costumer(struct cliente *cliente);
 extern void do_insert_reservation(struct prenotazione *prenotazione);
 extern void do_insert_seat(struct postoprenotato *postoprenotato);
-extern void do_insert_assoc(struct associata *associata);
+extern void do_insert_stay(struct soggiorno *soggiorno);
 extern void do_insert_review(struct revisione *revisione);
 extern void do_insert_sostitution (struct sostituito *sostituito); 
 extern void do_insert_location(struct localita *localita); 
@@ -460,7 +459,7 @@ extern void do_select_tour( struct tour *tour);
 extern void do_select_sparepart(struct ricambio *ricambio); 
 extern void do_select_review(struct revisione *revisione);
 extern void do_select_bus(struct mezzo *mezzo); 
-extern void do_select_assoc(struct associata *associata); 
+extern void do_select_stay(struct soggiorno *soggiorno); 
 extern void do_select_skills(struct competenze *competenze); 
 extern void do_select_employee(struct dipendente* dipendente); 
 extern void do_select_fmo(struct fmo *fmo); 
@@ -487,7 +486,7 @@ extern void do_delete_tour( struct tour *tour);
 extern void do_delete_sparepart(struct ricambio *ricambio); 
 extern void do_delete_review(struct revisione *revisione);
 extern void do_delete_bus(struct mezzo *mezzo); 
-extern void do_delete_assoc(struct associata *associata); 
+extern void do_delete_stay(struct soggiorno *soggiorno); 
 extern void do_delete_skills(struct competenze *competenze); 
 extern void do_delete_employee(struct dipendente* dipendente); 
 extern void do_delete_fmo(struct fmo *fmo); 

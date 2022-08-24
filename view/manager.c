@@ -9,7 +9,7 @@
 #include "../utils/io.h"
 #include "../utils/validation.h"
 
-struct associata * associata;
+struct soggiorno * soggiorno;
 struct camera *camera; 
 struct documentazionefotografica *documentazionefotografica; 
 struct cliente *cliente; 
@@ -40,9 +40,9 @@ struct utente *utente;
 int allocation_gest(void)
 {
 
-	associata = malloc(sizeof(struct associata)); 
-	if(associata == NULL)
-		{printf("Fallimento malloc su associata (manager)) \n\n"); 
+	soggiorno = malloc(sizeof(struct soggiorno)); 
+	if(soggiorno == NULL)
+		{printf("Fallimento malloc su soggiorno (manager)) \n\n"); 
 		 return -1; 
 		}
 	dipendente = malloc(sizeof(struct dipendente));
@@ -688,7 +688,7 @@ int costumer_section(void) // sezione clienti
 
 bool get_table_gest (char sel)
 {   char act;
-    if(associata == NULL || dipendente == NULL ||fme == NULL ||fmo == NULL|| offre == NULL || servizio == NULL || tome == NULL || utente == NULL) {
+    if(soggiorno == NULL || dipendente == NULL ||fme == NULL ||fmo == NULL|| offre == NULL || servizio == NULL || tome == NULL || utente == NULL) {
 		allocation_gest();
 		printf("\n\nAllocazione gest avvenuta.\n\n");
      } 
@@ -737,19 +737,19 @@ bool get_table_gest (char sel)
         return true; 
         }
 
-        case TABELLA_ASSOCIATA: {
+        case TABELLA_SOGGIORNO: {
         act = get_mngr_action();
             switch (act){
                 case GESTIONE_SELECT: {
-                    show_assoc(associata); 
+                    show_stay(soggiorno); 
                 return true; 
                 }
 	            case GESTIONE_INSERT: {
-                    ins_association(associata); 
+                    ins_stay(soggiorno); 
                 return true; 
                 }
 	            case GESTIONE_DELETE: {
-                    dlt_assoc(associata); 
+                    dlt_stay(soggiorno); 
                 return true; 
                 }
 	            case QUIT_GEST_OP: {
@@ -886,7 +886,7 @@ int gest_section(void)
 		 puts("*** Su quale tabella della gestione officina? ***\n");
 	 	 puts("1) Dipendenti");
 	 	 puts("2) Utenti");
-	 	 puts("3) Associata");
+	 	 puts("3) Soggiorno");
 		 puts("4) Offre");
 		 puts("5) Servizi"); 
 		 puts("6) Collegamento tour-mete");

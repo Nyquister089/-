@@ -12,7 +12,7 @@ struct cliente *cliente_hstss;
 struct prenotazione *prenotazione_hstss;
 struct postoprenotato *postoprenotato_hstss;
 struct  viaggio *viaggio_hstss;
-struct associata * associata_hstss;
+struct soggiorno * soggiorno_hstss;
 
 int allocation_hstss(void)
 {
@@ -36,9 +36,9 @@ int allocation_hstss(void)
 		{printf("Fallimento malloc su viaggio (hostess) \n\n"); 
 		 return -1;
 		}
-	associata_hstss = malloc(sizeof(struct associata));
-	if(associata_hstss == NULL)
-		{printf("Fallimento malloc associata (hostess) \n\n"); 
+	soggiorno_hstss = malloc(sizeof(struct soggiorno));
+	if(soggiorno_hstss == NULL)
+		{printf("Fallimento malloc soggiorno (hostess) \n\n"); 
 		 return -1; 
 		 }
 }
@@ -108,8 +108,8 @@ void validate_reservation(void)
 		ans = yes_or_no("\n\n Vuoi associare una camera a questo passeggero? (s/n) ",'s','n',false,false);
 		if (ans)
 			do{	printf("** Associa camera al passeggero ** ");
-			 	associata_hstss->ospite = postoprenotato_hstss->numerodiposto; 
-				ins_association(associata_hstss); 
+			 	soggiorno_hstss->ospite = postoprenotato_hstss->numerodiposto; 
+				ins_stay(soggiorno_hstss); 
 				association_ans= yes_or_no("\n\n Vuoi associare un'altra camera a questo passeggero? (s/n) ",'s','n',false,false);
 			}while(association_ans);
 		seat_ans =yes_or_no("\n\n Vuoi associare un'altro passeggero a questa prenotazione ? (s/n) ",'s','n',false,false);
@@ -203,7 +203,7 @@ void run_hstss_interface (void)
 { 	
 	char sel;
 				
-	if(	cliente_hstss == NULL || prenotazione_hstss == NULL || postoprenotato_hstss == NULL ||viaggio_hstss == NULL||associata_hstss == NULL) {
+	if(	cliente_hstss == NULL || prenotazione_hstss == NULL || postoprenotato_hstss == NULL ||viaggio_hstss == NULL||soggiorno_hstss == NULL) {
 		allocation_hstss();
 		printf("\n\nAllocazione avvenuta.\n\n"); }
 

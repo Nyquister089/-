@@ -43,7 +43,7 @@ static MYSQL_STMT *insert_skills; 		// ok Manager
 static MYSQL_STMT *insert_costumer;		// OK HOSTESS, Manager
 static MYSQL_STMT *insert_reservation;	// OK HOSTESS, Manager
 static MYSQL_STMT *insert_seat;			// OK HOSTESS, Manager
-static MYSQL_STMT *insert_assoc;		// OK HOSTESS, Manager
+static MYSQL_STMT *insert_stay;		// OK HOSTESS, Manager
 static MYSQL_STMT *insert_review;		// ok Meccanico, Manager
 static MYSQL_STMT *insert_sostitution;	// ok Meccanico, Manager
 
@@ -53,7 +53,7 @@ static MYSQL_STMT *select_costumer;	   // Ok HOSTESS
 static MYSQL_STMT *select_reservation; // ok HOSTESS
 static MYSQL_STMT *select_review;	   // ok Meccanico, ok Manager
 static MYSQL_STMT *select_sparepart;   // ok Meccanico, ok Manager
-static MYSQL_STMT *select_assoc;   		// ok Manager
+static MYSQL_STMT *select_stay;   		// ok Manager
 static MYSQL_STMT *select_skills; 		// ok Manager
 static MYSQL_STMT *select_employee;		// ok Manager 
 static MYSQL_STMT *select_fmo;			// ok Manager
@@ -80,7 +80,7 @@ static MYSQL_STMT *delete_costumer;	   // Ok HOSTESS
 static MYSQL_STMT *delete_reservation; // ok HOSTESS
 static MYSQL_STMT *delete_review;	   // ok Meccanico, ok Manager
 static MYSQL_STMT *delete_sparepart;   // ok Meccanico, ok Manager
-static MYSQL_STMT *delete_assoc;   		// ok Manager
+static MYSQL_STMT *delete_stay;   		// ok Manager
 static MYSQL_STMT *delete_skills; 		// ok Manager
 static MYSQL_STMT *delete_employee;		// ok Manager 
 static MYSQL_STMT *delete_fmo;			// ok Manager
@@ -126,10 +126,10 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close(login_procedure);
 		login_procedure = NULL;
 	}
-	if (delete_assoc)
+	if (delete_stay)
 	{
-		mysql_stmt_close(delete_assoc);
-		delete_assoc = NULL;
+		mysql_stmt_close(delete_stay);
+		delete_stay = NULL;
 	}
 	if (delete_visit)
 	{
@@ -256,10 +256,10 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close(delete_reservation);
 		delete_reservation = NULL;
 	}
-	if (select_assoc)
+	if (select_stay)
 	{
-		mysql_stmt_close(select_assoc);
-		select_assoc = NULL;
+		mysql_stmt_close(select_stay);
+		select_stay = NULL;
 	}
 	if (select_visit)
 	{
@@ -590,10 +590,10 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close(update_km);
 		update_km = NULL;
 	}
-	if (insert_assoc)
+	if (insert_stay)
 	{
-		mysql_stmt_close(insert_assoc);
-		insert_assoc = NULL;
+		mysql_stmt_close(insert_stay);
+		insert_stay = NULL;
 	}
 }
 
@@ -705,9 +705,9 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(update_data_doc, "Unable to initialize update trip statement statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&insert_assoc, "call insert_assoc(?, ?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(&insert_stay, "call insert_stay(?, ?, ?, ?, ?)", conn))
 		{
-			print_stmt_error(insert_assoc, "Unable to initialize update trip statement statement\n");
+			print_stmt_error(insert_stay, "Unable to initialize update trip statement statement\n");
 			return false;
 		}
 		break;
@@ -808,9 +808,9 @@ static bool initialize_prepared_stmts(role_t for_role)
 		init_db(); 
 
 
-		if (!setup_prepared_stmt(&insert_assoc, "call insert_assoc(?, ?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(&insert_stay, "call insert_stay(?, ?, ?, ?, ?)", conn))
 		{
-			print_stmt_error(insert_assoc, "Unable to initialize update trip statement statement\n");
+			print_stmt_error(insert_stay, "Unable to initialize update trip statement statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&insert_review, "call insert_review(?, ?, ?, ?, ?, ?, ?, ?)", conn))
@@ -978,9 +978,9 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(delete_costumer, "Unable to initialize delete_costumer statement\n");
 			return false;
 		}
-			if (!setup_prepared_stmt(&delete_assoc, "call  delete_assoc(?, ?, ?)", conn))
+			if (!setup_prepared_stmt(&delete_stay, "call  delete_stay(?, ?, ?)", conn))
 		{ 
-			print_stmt_error(delete_assoc, "Unable to initialize delete_assoc statement\n");
+			print_stmt_error(delete_stay, "Unable to initialize delete_stay statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&delete_skills, "call  delete_skills(?,?)", conn))
@@ -1083,9 +1083,9 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(select_review, "Unable to initialize select_review statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&select_assoc, "call  select_assoc(?,?,?)", conn))
+		if (!setup_prepared_stmt(&select_stay, "call  select_stay(?,?,?)", conn))
 		{ 
-			print_stmt_error(select_assoc, "Unable to initialize select_assoc statement\n");
+			print_stmt_error(select_stay, "Unable to initialize select_stay statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&select_employee, "call  select_employee(?)", conn))
@@ -1419,23 +1419,23 @@ void do_insert_seat(struct postoprenotato *postoprenotato) // Funziona
 	mysql_stmt_reset(insert_seat);
 }
 
-void do_insert_assoc(struct associata *associata) // Funziona
+void do_insert_stay(struct soggiorno *soggiorno) // Funziona
 {
 	MYSQL_BIND param[5];
 	MYSQL_TIME datafinesoggiorno;
 	MYSQL_TIME datainiziosoggiorno;
 
-	char *buff = "insert_assoc";
+	char *buff = "insert_stay";
 	int cameraprenotata;
 	int ospite;
 	int albergoinquestione;
 
-	date_to_mysql_time(associata->datainiziosoggiorno, &datainiziosoggiorno);
-	date_to_mysql_time(associata->datafinesoggiorno, &datafinesoggiorno);
+	date_to_mysql_time(soggiorno->datainiziosoggiorno, &datainiziosoggiorno);
+	date_to_mysql_time(soggiorno->datafinesoggiorno, &datafinesoggiorno);
 
-	cameraprenotata = associata->cameraprenotata;
-	albergoinquestione = associata->albergoinquestione;
-	ospite = associata->ospite;
+	cameraprenotata = soggiorno->cameraprenotata;
+	albergoinquestione = soggiorno->albergoinquestione;
+	ospite = soggiorno->ospite;
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &cameraprenotata, sizeof(cameraprenotata));
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &ospite, sizeof(ospite));
@@ -1443,10 +1443,10 @@ void do_insert_assoc(struct associata *associata) // Funziona
 	set_binding_param(&param[3], MYSQL_TYPE_DATE, &datainiziosoggiorno, sizeof(datainiziosoggiorno));
 	set_binding_param(&param[4], MYSQL_TYPE_DATE, &datafinesoggiorno, sizeof(datafinesoggiorno));
 
-	bind_exe(insert_assoc, param, buff);
+	bind_exe(insert_stay, param, buff);
 
-	mysql_stmt_free_result(insert_assoc);
-	mysql_stmt_reset(insert_assoc);
+	mysql_stmt_free_result(insert_stay);
+	mysql_stmt_reset(insert_stay);
 }
 
 void do_insert_review(struct revisione *revisione)
@@ -2003,18 +2003,18 @@ void do_select_seat(struct postoprenotato *postoprenotato)
 
 void do_select_user(struct utente *utente)
 {
-	MYSQL_BIND param[3];
+	MYSQL_BIND param[2];
 	
 	char *buff = "select_user";
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &utente->id, sizeof(utente->id));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, utente->email, sizeof(utente->email));
 	
 	if (bind_exe(select_user, param, buff) == -1)
 		goto stop;
 
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, utente->email, sizeof(utente->email));
-	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, utente->pswrd, sizeof(utente->pswrd));
-	set_binding_param(&param[2], MYSQL_TYPE_LONG, &utente->tipo, sizeof(utente->tipo));
+	
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, utente->pswrd, sizeof(utente->pswrd));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &utente->tipo, sizeof(utente->tipo));
 	
 	take_result(select_user, param, buff);
  
@@ -2177,38 +2177,38 @@ void do_select_skills(struct competenze *competenze)
 }
 
 
-void do_select_assoc(struct associata *associata)
+void do_select_stay(struct soggiorno *soggiorno)
 {
 	MYSQL_BIND param[3];
 	MYSQL_TIME datainiziosoggiorno; 
 	MYSQL_TIME datafinesoggiorno;
 
-	char *buff = "select_assoc";
+	char *buff = "select_stay";
 
-	date_to_mysql_time(associata->datainiziosoggiorno, &datainiziosoggiorno);
-	date_to_mysql_time(associata->datafinesoggiorno,&datafinesoggiorno);
+	date_to_mysql_time(soggiorno->datainiziosoggiorno, &datainiziosoggiorno);
+	date_to_mysql_time(soggiorno->datafinesoggiorno,&datafinesoggiorno);
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &associata->albergoinquestione, sizeof(associata->albergoinquestione));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &associata->cameraprenotata, sizeof(associata->cameraprenotata));
-	set_binding_param(&param[2], MYSQL_TYPE_LONG, &associata->ospite, sizeof(associata->ospite));
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &soggiorno->albergoinquestione, sizeof(soggiorno->albergoinquestione));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &soggiorno->cameraprenotata, sizeof(soggiorno->cameraprenotata));
+	set_binding_param(&param[2], MYSQL_TYPE_LONG, &soggiorno->ospite, sizeof(soggiorno->ospite));
 
-	if (bind_exe(select_assoc, param, buff) == -1)
+	if (bind_exe(select_stay, param, buff) == -1)
 		goto stop;
 
 	set_binding_param(&param[0], MYSQL_TYPE_DATE, &datainiziosoggiorno, sizeof(datainiziosoggiorno));
 	set_binding_param(&param[1], MYSQL_TYPE_DATE, &datafinesoggiorno, sizeof(datafinesoggiorno));
 	 
 	
-	if (take_result(select_assoc, param, buff)== -1)
+	if (take_result(select_stay, param, buff)== -1)
 		goto stop; 
 
-	mysql_date_to_string(&datainiziosoggiorno, associata->datainiziosoggiorno); 
-	mysql_date_to_string(&datafinesoggiorno, associata->datafinesoggiorno); 
+	mysql_date_to_string(&datainiziosoggiorno, soggiorno->datainiziosoggiorno); 
+	mysql_date_to_string(&datafinesoggiorno, soggiorno->datafinesoggiorno); 
 
 	stop:
 
-	mysql_stmt_free_result(select_assoc);
-	mysql_stmt_reset(select_assoc);
+	mysql_stmt_free_result(select_stay);
+	mysql_stmt_reset(select_stay);
 }
 
 void do_select_sparepart(struct ricambio *ricambio) //FUNZIONA
@@ -2720,7 +2720,7 @@ void do_delete_user(struct utente *utente)
 	
 	char *buff = "delete_user";
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &utente->id, sizeof(utente->id));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, utente->email, sizeof(utente->email));
 	
 	bind_exe(delete_user, param, buff); 
 
@@ -2825,20 +2825,20 @@ void do_delete_skills(struct competenze *competenze)
 }
 
 
-void do_delete_assoc(struct associata *associata)
+void do_delete_stay(struct soggiorno *soggiorno)
 {
 	MYSQL_BIND param[3];
 	
-	char *buff = "delete_assoc";
+	char *buff = "delete_stay";
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &associata->albergoinquestione, sizeof(associata->albergoinquestione));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &associata->cameraprenotata, sizeof(associata->cameraprenotata));
-	set_binding_param(&param[2], MYSQL_TYPE_LONG, &associata->ospite, sizeof(associata->ospite));
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &soggiorno->albergoinquestione, sizeof(soggiorno->albergoinquestione));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &soggiorno->cameraprenotata, sizeof(soggiorno->cameraprenotata));
+	set_binding_param(&param[2], MYSQL_TYPE_LONG, &soggiorno->ospite, sizeof(soggiorno->ospite));
 
-	bind_exe(delete_assoc, param, buff);
+	bind_exe(delete_stay, param, buff);
 
-	mysql_stmt_free_result(delete_assoc);
-	mysql_stmt_reset(delete_assoc);
+	mysql_stmt_free_result(delete_stay);
+	mysql_stmt_reset(delete_stay);
 }
 
 void do_delete_sparepart(struct ricambio *ricambio) //FUNZIONA

@@ -128,7 +128,7 @@ void create_tables()
     execute_query_from_file_sql("../sql/ddl/table/dipendenti.sql");
     execute_query_from_file_sql("../sql/ddl/table/viaggio.sql");
     execute_query_from_file_sql("../sql/ddl/table/postoprenotato.sql");
-    execute_query_from_file_sql("../sql/ddl/table/associata.sql");
+    execute_query_from_file_sql("../sql/ddl/table/soggiorno.sql");
     execute_query_from_file_sql("../sql/ddl/table/comfort.sql");
     execute_query_from_file_sql("../sql/ddl/table/presenti.sql");
     execute_query_from_file_sql("../sql/ddl/table/revisione.sql");
@@ -187,7 +187,7 @@ void populate_tables()
     execute_query_from_file_sql("../sql/dml/delete_and_insert_ricambio.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_mappa.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_postoprenotato.sql");
-    execute_query_from_file_sql("../sql/dml/delete_and_insert_associata.sql");
+    execute_query_from_file_sql("../sql/dml/delete_and_insert_soggiorno.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_competenze.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_tagliando.sql");
 }
@@ -199,7 +199,7 @@ void drop_procedures(){
 void create_procedures(){
     
     execute_query_from_file_sql("../sql/ddl/procedure/login.sql");
-    execute_query_from_file_sql("../sql/ddl/procedure/insert_assoc.sql");
+    execute_query_from_file_sql("../sql/ddl/procedure/insert_stay.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/insert_costumer.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/update_trip_seat.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/update_km.sql");
@@ -226,7 +226,7 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/select_bus.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_reservation.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/select_costumer.sql");
-    execute_query_from_file_sql("../sql/ddl/procedure/select_assoc.sql"); 
+    execute_query_from_file_sql("../sql/ddl/procedure/select_stay.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_skills.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_employee.sql");  
     execute_query_from_file_sql("../sql/ddl/procedure/select_fmo.sql"); 
@@ -276,7 +276,7 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/delete_bus.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/delete_reservation.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/delete_costumer.sql");
-    execute_query_from_file_sql("../sql/ddl/procedure/delete_assoc.sql"); 
+    execute_query_from_file_sql("../sql/ddl/procedure/delete_stay.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/delete_skills.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/delete_employee.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/delete_fmo.sql"); 

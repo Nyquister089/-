@@ -22,6 +22,6 @@ grant execute on procedure select_skills to 'Manager'@'localhost';
 grant execute on procedure select_costumer to 'Manager'@'localhost'; 
 grant execute on procedure select_reservation to 'Manager'@'localhost';  
 grant execute on procedure select_seat to 'Manager'@'localhost';  		
-grant execute on procedure select_assoc to 'Manager'@'localhost'; 
+grant execute on procedure select_stay to 'Manager'@'localhost'; 
 grant execute on procedure select_review to 'Manager'@'localhost';  
 /*grant execute on procedure select_sostitution to 'Manager'@'localhost';  	*/

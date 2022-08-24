@@ -163,27 +163,27 @@ void ins_certify(struct tagliando *tagliando)
 	do_insert_certify(tagliando); 
 }
 
-void ins_association(struct associata *associata)
+void ins_stay(struct soggiorno *soggiorno)
 {	
 	char buff[NUM_LEN]; 
 	printf("\n** Dettagli associazione camera**\n\n");
 	get_input("Inserisci il numero della camera: ", NUM_LEN, buff, false);
-	associata->cameraprenotata = atoi(buff); 
+	soggiorno->cameraprenotata = atoi(buff); 
 	get_input("Inserisci l'albergo in cui è ubicata la camera: ", NUM_LEN, buff,false);	
-	associata->albergoinquestione = atoi(buff); 
+	soggiorno->albergoinquestione = atoi(buff); 
 	while(true){
-	get_input("Inserici la data d'inizio del soggiorno [YYYY-MM-DD]: ",DATE_LEN, associata->datainiziosoggiorno,false); 
-	if(validate_date(associata->datainiziosoggiorno))
+	get_input("Inserici la data d'inizio del soggiorno [YYYY-MM-DD]: ",DATE_LEN, soggiorno->datainiziosoggiorno,false); 
+	if(validate_date(soggiorno->datainiziosoggiorno))
 			break;
 		fprintf(stderr, "Data errata!\n");
 	}
 	while(true){
-		get_input("Inserisci la data di fine soggiorno [YYYY-MM-DD]: ",DATE_LEN, associata->datafinesoggiorno, false);
-		if(validate_date(associata->datafinesoggiorno))
+		get_input("Inserisci la data di fine soggiorno [YYYY-MM-DD]: ",DATE_LEN, soggiorno->datafinesoggiorno, false);
+		if(validate_date(soggiorno->datafinesoggiorno))
 				break;
 			fprintf(stderr, "Data errata!\n");
 		} 
-	do_insert_assoc(associata); 
+	do_insert_stay(soggiorno); 
 }
 
 void ins_sostitution( struct sostituito *sostituito, struct ricambio *ricambio)

@@ -17,7 +17,7 @@ extern void ins_sparepart(struct ricambio *ricambio);
 extern void ins_bus(struct mezzo *mezzo);
 extern void ins_model(struct modello *modello);
 extern void ins_certify(struct tagliando *tagliando);
-extern void ins_association(struct associata *associata);
+extern void ins_stay(struct soggiorno *soggiorno);
 extern void ins_sostitution( struct sostituito *sostituito, struct ricambio *ricambio); 
 extern void ins_tour(struct tour *tour);
 extern void ins_trip(struct viaggio *viaggio);

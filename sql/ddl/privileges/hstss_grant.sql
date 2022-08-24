@@ -13,7 +13,7 @@ insert_seat
 to 'Hostess'@'localhost'; 
 
 grant execute on procedure 			
-insert_assoc
+insert_stay
 to 'Hostess'@'localhost';	
 
 grant execute on procedure 

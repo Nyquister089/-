@@ -1,4 +1,4 @@
-CREATE PROCEDURE if not exists `tripdb`.`insert_assoc`(
+CREATE PROCEDURE if not exists `tripdb`.`insert_stay`(
 in cam int, 
 in osp int, 
 in alb int, 

@@ -124,20 +124,20 @@ void show_bus(struct mezzo *mezzo)
 
 }
 
-void show_assoc(struct associata *associata)
+void show_stay(struct soggiorno *soggiorno)
 {	
 	char buff [NUM_LEN]; 
-	printf("\n\n** Dettagli associata **\n\n");
+	printf("\n\n** Dettagli soggiorno **\n\n");
 	get_input("Inserisci il codice dell'albergo:",NUM_LEN, buff, false); 
-	associata->albergoinquestione = atoi(buff); 
+	soggiorno->albergoinquestione = atoi(buff); 
 	get_input("Inserisci il codice della camera :",NUM_LEN, buff, false);
-	associata->cameraprenotata = atoi(buff); 
+	soggiorno->cameraprenotata = atoi(buff); 
 	get_input("Inserisci il numero dell'ospite :",NUM_LEN, buff, false);
-	associata->ospite = atoi(buff); 
-	do_select_assoc(associata);
+	soggiorno->ospite = atoi(buff); 
+	do_select_stay(soggiorno);
  	printf("*Data inizio soggiorno:%s \n Data fine soggiorno:	%s \n\n",
-		associata->datainiziosoggiorno,
-		associata->datafinesoggiorno); 
+		soggiorno->datainiziosoggiorno,
+		soggiorno->datafinesoggiorno); 
 
 }
 
@@ -230,13 +230,11 @@ void show_tome(struct tome *tome)
 
 void show_user(struct utente *utente){
 
-	char buff [NUM_LEN]; 
 	printf("\n\n** Dettagli utente **\n\n");
-	get_input("Inserisci l'id dell'utente d'interesse:", NUM_LEN, buff, false);
-	utente->id = atoi(buff); 
+	get_input("Inserisci l'id dell'utente d'interesse:", NUM_LEN, utente->email, false);
 	do_select_user(utente);
- 	printf("*Email:		%s\n Password:	%s \n Tipo:		%d\n\n",
-		utente->email,
+ 	printf("*Password:	%s \n Tipo:		%d\n\n",
+		
 		utente->pswrd,
 		utente->tipo); 
 }

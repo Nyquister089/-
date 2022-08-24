@@ -1,4 +1,4 @@
-create PROCEDURE if not exists `tripdb`.`select_assoc`(
+create PROCEDURE if not exists `tripdb`.`select_stay`(
 in htl int, 
 in cmp int, 
 in spt int

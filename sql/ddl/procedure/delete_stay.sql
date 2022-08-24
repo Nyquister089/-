@@ -1,4 +1,4 @@
-create procedure if not exists `tripdb`.`delete_assoc`(
+create procedure if not exists `tripdb`.`delete_stay`(
     in htl int,
     in cmp int,
     in spt int
