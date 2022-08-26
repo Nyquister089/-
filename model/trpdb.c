@@ -1372,14 +1372,14 @@ void do_insert_costumer(struct cliente *cliente)
 
 	date_to_mysql_time(cliente->datadocumentazione, &datadocumentazione);
 
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, cliente->emailcliente, sizeof(cliente->emailcliente));
-	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, cliente->nomecliente, sizeof(cliente->nomecliente));
-	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, cliente->cognomecliente, sizeof(cliente->cognomecliente));
-	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, cliente->indirizzocliente, sizeof(cliente->indirizzocliente));
-	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, cliente->codicefiscale, sizeof(cliente->codicefiscale));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, cliente->emailcliente, strlen(cliente->emailcliente));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, cliente->nomecliente, strlen(cliente->nomecliente));
+	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, cliente->cognomecliente, strlen(cliente->cognomecliente));
+	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, cliente->indirizzocliente, strlen(cliente->indirizzocliente));
+	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, cliente->codicefiscale, strlen(cliente->codicefiscale));
 	set_binding_param(&param[5], MYSQL_TYPE_DATE, &datadocumentazione, sizeof(datadocumentazione));
-	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, cliente->recapitotelefonico, sizeof(cliente->recapitotelefonico));
-	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, cliente->fax, sizeof(cliente->fax));
+	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, cliente->recapitotelefonico, strlen(cliente->recapitotelefonico));
+	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, cliente->fax, strlen(cliente->fax));
 
 	bind_exe(insert_costumer,param, buff); 
 
@@ -1394,7 +1394,7 @@ void do_insert_reservation(struct prenotazione *prenotazione) // funziona
 
 	date_to_mysql_time(prenotazione->datadiprenotazione, &datadiprenotazione);
 
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, prenotazione->clienteprenotante, sizeof(prenotazione->clienteprenotante));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, prenotazione->clienteprenotante, strlen(prenotazione->clienteprenotante));
 	set_binding_param(&param[1], MYSQL_TYPE_DATE, &datadiprenotazione, sizeof(datadiprenotazione));
 
 	if (mysql_stmt_bind_param(insert_reservation, param) != 0)
@@ -1432,8 +1432,8 @@ void do_insert_seat(struct postoprenotato *postoprenotato) // Funziona
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &viaggioassociato, sizeof(viaggioassociato));
 	set_binding_param(&param[2], MYSQL_TYPE_LONG, &prenotazioneassociata, sizeof(prenotazioneassociata));
 	set_binding_param(&param[3], MYSQL_TYPE_LONG, &etapasseggero, sizeof(etapasseggero));
-	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, postoprenotato->nomepasseggero, sizeof(postoprenotato->nomepasseggero));
-	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, postoprenotato->cognomepasseggero, sizeof(postoprenotato->cognomepasseggero));
+	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, postoprenotato->nomepasseggero, strlen(postoprenotato->nomepasseggero));
+	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, postoprenotato->cognomepasseggero, strlen(postoprenotato->cognomepasseggero));
 
 	bind_exe(insert_seat, param, "insert_seat");
 

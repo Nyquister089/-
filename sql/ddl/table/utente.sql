@@ -3,5 +3,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`utente` (
   `Pswrd` varchar(8) NOT NULL,
   `TipoUtente` int unsigned NOT NULL,
   PRIMARY KEY (`EmailUtente`),
+  UNIQUE KEY `EmailUtente_UNIQUE` (`EmailUtente`), 
   CONSTRAINT `TipoUtenteNotvalide` CHECK (`TipoUtente` IN ('1','2','3','4','5') )
 ) ENGINE=InnoDB AUTO_INCREMENT=16 CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
