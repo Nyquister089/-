@@ -162,11 +162,14 @@ void show_employee(struct dipendente *dipendente)
 	get_input("Inserisci l'id d'interesse:",NUM_LEN, buff, false); 
 	dipendente->iddipendente = atoi(buff); 
 	do_select_employee(dipendente);
- 	printf("*Nome:		%s \n Cognome:	%s \n Tipologia:	%s \n Telefono:	%s \n\n",
+ 	printf("*Nome:		%s \n Cognome:	%s \n Tipologia:	%s \n Telefono:	%s \n Email:	%s\n\n",
 		dipendente->nomedipendente,
 		dipendente->cognomedipendente,
 		dipendente->tipologiadipendente,
-		dipendente->telefonoaziendale ); 
+		dipendente->telefonoaziendale,
+		dipendente->emaildipendente); 
+	if (strcmp(dipendente->tipologiadipendente,"Meccanico") || strcmp(dipendente->tipologiadipendente,"Meccanico") == 0 )
+		printf("Numero competenze:	%d \n", dipendente->numerocompetenze); 
 }
 
 

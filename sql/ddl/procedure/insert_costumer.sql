@@ -1,5 +1,5 @@
-CREATE DEFINER=`giordano`@`localhost` PROCEDURE `insert_costumer`(
-in em varchar(45), 
+create procedure if not exists `tripdb`.`insert_costumer`(
+in eml varchar(45), 
 in nom varchar(45),
 in cog varchar(45),
 in ind varchar(45), 
@@ -10,7 +10,7 @@ in fax varchar(45)
 )
 BEGIN
 insert into cliente 
-			(EmailCLiente, 
+			(EmailCliente, 
              NomeCliente, 
              CognomeCLiente, 
              IndirizzoCliente, 
@@ -19,7 +19,7 @@ insert into cliente
              RecapitoTelefonico, 
              Fax)
 values
-			(em, 
+			(eml, 
              nom, 
              cog,
              ind, 

@@ -9,7 +9,7 @@
 #include "../model/trpdb.h"
 
 
-extern void ins_costumer(struct cliente *cliente);
+extern void ins_costumer(struct cliente *cliente, struct utente *utente );
 extern void ins_prenotation(struct prenotazione *prenotazione);
 extern void ins_seat(struct postoprenotato *postoprenotato);
 extern void ins_review(struct revisione *revisione, struct sostituito *sostituito, struct ricambio *ricambio);
@@ -27,7 +27,7 @@ extern void ins_room(struct camera *camera);
 extern void ins_location(struct localita *localita);
 extern void ins_map(struct mappa *mappa);
 extern void ins_picture(struct documentazionefotografica *documentazionefotografica) ;
-extern void ins_employee(struct dipendente *dipendente);
+extern void ins_employee(struct dipendente *dipendente, struct utente *utente);
 extern void ins_user(struct utente *utente);
 extern void ins_offert(struct offre *offre); 
 extern void ins_service(struct servizio *servizio);

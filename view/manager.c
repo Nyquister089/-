@@ -75,16 +75,24 @@ int allocation_gest(void)
 		{printf("Fallimento malloc tome (manager) \n\n"); 
 		 return -1; 
 		 }
-    utente = malloc(sizeof(struct utente));
 	if(utente == NULL)
-		{printf("Fallimento malloc utente (manager) \n\n"); 
+    	{utente = malloc(sizeof(struct utente));
+		if(utente == NULL)
+			{printf("Fallimento malloc utente (manager) \n\n"); 
 		 return -1; 
-		 }
+			 }
+		}
 }
 
 int allocation_costumer(void)
-{
-
+{	
+	if(utente == NULL)
+		{utente  = malloc(sizeof(struct utente )); 
+		if(utente  == NULL)
+			{printf("Fallimento malloc su utente  (manager)) \n\n"); 
+			 return -1; 
+			}
+		}
 	cliente = malloc(sizeof(struct cliente)); 
 	if(cliente == NULL)
 		{printf("Fallimento malloc su cliente (manager)) \n\n"); 
@@ -611,7 +619,7 @@ bool get_table_costumer (char sel )
                 return true; 
                 }
 	            case GESTIONE_INSERT: {
-                    ins_costumer(cliente); 
+                    ins_costumer(cliente, utente); 
                 return true; 
                 }
 	            case GESTIONE_DELETE: {
@@ -701,7 +709,7 @@ bool get_table_gest (char sel)
                 return true; 
                 }
 	            case GESTIONE_INSERT: {
-                    ins_employee(dipendente); 
+                    ins_employee(dipendente, utente); 
                 return true; 
                 }
 	            case GESTIONE_DELETE: {

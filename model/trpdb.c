@@ -117,6 +117,7 @@ static MYSQL_STMT *validate_reservation;	 // ok HOSTESS
 static MYSQL_STMT *update_data_doc;			 // Ok HOSTESS
 static MYSQL_STMT *update_spareparts_number; // ok Meccanico
 static MYSQL_STMT *update_km;				// Autista
+static MYSQL_STMT *update_user_type; 		// Manager
 
 
 static void close_prepared_stmts(void)
@@ -590,6 +591,11 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close(update_km);
 		update_km = NULL;
 	}
+	if(update_user_type)
+	{ 				
+		mysql_stmt_close(update_user_type);
+		update_user_type = NULL;
+	}
 	if (insert_stay)
 	{
 		mysql_stmt_close(insert_stay);
@@ -707,7 +713,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 		}
 		if (!setup_prepared_stmt(&insert_stay, "call insert_stay(?, ?, ?, ?, ?)", conn))
 		{
-			print_stmt_error(insert_stay, "Unable to initialize update trip statement statement\n");
+			print_stmt_error(insert_stay, "Unable to initialize insert_stay statement statement\n");
 			return false;
 		}
 		break;
@@ -810,7 +816,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 
 		if (!setup_prepared_stmt(&insert_stay, "call insert_stay(?, ?, ?, ?, ?)", conn))
 		{
-			print_stmt_error(insert_stay, "Unable to initialize update trip statement statement\n");
+			print_stmt_error(insert_stay, "Unable to initialize insert_stay statement statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&insert_review, "call insert_review(?, ?, ?, ?, ?, ?, ?, ?)", conn))
@@ -898,7 +904,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(insert_user, "Unable to initialize insert_user statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(& insert_employee, "call  insert_employee(?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(& insert_employee, "call  insert_employee(?, ?, ?, ?, ?)", conn))
 		{ 
 			print_stmt_error( insert_employee, "Unable to initialize insert_employee statement\n");
 			return false;
@@ -1203,6 +1209,32 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(select_skills, "Unable to initialize select_skills statement\n");
 			return false;
 		}
+		if (!setup_prepared_stmt(& update_user_type, "call  update_user_type(?,?)", conn))
+		{
+			print_stmt_error( update_user_type, "Unable to initialize update_user_type statement\n");
+			return false;
+		}
+		if (!setup_prepared_stmt(& update_km, "call  update_km(?,?)", conn))
+		{
+			print_stmt_error( update_km, "Unable to initialize update_km statement\n");
+			return false;
+		}
+		if (!setup_prepared_stmt(&update_trip_seat, "call update_trip_seat(?, ?)", conn))
+		{
+			print_stmt_error(update_trip_seat, "Unable to initialize update trip statement statement\n");
+			return false;
+		}
+		if (!setup_prepared_stmt(&update_data_doc, "call update_data_doc(?, ?)", conn))
+		{
+			print_stmt_error(update_data_doc, "Unable to initialize update trip statement statement\n");
+			return false;
+		}
+		if (!setup_prepared_stmt(&update_spareparts_number, "call  update_spareparts_number(?,?)", conn))
+		{ // Insert
+			print_stmt_error(update_spareparts_number, "Unable to initialize insert review statement\n");
+			return false;
+		}
+
 		break;
 
 	default:
@@ -1336,6 +1368,7 @@ void do_insert_costumer(struct cliente *cliente)
 {
 	MYSQL_BIND param[8];
 	MYSQL_TIME datadocumentazione;
+	char *buff = "insert_costumer"; 
 
 	date_to_mysql_time(cliente->datadocumentazione, &datadocumentazione);
 
@@ -1348,20 +1381,9 @@ void do_insert_costumer(struct cliente *cliente)
 	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, cliente->recapitotelefonico, sizeof(cliente->recapitotelefonico));
 	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, cliente->fax, sizeof(cliente->fax));
 
-	if (mysql_stmt_bind_param(insert_costumer, param) != 0)
-	{
-		print_stmt_error(insert_costumer, "Could not bind parameters for insert_costumer");
-		return;
-	}
-
-	if (mysql_stmt_execute(insert_costumer) != 0)
-	{
-		print_stmt_error(insert_costumer, "Could not execute insert_costumer");
-		return;
-	}
+	bind_exe(insert_costumer,param, buff); 
 
 	mysql_stmt_free_result(insert_costumer);
-
 	mysql_stmt_reset(insert_costumer);
 }
 
@@ -1712,13 +1734,15 @@ void do_insert_map(struct mappa *mappa)
 
 void do_insert_employee(struct dipendente *dipendente)
 {	
-	MYSQL_BIND param[4]; 
+	MYSQL_BIND param[5]; 
 	char *buff = "insert_employee"; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING,dipendente->tipologiadipendente, strlen(dipendente->tipologiadipendente));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, dipendente->telefonoaziendale, strlen(dipendente->telefonoaziendale));
 	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, dipendente->nomedipendente, strlen(dipendente->nomedipendente));
 	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, dipendente->cognomedipendente, strlen(dipendente->cognomedipendente));
+	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, dipendente->emaildipendente, strlen(dipendente->emaildipendente));
+
 	
 	
 	bind_exe( insert_employee, param, buff); 
@@ -3093,6 +3117,20 @@ void do_select_max_idreview(struct revisione *revisione )
 	stop: 
 	mysql_stmt_free_result(select_max_idreview);
 	mysql_stmt_reset(select_max_idreview);
+}
+
+void do_update_user_type(struct utente *utente)
+{	
+	MYSQL_BIND param[2]; 
+	char *buff = "update_user_type"; 
+
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, utente->email, strlen(utente->email));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &utente->tipo, sizeof(utente->tipo));
+	
+	bind_exe( update_user_type, param, buff); 
+	
+	mysql_stmt_free_result(update_user_type);
+	mysql_stmt_reset(update_user_type);
 }
 
 void do_update_spareparts_number(struct ricambio *ricambio) //FUNZIONA

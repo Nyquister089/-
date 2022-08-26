@@ -13,6 +13,7 @@ struct prenotazione *prenotazione_hstss;
 struct postoprenotato *postoprenotato_hstss;
 struct  viaggio *viaggio_hstss;
 struct soggiorno * soggiorno_hstss;
+struct utente * utente_hstss; 
 
 int allocation_hstss(void)
 {
@@ -41,6 +42,12 @@ int allocation_hstss(void)
 		{printf("Fallimento malloc soggiorno (hostess) \n\n"); 
 		 return -1; 
 		 }
+	utente_hstss = malloc(sizeof(struct utente ));
+	if(utente_hstss == NULL)
+		{printf("Fallimento malloc utente  (hostess) \n\n"); 
+		 return -1; 
+		 }
+	
 }
 
 void show_prenotation_details(void ) // Procedura visualizzazione dettagli prenotazione
@@ -167,7 +174,7 @@ bool exe_hstss_act(char sel)
 				return true;
 				}
 			case INSERT_CLIENTE:{
-				ins_costumer(cliente_hstss); 
+				ins_costumer(cliente_hstss, utente_hstss); 
 				return true; 
 				}
 		

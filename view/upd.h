@@ -4,6 +4,9 @@
 
 #include "../utils/validation.h"
 #include "../model/trpdb.h"
+
+extern void update_user_type( struct utente *utente, int type); 
+
 /*
 void update_tour(struct tour *tour);
 void update_destination(struct meta *meta);

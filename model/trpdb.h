@@ -97,6 +97,8 @@ struct dipendente{
 	char telefonoaziendale [TEL_LEN]; 
 	char nomedipendente[VARCHAR_LEN];
 	char cognomedipendente[VARCHAR_LEN];
+	char emaildipendente[VARCHAR_LEN]; 
+	int numerocompetenze; 
 };
 
 struct documentazionefotografica {
@@ -517,7 +519,7 @@ extern struct viaggi_assegnati *get_viaggi_assegnati(int dvr);
 extern struct mete_visite *get_mete_visite(int idv);
 extern struct mappe *get_mappe(char* nml); 
 
-
+extern void do_update_user_type(struct utente *utente); 
 extern void do_update_data_doc(struct cliente *cliente); 
 extern void do_validate_reservation(struct prenotazione *prenotazione);
 extern void do_update_trip_seat(struct viaggio *viaggio);

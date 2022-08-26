@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`cliente` (
   `RecapitoTelefonico` varchar(15) NOT NULL,
   `Fax` varchar(15) NOT NULL,
   PRIMARY KEY (`EmailCliente`),
-  UNIQUE KEY `E-mailCliente_UNIQUE` (`EmailCliente`), 
+  UNIQUE KEY `EmailCliente_UNIQUE` (`EmailCliente`), 
   KEY `Fk_EmailCliente_idx` (`EmailCliente`), 
   CONSTRAINT `FK_EmailUtente` FOREIGN KEY (`EmailCliente`) REFERENCES `utente` (`EmailUtente`)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;

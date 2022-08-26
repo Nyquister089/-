@@ -296,6 +296,12 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/delete_comfort.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/delete_service.sql");
 
+    execute_query_from_file_sql("../sql/ddl/procedure/update_user_type.sql");
+    }
+
+    void create_trigger(void){
+        execute_query_from_file_sql("../sql/ddl/trigger/increment_skills.sql");
+
     }
 
     void privileges (void){
@@ -304,6 +310,7 @@ void create_procedures(){
         execute_query_from_file_sql("../sql/ddl/privileges/mngr_grant_sel.sql");
         execute_query_from_file_sql("../sql/ddl/privileges/mngr_grant_ins.sql");
         execute_query_from_file_sql("../sql/ddl/privileges/mngr_grant_dlt.sql");
+        execute_query_from_file_sql("../sql/ddl/privileges/mngr_grant_upd.sql");
         execute_query_from_file_sql("../sql/ddl/privileges/drvr_grant.sql");
         execute_query_from_file_sql("../sql/ddl/privileges/cstmr_grant.sql");
         execute_query_from_file_sql("../sql/ddl/privileges/hstss_grant.sql");
@@ -322,6 +329,7 @@ int main(int argc, char *argv[]){
     create_procedures();
     populate_tables();
     privileges(); 
+    create_trigger(); 
 
     close_connection_mysql();
 

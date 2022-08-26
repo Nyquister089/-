@@ -1,10 +1,28 @@
 #include <string.h>
 #include "ins.h"
+#include "upd.h"
 
-
+void ins_user(struct utente *utente) 
+{	
+	char buff[VARCHAR_LEN];
+	printf("** Dettagli inserimento utente **\n\n");
+	get_input("Inserisci la mail: ", VARCHAR_LEN, utente->email, false);
+	get_input("Inserisci la password: ", VARCHAR_LEN, utente->pswrd, false);
+	if (utente->tipo == 6)
+		utente->tipo = 2; 
+	else
+		{printf("\n Autista =	1; \n Cliente =	2; \n Hostess =	3; \n Meccanico =	4; \n Manager =	5;\n"); 
+		get_input("Inserisci la tipologia: ", NUM_LEN, buff, false);
+		utente->tipo = atoi(buff); 
+		if(utente->tipo >5 || utente->tipo < 1)
+			update_user_type(utente, 6); 
+		}
+	do_insert_user(utente);
+}
 
 void ins_prenotation(struct prenotazione *prenotazione) //funziona
-{
+{	
+	
 	printf("\n** Dettagli inserimento prenotazione **\n\n");
 	get_input("Inserisci l'indirizzo e-mail del cliente che ha effettuato la prenotazione : ", VARCHAR_LEN, prenotazione->clienteprenotante, false);
 	while(true){
@@ -76,12 +94,16 @@ if(ans)
 
 }
 
-void ins_costumer(struct cliente *cliente) // funziona ma smashing stack su inserimento interi3
+void ins_costumer(struct cliente *cliente, struct utente *utente) // funziona ma smashing stack su inserimento interi3
 {	
 	char buff[VARCHAR_LEN]; 
+	printf("** Crea un utente per questo cliente **\n"); 
+	utente->tipo = 6; 
+	ins_user(utente); 
+	strcpy(cliente->emailcliente, utente->email); 
+	printf("\nEmail: %s \n\n",cliente->emailcliente ); 
 	
 	printf("\n** Dettagli inserimento cliente **\n\n");
-	get_input("Inserisci l'indirizzo e-mail: ", VARCHAR_LEN, cliente->emailcliente, false);
 	get_input("Inserisci il nome: ", VARCHAR_LEN, cliente->nomecliente, false);
 	get_input("Inserisci il cognome: ", VARCHAR_LEN, cliente->cognomecliente, false);
 	get_input("Inserisci l'indirizzo: ", VARCHAR_LEN, cliente->indirizzocliente, false);
@@ -396,23 +418,38 @@ void ins_offert(struct offre *offre)
 	do_insert_offert(offre);
 }
 
-void ins_user(struct utente *utente) 
-{	char buff[VARCHAR_LEN];
-	printf("** Dettagli inserimento utente **\n\n");
-	get_input("Inserisci la mail: ", VARCHAR_LEN, utente->email, false);
-	get_input("Inserisci la password: ", VARCHAR_LEN, utente->pswrd, false);
-	get_input("Inserisci la tipologia: ", NUM_LEN, buff, false);
-	utente->tipo = atoi(buff); 
-	do_insert_user(utente);
-}
 
-void ins_employee(struct dipendente *dipendente) 
+void ins_employee(struct dipendente *dipendente, struct utente *utente) 
 {	
+	printf("** Crea un utente per questo dipendente **\n\n");
+	do{
+		ins_user(utente); 
+		if(utente->tipo == 2)
+			 update_user_type(utente, utente->tipo); 
+	}while (utente->tipo == 2); 
+
+	strcpy(dipendente->emaildipendente, utente->email); 
+	switch (utente->tipo)
+	{
+	case 1:
+		strcpy(dipendente->tipologiadipendente, "Autista"); 
+		break;
+	case 3: 
+		strcpy(dipendente->tipologiadipendente, "Hostess"); 
+		break; 
+	case 4: 
+		strcpy(dipendente->tipologiadipendente, "Meccanico"); 
+		break; 
+	case 5: 
+		strcpy(dipendente->tipologiadipendente, "Manager"); 
+		break; 
+	default:
+		break;
+	}
 	printf("** Dettagli inserimento dipendente **\n\n");
 	get_input("Inserisci il nome: ", VARCHAR_LEN, dipendente->nomedipendente, false);
 	get_input("Inserisci il cognome: ", VARCHAR_LEN, dipendente->cognomedipendente, false);
-	get_input("Inserisci la tipologia (Autista, Hostess o Meccanico): ", VARCHAR_LEN, dipendente->tipologiadipendente, false);
-	get_input("Inserisci il numero di telefono aziendale: ", TEL_LEN ,dipendente->telefonoaziendale, false); 
+	get_input("Inserisci il numero di telefono aziendale: ", TEL_LEN ,dipendente->telefonoaziendale, false);
 	do_insert_employee(dipendente);
 }
 
