@@ -419,41 +419,7 @@ void ins_offert(struct offre *offre)
 }
 
 
-void ins_employee(struct dipendente *dipendente, struct utente *utente, struct competenze *competenze) 
-{	
-	printf("** Crea un utente per questo dipendente **\n\n");
-	do{
-		ins_user(utente); 
-		if(utente->tipo == 2)
-			 update_user_type(utente, utente->tipo); 
-	}while (utente->tipo == 2); 
 
-	strcpy(dipendente->emaildipendente, utente->email); 
-	switch (utente->tipo)
-	{
-	case 1:
-		strcpy(dipendente->tipologiadipendente, "Autista"); 
-		break;
-	case 3: 
-		strcpy(dipendente->tipologiadipendente, "Hostess"); 
-		break; 
-	case 4: 
-		strcpy(dipendente->tipologiadipendente, "Meccanico"); 
-		break; 
-	case 5: 
-		strcpy(dipendente->tipologiadipendente, "Manager"); 
-		break; 
-	default:
-		break;
-	}
-	printf("** Dettagli inserimento dipendente **\n\n");
-	get_input("Inserisci il nome: ", VARCHAR_LEN, dipendente->nomedipendente, false);
-	get_input("Inserisci il cognome: ", VARCHAR_LEN, dipendente->cognomedipendente, false);
-	get_input("Inserisci il numero di telefono aziendale: ", TEL_LEN ,dipendente->telefonoaziendale, false);
-	if (utente->tipo == 4)
-		ins_skills(competenze); 
-	do_insert_employee(dipendente);
-}
 
 void ins_service(struct servizio *servizio)
 {	
@@ -510,4 +476,53 @@ void ins_skills(struct competenze *competenze)
 	get_input("Inserisci l'id del meccanico competente : ", NUM_LEN, buff, false);
 	competenze->meccanicocompetente= atoi(buff); 
 	do_insert_skills(competenze); 
+}
+
+void ins_employee(struct dipendente *dipendente, struct utente *utente, struct competenze *competenze) 
+{	
+	printf("** Crea un utente per questo dipendente **\n\n");
+	do{
+		ins_user(utente); 
+		if(utente->tipo == 2)
+			 update_user_type(utente, utente->tipo); 
+	}while (utente->tipo == 2); 
+
+	strcpy(dipendente->emaildipendente, utente->email); 
+	switch (utente->tipo)
+	{
+	case 1:
+		strcpy(dipendente->tipologiadipendente, "Autista"); 
+		break;
+	case 3: 
+		strcpy(dipendente->tipologiadipendente, "Hostess"); 
+		break; 
+	case 4: 
+		strcpy(dipendente->tipologiadipendente, "Meccanico"); 
+		break; 
+	case 5: 
+		strcpy(dipendente->tipologiadipendente, "Manager"); 
+		break; 
+	default:
+		break;
+	}
+	printf("** Dettagli inserimento dipendente **\n\n");
+	get_input("Inserisci il nome: ", VARCHAR_LEN, dipendente->nomedipendente, false);
+	get_input("Inserisci il cognome: ", VARCHAR_LEN, dipendente->cognomedipendente, false);
+	get_input("Inserisci il numero di telefono aziendale: ", TEL_LEN ,dipendente->telefonoaziendale, false);
+	do_insert_employee(dipendente);
+	if (utente->tipo == 4)
+		{//do_select_max_idemployee(dipendente); 
+		printf("Ogni Meccanico richiede l'iserimento di almeno 2 competenze"); 
+		competenze->meccanicocompetente = dipendente->iddipendente; 
+		bool ans = false; 
+		int i;
+		i = 0; 
+		while(ans){
+			
+			ins_skills(competenze); 
+			i++; 
+			if ( i == 2)
+				ans = yes_or_no("Vuoi inserire un altra competenza ? ", 's', 'n', false, false); 
+			}
+		}
 }
