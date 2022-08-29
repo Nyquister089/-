@@ -327,9 +327,9 @@ int main(int argc, char *argv[]){
     create_tables();
     create_views();
     create_procedures();
+    create_trigger(); 
     populate_tables();
     privileges(); 
-    create_trigger(); 
 
     close_connection_mysql();
 

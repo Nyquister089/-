@@ -1,25 +1,12 @@
 create trigger`tripdb`.`increment_skills` after insert
 on `competenze`
 for each row
-  update tripdb.dipendente
-  set NumeroCompetenze = NumeroCompetenze + 1
-  where IdDipendente= new.IdDipenedente;
-
+  update dipendente
+  join competenze
+  set NumeroCompetenze = NumeroCompetenze+1
+  where IdDipendente = MeccanicoCompetente;
 
 /*
-3. Crei due nuovi trigger: 
-CREATE TRIGGER `tripdb`.`increment_numero_competenze` 
-ON `tripdb`.`COMPETENZE` FOR EACH ROW
-BEGIN
-  UPDATE tripdb.MECCANICI
-  SET NUMERO_COMPETENZE = NUMERO_COMPETENZE + 1
-  WHERE ID = NEW.ID;
-
-  COMMIT;
-END;
-
-
-
 4. Modifica la procedure insert_employee:
 create procedure if not exists `tripdb`.`insert_employee`(
  in dpn varchar(45),

@@ -419,7 +419,7 @@ void ins_offert(struct offre *offre)
 }
 
 
-void ins_employee(struct dipendente *dipendente, struct utente *utente) 
+void ins_employee(struct dipendente *dipendente, struct utente *utente, struct competenze *competenze) 
 {	
 	printf("** Crea un utente per questo dipendente **\n\n");
 	do{
@@ -450,6 +450,8 @@ void ins_employee(struct dipendente *dipendente, struct utente *utente)
 	get_input("Inserisci il nome: ", VARCHAR_LEN, dipendente->nomedipendente, false);
 	get_input("Inserisci il cognome: ", VARCHAR_LEN, dipendente->cognomedipendente, false);
 	get_input("Inserisci il numero di telefono aziendale: ", TEL_LEN ,dipendente->telefonoaziendale, false);
+	if (utente->tipo == 4)
+		ins_skills(competenze); 
 	do_insert_employee(dipendente);
 }
 

@@ -4,20 +4,30 @@ create procedure if not exists `tripdb`.`insert_employee`(
  in nmd varchar(45),
  in cgm varchar(45),
  in mlp varchar(45)
+ 
 )
 begin
+  declare n_cmp int; 
+  if dpn = 'Meccanico' or dpn = 'meccanico' then 
+    set n_cmp = 0;
+  else 
+    set n_cmp = null; 
+  end if; 
+
 INSERT INTO dipendente ( 
      TipologiaDipendente , 
      TelefonoAziendale ,
       NomeDipendente , 
-      CognomeDipendente, 
-      EmailDipendente) 
+      CognomeDipendente,
+      EmailDipendente,  
+      NumeroCompetenze) 
      VALUES ( 
         dpn,
         tlf,
         nmd,
         cgm,
-        mlp); 
+        mlp,
+		    n_cmp);
 end
 
 /*

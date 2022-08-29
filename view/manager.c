@@ -82,6 +82,13 @@ int allocation_gest(void)
 		 return -1; 
 			 }
 		}
+	if(competenze == NULL)
+		{competenze = malloc(sizeof(struct competenze)); 
+			if(competenze == NULL)
+				{printf("Fallimento malloc su competenze (manager) \n\n");
+		 		return -1; 
+				}
+		}
 }
 
 int allocation_costumer(void)
@@ -709,7 +716,7 @@ bool get_table_gest (char sel)
                 return true; 
                 }
 	            case GESTIONE_INSERT: {
-                    ins_employee(dipendente, utente); 
+                    ins_employee(dipendente, utente, competenze); 
                 return true; 
                 }
 	            case GESTIONE_DELETE: {

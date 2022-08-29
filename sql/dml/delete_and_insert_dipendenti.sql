@@ -28,9 +28,11 @@ INSERT INTO `tripdb`.`dipendente` (
     `TelefonoAziendale`, 
     `NomeDipendente`, 
     `CognomeDipendente`,
-    `EmailDipendente`)
+    `EmailDipendente`, 
+    `NumeroCompetenze`)
      VALUES ( 
         'meccanico', 
         '7801', 
         'Paolo','Verdi',
-        'mch@mail.com');
+        'mch@mail.com',
+        '0');
