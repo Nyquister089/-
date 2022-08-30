@@ -479,6 +479,7 @@ extern void do_select_map(struct mappa *mappa);
 extern void do_select_picture(struct documentazionefotografica *documentazionefotografica);
 extern void do_select_comfort(struct comfort *comfort); 
 extern void do_select_service(struct servizio *servizio); 
+extern void do_select_sostitution(struct sostituito*sostituito); 
 
 extern void do_delete_trip(struct viaggio *viaggio);
 extern void do_delete_costumer(struct cliente *cliente);
@@ -521,7 +522,6 @@ extern struct mappe *get_mappe(char* nml);
 extern void do_update_user_type(struct utente *utente); 
 extern void do_update_data_doc(struct cliente *cliente); 
 extern void do_validate_reservation(struct prenotazione *prenotazione);
-extern void do_update_trip_seat(struct viaggio *viaggio);
 extern void do_update_spareparts_number(struct ricambio *ricambio); 
 extern void do_update_km(struct mezzo *mezzo); 
 

@@ -586,6 +586,27 @@ bool get_table_workshop(char sel){
                 }
 			} 
 		} 
+		case TABELLA_SOSTITUITO:{
+		
+			act = get_mngr_action(); 
+			switch(act){
+				case GESTIONE_SELECT: {
+                   // show_sostitution(sostituito); 
+                return true; 
+                }
+	            case GESTIONE_INSERT: {
+                	ins_sostitution(sostituito); 
+                return true; 
+                }
+	            case GESTIONE_DELETE: {
+                    dlt_sostitution(sostituito);  
+                return true; 
+                }
+	            case QUIT_GEST_OP: {
+                    return false; 
+                }
+			} 
+		} 
     	case QUIT_GEST_OFFICINA:{
 			return false; 
 		}
@@ -594,7 +615,7 @@ bool get_table_workshop(char sel){
 
 int workshop_section(void) // sezione officina 
  {	    
-		char options[8] = {'1','2','3','4','5','6','7','8'};
+		char options[8] = {'1','2','3','4','5','6','7','8','9'};
         char op; 
 		 puts("*** Su quale tabella della gestione officina? ***\n");
 	 	 puts("1) Modello ");
@@ -604,8 +625,9 @@ int workshop_section(void) // sezione officina
 		 puts("5) Tagliando");
 		 puts("6) Comfort"); 
 		 puts("7) Competenze"); 
-		 puts("8) Esci");
-		 op = multi_choice("Seleziona un'opzione", options, 8);
+		 puts("8) Sostituzione");
+		 puts("9) Esci");
+		 op = multi_choice("Seleziona un'opzione", options, 9);
 		 get_table_workshop((op - '1'));
 }
 
@@ -680,6 +702,27 @@ bool get_table_costumer (char sel )
                 }
 			} 
 		}
+		case TABELLA_SOGGIORNO: {
+        act = get_mngr_action();
+            switch (act){
+                case GESTIONE_SELECT: {
+                    show_stay(soggiorno); 
+                return true; 
+                }
+	            case GESTIONE_INSERT: {
+                    ins_stay(soggiorno); 
+                return true; 
+                }
+	            case GESTIONE_DELETE: {
+                    dlt_stay(soggiorno); 
+                return true; 
+                }
+	            case QUIT_GEST_OP: {
+                    return false; 
+                }
+            } 
+			return true;
+        } 
     	case QUIT_GEST_CLIENTE: {
 		return false; 
 		}
@@ -689,14 +732,15 @@ bool get_table_costumer (char sel )
 
 int costumer_section(void) // sezione clienti
 {	
-	char options[4] = {'1','2','3','4'};
+	char options[4] = {'1','2','3','4','5'};
     char op; 
     puts("*** Su quale tabella della gestione clienti? ***\n");
 	puts("1) Cliente");
     puts("2) Prenotazione");
 	puts("3) Posto prenotato");
-	puts("4) Esci");
-    op = multi_choice("Seleziona un'opzione", options, 4);
+	puts("4) Soggiorno")
+	puts("5) Esci");
+    op = multi_choice("Seleziona un'opzione", options, 5);
 	get_table_costumer((op-'1')); 
 }
 
@@ -751,28 +795,6 @@ bool get_table_gest (char sel)
             } 
         return true; 
         }
-
-        case TABELLA_SOGGIORNO: {
-        act = get_mngr_action();
-            switch (act){
-                case GESTIONE_SELECT: {
-                    show_stay(soggiorno); 
-                return true; 
-                }
-	            case GESTIONE_INSERT: {
-                    ins_stay(soggiorno); 
-                return true; 
-                }
-	            case GESTIONE_DELETE: {
-                    dlt_stay(soggiorno); 
-                return true; 
-                }
-	            case QUIT_GEST_OP: {
-                    return false; 
-                }
-            } 
-			return true;
-        } 
 
         case TABELLA_OFFRE: {
 			act = get_mngr_action();
@@ -896,19 +918,18 @@ bool get_table_gest (char sel)
 
 int gest_section(void)
  {	    
-		char options[9] = {'1','2','3','4','5','6','7','8','9'};
+		char options[9] = {'1','2','3','4','5','6','7','8'};
         char op; 
 		 puts("*** Su quale tabella della gestione officina? ***\n");
 	 	 puts("1) Dipendenti");
 	 	 puts("2) Utenti");
-	 	 puts("3) Soggiorno");
-		 puts("4) Offre");
-		 puts("5) Servizi"); 
-		 puts("6) Collegamento tour-mete");
-         puts("7) Collegamento foto-modelli");
-         puts("8) Collegamento foto-mete");
-         puts("9) Esci"); 
-		 op = multi_choice("Seleziona un'opzione", options, 9);
+		 puts("3) Offre");
+		 puts("4) Servizi"); 
+		 puts("5) Collegamento tour-mete");
+         puts("6) Collegamento foto-modelli");
+         puts("7) Collegamento foto-mete");
+         puts("8) Esci"); 
+		 op = multi_choice("Seleziona un'opzione", options, 8);
          get_table_gest((op - '1')); 
 }
 

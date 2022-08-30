@@ -74,6 +74,8 @@ static MYSQL_STMT *select_map; 			// ok Manager
 static MYSQL_STMT *select_picture;	   	// ok Manager
 static MYSQL_STMT *select_comfort;	   	// ok Manager
 static MYSQL_STMT *select_service;	  	// ok Manager
+static MYSQL_STMT *select_sostitution; 
+
 
 static MYSQL_STMT *delete_trip;		   // ok HOSTESS, ok Manager
 static MYSQL_STMT *delete_costumer;	   // Ok HOSTESS
@@ -101,6 +103,8 @@ static MYSQL_STMT *delete_map; 			// ok Manager
 static MYSQL_STMT *delete_picture;	   	// ok Manager
 static MYSQL_STMT *delete_comfort;	   	// ok Manager
 static MYSQL_STMT *delete_service;	  	// ok Manager
+static MYSQL_STMT *delete_sostitution; 
+
 
 static MYSQL_STMT *select_all_tour;		  	// ok Cliente
 static MYSQL_STMT *select_dest_tour;	  	// ok Cliente

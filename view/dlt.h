@@ -18,7 +18,7 @@ extern void dlt_bus(struct mezzo *mezzo);
 extern void dlt_model(struct modello *modello);
 extern void dlt_certify(struct tagliando *tagliando);
 extern void dlt_stay(struct soggiorno *soggiorno);
-extern void dlt_sostitution( struct sostituito *sostituito, struct ricambio *ricambio); 
+extern void dlt_sostitution( struct sostituito *sostituito); 
 extern void dlt_tour(struct tour *tour);
 extern void dlt_trip(struct viaggio *viaggio);
 extern void dlt_destination(struct  meta *meta);
