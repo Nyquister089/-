@@ -112,7 +112,6 @@ static MYSQL_STMT *select_assigned_trip; 	// ok AUTISTA
 static MYSQL_STMT *select_dest_time;		// ok AUTISTA
 static MYSQL_STMT *select_dvr_map; 			// ok AUTISTA
 
-static MYSQL_STMT *update_trip_seat;		 // ok HOSTESS
 static MYSQL_STMT *validate_reservation;	 // ok HOSTESS
 static MYSQL_STMT *update_data_doc;			 // Ok HOSTESS
 static MYSQL_STMT *update_spareparts_number; // ok Meccanico
@@ -575,12 +574,7 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close(validate_reservation);
 		validate_reservation = NULL;
 	}
-	
-	if (update_trip_seat)
-	{ 
-		mysql_stmt_close(update_trip_seat);
-		update_trip_seat = NULL;
-	}
+
 	if (update_data_doc)
 	{
 		mysql_stmt_close(update_data_doc);
@@ -701,14 +695,9 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(select_trip, "Unable to initialize select_trip statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&update_trip_seat, "call update_trip_seat(?, ?)", conn))
-		{
-			print_stmt_error(update_trip_seat, "Unable to initialize update trip statement statement\n");
-			return false;
-		}
 		if (!setup_prepared_stmt(&update_data_doc, "call update_data_doc(?, ?)", conn))
 		{
-			print_stmt_error(update_data_doc, "Unable to initialize update trip statement statement\n");
+			print_stmt_error(update_data_doc, "Unable to initialize update _data_doc statement statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&insert_stay, "call insert_stay(?, ?, ?, ?, ?)", conn))
@@ -1219,11 +1208,6 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error( update_km, "Unable to initialize update_km statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&update_trip_seat, "call update_trip_seat(?, ?)", conn))
-		{
-			print_stmt_error(update_trip_seat, "Unable to initialize update trip statement statement\n");
-			return false;
-		}
 		if (!setup_prepared_stmt(&update_data_doc, "call update_data_doc(?, ?)", conn))
 		{
 			print_stmt_error(update_data_doc, "Unable to initialize update trip statement statement\n");
@@ -1387,7 +1371,7 @@ void do_insert_costumer(struct cliente *cliente)
 	mysql_stmt_reset(insert_costumer);
 }
 
-void do_insert_reservation(struct prenotazione *prenotazione) // funziona
+void do_insert_reservation(struct prenotazione *prenotazione)
 {
 	MYSQL_BIND param[2];
 	MYSQL_TIME datadiprenotazione;
@@ -1416,22 +1400,10 @@ void do_insert_seat(struct postoprenotato *postoprenotato)
 {
 	MYSQL_BIND param[6];
 
-	int numerodiposto;
-	int viaggioassociato;
-	int prenotazioneassociata;
-	int etapasseggero;
-
-	numerodiposto = postoprenotato->numerodiposto;
-	viaggioassociato = postoprenotato->viaggioassociato;
-	prenotazioneassociata = postoprenotato->prenotazioneassociata;
-	etapasseggero = postoprenotato->etapasseggero;
-
-	printf("Numero di prenotazione tripdb %d \n\n", postoprenotato->prenotazioneassociata);
-
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &numerodiposto, sizeof(numerodiposto));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &viaggioassociato, sizeof(viaggioassociato));
-	set_binding_param(&param[2], MYSQL_TYPE_LONG, &prenotazioneassociata, sizeof(prenotazioneassociata));
-	set_binding_param(&param[3], MYSQL_TYPE_LONG, &etapasseggero, sizeof(etapasseggero));
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &postoprenotato->numerodiposto, sizeof(postoprenotato->numerodiposto));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &postoprenotato->viaggioassociato, sizeof(postoprenotato->viaggioassociato));
+	set_binding_param(&param[2], MYSQL_TYPE_LONG, &postoprenotato->prenotazioneassociata, sizeof(postoprenotato->prenotazioneassociata));
+	set_binding_param(&param[3], MYSQL_TYPE_LONG, &postoprenotato->etapasseggero, sizeof(postoprenotato->etapasseggero));
 	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, postoprenotato->nomepasseggero, strlen(postoprenotato->nomepasseggero));
 	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, postoprenotato->cognomepasseggero, strlen(postoprenotato->cognomepasseggero));
 
@@ -1441,7 +1413,7 @@ void do_insert_seat(struct postoprenotato *postoprenotato)
 	mysql_stmt_reset(insert_seat);
 }
 
-void do_insert_stay(struct soggiorno *soggiorno) // Funziona
+void do_insert_stay(struct soggiorno *soggiorno)
 {
 	MYSQL_BIND param[5];
 	MYSQL_TIME datafinesoggiorno;
@@ -1535,25 +1507,6 @@ void do_insert_sostitution(struct sostituito *sostituito) // FUNZIONA
 	mysql_stmt_reset(insert_sostitution);
 }
 
-
-void do_update_trip_seat(struct viaggio *viaggio) // Funziona
-{
-	MYSQL_BIND param[2];
-
-	int idviaggio;
-	int postidisponibili;
-
-	idviaggio = viaggio->idviaggio;
-	postidisponibili = viaggio->postidisponibili;
-
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &idviaggio, sizeof(idviaggio));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &postidisponibili, sizeof(postidisponibili));
-
-	bind_exe(update_trip_seat, param, "update_trip_seat");
-
-	mysql_stmt_free_result(update_trip_seat);
-	mysql_stmt_reset(update_trip_seat);
-}
 
 void do_update_km(struct mezzo *mezzo) 
 {

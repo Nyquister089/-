@@ -36,3 +36,4 @@ extern void show_picture(struct documentazionefotografica *documentazionefotogra
 extern void show_comfort(struct comfort *comfort); 
 extern void show_service(struct servizio *servizio); 
 extern void show_expired_review (void); 
+extern void show_prenotation_details(struct prenotazione *prenotazione ); 

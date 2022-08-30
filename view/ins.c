@@ -1,6 +1,7 @@
 #include <string.h>
 #include "ins.h"
 #include "upd.h"
+#include "show.h"
 
 void ins_user(struct utente *utente) 
 {	
@@ -44,16 +45,14 @@ void ins_seat(struct postoprenotato *postoprenotato)
 {	
 	char buff[NUM_LEN]; 
 	printf("\n** Dettagli inserimento passeggero **\n\n");
+	get_input("Inserisci il numero di prenotazione: ", NUM_LEN, buff, false);
+	postoprenotato->prenotazioneassociata = atoi(buff); 
 	get_input("Inserisci il numero di posto: ", NUM_LEN, buff, false);
-
 	postoprenotato->numerodiposto = atoi(buff); 
-
 	get_input("Inserisci l'ID del viaggio a cui partecipera' il passeggero: ", NUM_LEN, buff, false);
 	postoprenotato->viaggioassociato = atoi(buff); 
-	
 	get_input("Inserisci l'età: ", NUM_LEN, buff, false);
 	postoprenotato->etapasseggero = atoi(buff); 
-
 	get_input("Inserisci il nome: ", VARCHAR_LEN, postoprenotato-> nomepasseggero, false);
 	get_input("Inserisci il cognome: ", VARCHAR_LEN, postoprenotato-> cognomepasseggero, false);
 
@@ -93,7 +92,7 @@ if(ans)
 	{	do_select_max_idreview(revisione); 
 		sostituito->revisioneassociata = revisione->idrevisione; 
 		
-		ins_sostitution(sostituito, ricambio ); 
+		ins_sostitution(sostituito); 
 	}
 
 }
@@ -211,7 +210,7 @@ void ins_stay(struct soggiorno *soggiorno)
 	do_insert_stay(soggiorno); 
 }
 
-void ins_sostitution( struct sostituito *sostituito, struct ricambio *ricambio)
+void ins_sostitution( struct sostituito *sostituito)
 {	
 	char buff[NUM_LEN]; 
 	int num; 
@@ -223,16 +222,8 @@ void ins_sostitution( struct sostituito *sostituito, struct ricambio *ricambio)
 	get_input("Inserisci il codice del ricambio utilizzato : ", NUM_LEN, sostituito->ricambioutilizzato,false);
 	get_input("Inserisci la quantità di ricambi sostituiti : ",NUM_LEN, buff, false);
 	sostituito->quantitasostituita = atoi(buff); 
-	strcpy(ricambio->codice, sostituito->ricambioutilizzato);
 
 	do_insert_sostitution(sostituito); 
-	do_select_sparepart(ricambio); 	
-
-	num = ricambio->quantitainmagazzino - sostituito->quantitasostituita; 
-	ricambio->quantitainmagazzino = num; 
-
-	do_update_spareparts_number(ricambio);
-
 }
 
 void ins_tour(struct tour *tour){
@@ -524,4 +515,60 @@ void ins_employee(struct dipendente *dipendente, struct utente *utente, struct c
 				ans = yes_or_no("Vuoi inserire un altra competenza ? ", 's', 'n', false, false); 
 			}
 		}
+}
+
+void validate_reservation(struct prenotazione *prenotazione , struct postoprenotato *postoprenotato, struct soggiorno *soggiorno)
+{
+	char buff[NUM_LEN]; 
+	printf("** Procedura conferma prenotazione **\n\n"); 
+	show_reservation(prenotazione ); 
+
+ 	bool ans = yes_or_no("\n\n Vuoi confermare questa prenotazione? (s/n) ",'s','n',false,false);
+	if(!ans) {
+		return;
+		}
+
+	while(true){
+		get_input("\nModifica data di conferma [YYYY-MM-DD]: ", DATE_LEN, prenotazione ->datadiconferma, false);
+		if(validate_date(prenotazione ->datadiconferma))
+			break;
+		fprintf(stderr, "Data errata!\n");
+		}
+
+	while(true){
+		get_input("\nModifica data di saldo [YYYY-MM-DD]: ", DATE_LEN, prenotazione ->datasaldo, false);
+		if(validate_date(prenotazione ->datasaldo))
+			break;
+		fprintf(stderr, "Data errata!\n");
+		}
+		do_validate_reservation(prenotazione );
+		bool seat_ans, association_ans;   
+
+	do {
+		printf("\n\n** Associa un passeggero alla prenotazione ** \n\n"); 
+
+		postoprenotato ->prenotazioneassociata = prenotazione ->numerodiprenotazione; 
+		printf(" Numero di prenotazione hostess %d \n", postoprenotato ->prenotazioneassociata);
+
+		get_input("Inserisci il numero di posto: ", NUM_LEN, buff, false);
+		postoprenotato->numerodiposto = atoi(buff); 
+		get_input("Inserisci l'ID del viaggio a cui partecipera' il passeggero: ", NUM_LEN, buff, false);
+		postoprenotato->viaggioassociato = atoi(buff); 
+		get_input("Inserisci l'età: ", NUM_LEN, buff, false);
+		postoprenotato->etapasseggero = atoi(buff); 
+		get_input("Inserisci il nome: ", VARCHAR_LEN, postoprenotato-> nomepasseggero, false);
+		get_input("Inserisci il cognome: ", VARCHAR_LEN, postoprenotato-> cognomepasseggero, false);
+
+	do_insert_seat(postoprenotato);
+
+		ans = yes_or_no("\n\n Vuoi associare una camera a questo passeggero? (s/n) ",'s','n',false,false);
+		if (ans)
+			do{	printf("** Associa camera al passeggero ** ");
+			 	soggiorno ->ospite = postoprenotato ->numerodiposto; 
+				ins_stay(soggiorno); 
+				association_ans= yes_or_no("\n\n Vuoi associare un'altra camera a questo passeggero? (s/n) ",'s','n',false,false);
+			}while(association_ans);
+		seat_ans =yes_or_no("\n\n Vuoi associare un'altro passeggero a questa prenotazione ? (s/n) ",'s','n',false,false);
+	} while(seat_ans); 
+
 }

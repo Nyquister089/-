@@ -6,5 +6,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`ricambio` (
   `ScortaMinima` int unsigned NOT NULL,
   `QuantitaMagazzino` int unsigned NOT NULL,
   PRIMARY KEY (`Codice`),
-  UNIQUE KEY `Codice_UNIQUE` (`Codice`)
+  UNIQUE KEY `Codice_UNIQUE` (`Codice`),
+  constraint `QuantitaMagazzino_notvalid` check (`QuantitaMagazzino`>=0)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;

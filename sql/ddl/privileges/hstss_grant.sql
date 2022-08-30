@@ -36,11 +36,6 @@ select_reservation
 to 'Hostess'@'localhost';
 
 grant execute on procedure
-tripdb. 
-update_trip_seat
-to 'Hostess'@'localhost';
-
-grant execute on procedure
 tripdb. 		
 validate_reservation 
 to 'Hostess'@'localhost';

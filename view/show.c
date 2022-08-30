@@ -417,3 +417,13 @@ void show_expired_review (void)
 	printf("** Ecco i mezzi le cui revisioni risultano scadute o in scadenza**\n\n");
 	get_info_revisioni();
 }
+
+void show_prenotation_details(struct prenotazione *prenotazione ) 
+{	
+	char buff[VARCHAR_LEN]; 
+	printf("** Procedura visualizzazione dettagli prenotazione **\n\n"); 
+	get_input("Inserisci il numero di prenotazione : ", VARCHAR_LEN, buff, false);
+	prenotazione->numerodiprenotazione = atoi(buff); 
+	do_select_reservation(prenotazione); 
+ 	show_reservation(prenotazione); 
+}

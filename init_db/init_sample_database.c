@@ -201,7 +201,6 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/login.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/insert_stay.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/insert_costumer.sql");
-    execute_query_from_file_sql("../sql/ddl/procedure/update_trip_seat.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/update_km.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/update_spareparts_number.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/insert_seat.sql");
@@ -301,7 +300,9 @@ void create_procedures(){
 
     void create_trigger(void){
         execute_query_from_file_sql("../sql/ddl/trigger/increment_skills.sql");
-
+        execute_query_from_file_sql("../sql/ddl/trigger/decrement_skills.sql"); 
+        execute_query_from_file_sql("../sql/ddl/trigger/decrement_sparepart.sql"); 
+        execute_query_from_file_sql("../sql/ddl/trigger/update_tripseat.sql"); 
     }
 
     void privileges (void){

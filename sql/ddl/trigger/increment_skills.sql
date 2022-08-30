@@ -4,7 +4,7 @@ for each row
   update dipendente
   join competenze
   set NumeroCompetenze = NumeroCompetenze+1
-  where IdDipendente = MeccanicoCompetente;
+  where EmailDipendente = MeccanicoCompetente;
 
 /*
 4. Modifica la procedure insert_employee:

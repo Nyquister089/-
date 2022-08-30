@@ -18,7 +18,7 @@ extern void ins_bus(struct mezzo *mezzo);
 extern void ins_model(struct modello *modello);
 extern void ins_certify(struct tagliando *tagliando);
 extern void ins_stay(struct soggiorno *soggiorno);
-extern void ins_sostitution( struct sostituito *sostituito, struct ricambio *ricambio); 
+extern void ins_sostitution( struct sostituito *sostituito); 
 extern void ins_tour(struct tour *tour);
 extern void ins_trip(struct viaggio *viaggio);
 extern void ins_destination(struct  meta *meta);
@@ -39,3 +39,5 @@ extern void ins_sparepart(struct ricambio *ricambio);
 extern void ins_comfort(struct comfort *comfort);
 extern void ins_skills(struct competenze *competenze); 
 extern void ins_user_costumer(struct utente *utente); 
+extern void validate_reservation(struct prenotazione *prenotazione , struct postoprenotato *postoprenotato, struct soggiorno *soggiorno); 
+
