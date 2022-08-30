@@ -1,4 +1,6 @@
-CREATE DEFINER=`giordano`@`localhost` PROCEDURE `select_expired_review`()
+
+
+Create procedure if not exists `tripdb`.`select_expired_review`()
 select distinct m.Targa, r.DataFine, r.Chilometraggio, m.ValoreContaKm
 from  mezzo as m
 join revisione as r on m.Targa = r.MezzoRevisionato

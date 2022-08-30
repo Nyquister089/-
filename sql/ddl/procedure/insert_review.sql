@@ -1,6 +1,6 @@
-CREATE DEFINER=`giordano`@`localhost` PROCEDURE `insert_review`(
+create procedure if not exists `tripdb`.`insert_review`(
 in mzr varchar(45),
-in mch int,
+in mch varchar(45),
 in dnz date, 
 in dfn date,
 in clm int, 

@@ -1,37 +1,39 @@
-grant execute on procedure login to 'Meccanico'@'localhost'; 
+grant execute on procedure tripdb.login to 'Meccanico'@'localhost'; 
 
 grant execute on procedure 
-insert_review 
+tripdb.insert_review 
 to 'Meccanico'@'localhost';
 
 grant execute on procedure 
-insert_sostitution 
+tripdb.insert_sostitution 
 to 'Meccanico'@'localhost'; 	
 
 grant execute on procedure 
-select_review 
+tripdb.select_review 
 to 'Meccanico'@'localhost'; 	  
 
 grant execute on procedure 
-select_sparepart 
+tripdb.select_sparepart 
 to 'Meccanico'@'localhost';
 
 grant execute on procedure 
-delete_review 
+tripdb.delete_review 
 to 'Meccanico'@'localhost';
 
 grant execute on procedure 
-delete_sparepart 
+tripdb.delete_sparepart 
 to 'Meccanico'@'localhost';   
 
 grant execute on procedure 
-select_expired_review 
+tripdb.select_expired_review 
 to 'Meccanico'@'localhost'; 
 
 grant execute on procedure 
-select_max_idreview 
+tripdb.select_max_idreview 
 to 'Meccanico'@'localhost'; 
 
 grant execute on procedure 
-update_spareparts_number 
+tripdb.update_spareparts_number 
 to 'Meccanico'@'localhost'; 
+
+flush privileges; 

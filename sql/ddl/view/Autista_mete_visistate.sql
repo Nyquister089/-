@@ -18,5 +18,5 @@ VIEW `tripdb`.`Autista_mete_visitate` AS
         JOIN `visita` `v` ON ((`m`.`IdMeta` = `v`.`MetaVisitata`)))
         JOIN `viaggio` `via` ON ((`v`.`ViaggioRelativo` = `via`.`idviaggio`)))
     WHERE
-        ((`via`.`IdConducente` = '1')
+        ((`via`.`Conducente` = '1')
             AND (`via`.`DataPartenzaViaggio` = '30/04/1989'))

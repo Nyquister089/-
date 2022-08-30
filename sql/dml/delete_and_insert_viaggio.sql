@@ -1,8 +1,8 @@
 DELETE FROM `tripdb`.`viaggio`;
 INSERT INTO `tripdb`.`viaggio` 
 (`TourAssociato`,
-  `IdConducente`,
-  `IdAccompagnatrice`,
+  `Conducente`,
+  `Accompagnatrice`,
   `TargaMezzoImpiegato`,
   `DataPartenzaViaggio`,
   `DataRitornoViaggio`, 
@@ -11,8 +11,8 @@ INSERT INTO `tripdb`.`viaggio`
   `PostiDisponibili`)
 VALUES
 ('1',
-  '1',
-  '2',
+  'drvr@mail.com',
+  'hstss@mail.com',
   'DS1029RM',
   '2022-10-09',
   '2022-10-12',
@@ -23,8 +23,8 @@ VALUES
 
 INSERT INTO `tripdb`.`viaggio` 
 (`TourAssociato`,
-  `IdConducente`,
-  `IdAccompagnatrice`,
+  `Conducente`,
+  `Accompagnatrice`,
   `TargaMezzoImpiegato`,
   `DataPartenzaViaggio`,
   `DataRitornoViaggio`, 
@@ -33,8 +33,8 @@ INSERT INTO `tripdb`.`viaggio`
   `PostiDisponibili`)
 VALUES
 ('Roma tour',
-  '1',
-  '2',
+  'drvr@mail.com',
+  'hstss@mail.com',
   'DS1029RM',
   '2022-10-10',
   '2022-10-13',
@@ -45,8 +45,8 @@ VALUES
 
 INSERT INTO `tripdb`.`viaggio` 
 (`TourAssociato`,
-  `IdConducente`,
-  `IdAccompagnatrice`,
+  `Conducente`,
+  `Accompagnatrice`,
   `TargaMezzoImpiegato`,
   `DataPartenzaViaggio`,
   `DataRitornoViaggio`, 
@@ -55,8 +55,8 @@ INSERT INTO `tripdb`.`viaggio`
   `PostiDisponibili`)
 VALUES
 ('Roma tour',
-  '1',
-  '2',
+  'drvr@mail.com',
+  'hstss@mail.com',
   'DS1029RM',
   '2022-12-11',
   '2022-12-14',
@@ -67,8 +67,8 @@ VALUES
 
 INSERT INTO `tripdb`.`viaggio` 
 (`TourAssociato`,
-  `IdConducente`,
-  `IdAccompagnatrice`,
+  `Conducente`,
+  `Accompagnatrice`,
   `TargaMezzoImpiegato`,
   `DataPartenzaViaggio`,
   `DataRitornoViaggio`, 
@@ -77,8 +77,8 @@ INSERT INTO `tripdb`.`viaggio`
   `PostiDisponibili`)
 VALUES
 ('Milano tour',
-  '1',
-  '2',
+  'drvr@mail.com',
+  'hstss@mail.com',
   'DS1029RM',
   '2022-11-09',
   '2022-11-12',

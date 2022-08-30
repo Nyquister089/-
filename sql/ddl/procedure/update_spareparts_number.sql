@@ -1,4 +1,4 @@
-CREATE DEFINER=`giordano`@`localhost` PROCEDURE `update_spareparts_number`(
+Create procedure if not exists `tripdb`.`update_spareparts_number`(
 in cdc varchar(45),
 in nmr int
 )

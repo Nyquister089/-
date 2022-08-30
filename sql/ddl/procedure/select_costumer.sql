@@ -1,4 +1,4 @@
-CREATE DEFINER=`giordano`@`localhost` PROCEDURE `select_costumer`(
+create procedure if not exists `tripdb`.`select_costumer`(
 IN eml VARCHAR(45)
 )
 

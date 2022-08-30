@@ -1,17 +1,19 @@
-grant execute on procedure login to 'Cliente'@'localhost'; 
+grant execute on procedure tripdb.login to 'Cliente'@'localhost'; 
 
 grant execute on procedure
-select_all_tour
+tripdb.select_all_tour
 to 'Cliente'@'localhost'; 
 
 grant execute on procedure
-select_dest_tour
+tripdb.select_dest_tour
 to'Cliente'@'localhost'; 	
 
 grant execute on procedure
-select_hotel_service
+tripdb.select_hotel_service
 to 'Cliente'@'localhost'; 
 
 grant execute on procedure
-select_model_comfort
+tripdb.select_model_comfort
 to 'Cliente'@'localhost';  
+
+flush privileges; 

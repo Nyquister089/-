@@ -1,4 +1,4 @@
-CREATE PROCEDURE `select_hotel_service` (
+create procedure if not exists `tripdb`.`select_hotel_service` (
 in idh int )
 BEGIN
 	select 

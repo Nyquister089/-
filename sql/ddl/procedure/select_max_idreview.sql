@@ -1,4 +1,4 @@
-CREATE DEFINER=`giordano`@`localhost` PROCEDURE `select_max_idreview`(
+create procedure if not exists `tripdb`.`select_max_idreview`(
 
  )
 BEGIN

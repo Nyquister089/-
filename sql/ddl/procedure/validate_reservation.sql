@@ -1,4 +1,4 @@
-CREATE DEFINER=`giordano`@`localhost` PROCEDURE `validate_reservation`(
+Create procedure if not exists `tripdb`.`validate_reservation`(
 IN ndp INT, 
 IN ddc DATE, 
 IN dds DATE)

@@ -40,14 +40,12 @@ int get_drvr_action(void)
 
 void show_assigned_trip(void)
 {	
-	char buff[NUM_LEN];
-	int dvr; 
+	char buff[VARCHAR_LEN];
 
 	printf("** Ricerca viaggi assegnati **\n\n");
-	get_input("Inserisci l'ID del conducente:", VARCHAR_LEN, buff, false);
-	dvr = atoi(buff); 
+	get_input("Inserisci la mail del conducente:", VARCHAR_LEN,buff, false);
 	printf("** Dettagli del viaggio assegnato **\n\n");
-	get_viaggi_assegnati(dvr); 
+	get_viaggi_assegnati(buff); 
 }
 
 void show_dest_time(void)

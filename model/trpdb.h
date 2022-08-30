@@ -84,20 +84,19 @@ struct comfort_mezzo{
 };
 
 struct competenze {
-	int meccanicocompetente; 
+	char meccanicocompetente[VARCHAR_LEN]; 
 	char modelloassociato[VARCHAR_LEN];
 	// viariabili d'appoggio
-	char nomemeccanico[VARCHAR_LEN]; 
+	char nomemeccanico [VARCHAR_LEN]; 
 	char telefono[TEL_LEN];
 }; 
 
 struct dipendente{
-	int iddipendente ; 
+	char emaildipendente[VARCHAR_LEN]; 
 	char tipologiadipendente[VARCHAR_LEN];
 	char telefonoaziendale [TEL_LEN]; 
 	char nomedipendente[VARCHAR_LEN];
 	char cognomedipendente[VARCHAR_LEN];
-	char emaildipendente[VARCHAR_LEN]; 
 	int numerocompetenze; 
 };
 
@@ -230,7 +229,7 @@ struct presenti {
 struct revisione {
 	int idrevisione; //Corretto trasformandolo da carattere a puntatore di carattere
 	char mezzorevisionato[VARCHAR_LEN]; 			// Fk
-	int addettoallarevisione;  				// Fk //Corretto trasformandolo da carattere a puntatore di carattere
+	char addettoallarevisione[VARCHAR_LEN];  				// Fk //Corretto trasformandolo da carattere a puntatore di carattere
 	char datainizio[DATE_LEN]; 
 	char datafine[DATE_LEN]; 
 	int chilometraggio;//Corretto trasformandolo da carattere a puntatore di carattere
@@ -303,8 +302,8 @@ struct tour {
 struct viaggio {
 	int idviaggio; //Corretto trasformandolo da carattere a puntatore di carattere
 	char tourassociato[VARCHAR_LEN]; 
-	int conducente; 					// FK //Corretto trasformandolo da carattere a puntatore di carattere
-	int accompagnatrice; 					// FK //Corretto trasformandolo da carattere a puntatore di carattere
+	char conducente [VARCHAR_LEN]; 					// FK //Corretto trasformandolo da carattere a puntatore di carattere
+	char accompagnatrice[VARCHAR_LEN]; 					// FK //Corretto trasformandolo da carattere a puntatore di carattere
 	char mezzoimpiegato[TAR_LEN]; 			// FK
 	char datadipartenzaviaggio[DATE_LEN]; 
 	char datadiritornoviaggio[DATE_LEN]; 
@@ -515,7 +514,7 @@ extern struct info_mete *get_mete_info(int idv);
 extern struct servizi_albergo *get_servizi_albergo(int idh); 
 extern struct info_modelli *get_info_modello(char *nmd);
 extern struct revisioni_scadute *get_info_revisioni(void); 
-extern struct viaggi_assegnati *get_viaggi_assegnati(int dvr);
+extern struct viaggi_assegnati *get_viaggi_assegnati(char *dvr);
 extern struct mete_visite *get_mete_visite(int idv);
 extern struct mappe *get_mappe(char* nml); 
 

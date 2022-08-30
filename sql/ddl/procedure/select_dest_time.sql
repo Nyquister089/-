@@ -1,4 +1,4 @@
-CREATE DEFINER=`giordano`@`localhost` PROCEDURE `select_dest_time`(
+Create procedure if not exists `tripdb`.`select_dest_time`(
 in idv int)
 BEGIN
 select distinct

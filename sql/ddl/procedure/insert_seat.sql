@@ -1,4 +1,4 @@
-CREATE DEFINER=`giordano`@`localhost` PROCEDURE `insert_seat`(
+Create procedure if not exists `tripdb`.`insert_seat`(
 in num int, 
 in via int, 
 in pre int, 

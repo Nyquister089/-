@@ -38,3 +38,4 @@ extern void ins_bus(struct mezzo *mezzo);
 extern void ins_sparepart(struct ricambio *ricambio);
 extern void ins_comfort(struct comfort *comfort);
 extern void ins_skills(struct competenze *competenze); 
+extern void ins_user_costumer(struct utente *utente); 

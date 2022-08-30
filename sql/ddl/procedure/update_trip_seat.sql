@@ -1,4 +1,4 @@
-CREATE DEFINER=`giordano`@`localhost` PROCEDURE `update_trip_seat`(
+Create procedure if not exists `tripdb`.`update_trip_seat`(
 IN trip INT, 
 IN pos INT)
 BEGIN 

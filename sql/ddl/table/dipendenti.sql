@@ -1,14 +1,12 @@
 CREATE TABLE IF NOT EXISTS `tripdb`.`dipendente` (
-  `IdDipendente` int unsigned NOT NULL AUTO_INCREMENT,
+  `EmailDipendente` varchar (45) NOT NULL,
   `TipologiaDipendente` varchar(45) NOT NULL,
-  `TelefonoAziendale` varchar (15) NOT NULL,
+  `TelefonoAziendale` varchar (15),
   `NomeDipendente` varchar(45) NOT NULL,
   `CognomeDipendente` varchar(45) NOT NULL,
-  `EmailDipendente` varchar (45) NOT NULL,
   `NumeroCompetenze` int default NULL, 
-  PRIMARY KEY (`IdDipendente`),
-  UNIQUE KEY `IdDipendente_UNIQUE` (`IdDipendente`),
-  KEY `EmailDipendente_Idx`(`EmailDipendente`), 
+  PRIMARY KEY (`EmailDipendente`),
+  UNIQUE KEY `EmailDipendente_UNIQUE` (`EmailDipendente`),
   CONSTRAINT `Fk_EmailDipendente` FOREIGN KEY (`EmailDipendente`) REFERENCES `utente` (`EmailUtente`),
   CONSTRAINT `TipologiaDipendentiNotValid` CHECK (`TipologiaDipendente` IN ('Autista','Hostess','Meccanico','Manager','autista','hostess','meccanico','manager') )/*,
   CONSTRAINT `NumeroCompetenzeNotValid` CHECK  (`NumeroCompetenze`=  0 OR 'NumeroCompetenze'>1)*/

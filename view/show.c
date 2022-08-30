@@ -26,7 +26,7 @@ void show_trip(struct viaggio *viaggio)
 	get_input("Inserisci l'id d'interesse: ", NUM_LEN, buff, false); 
 	viaggio->idviaggio = atoi(buff); 
 	do_select_trip(viaggio); 
- 	printf("*Tour:				%s \n Conducente:			%d \n Accompagnatrice:		%d \n Targa mezzo:			%s \n Data di partenza:		%s \n Data di ritorno:		%s \n Costo:				%f \n Chilometri da percorrere:	%d \n Posti disponibili:		%d \n Data annullamento:		%s \n\n", 
+ 	printf("*Tour:				%s \n Conducente:			%s \n Accompagnatrice:		%s \n Targa mezzo:			%s \n Data di partenza:		%s \n Data di ritorno:		%s \n Costo:				%f \n Chilometri da percorrere:	%d \n Posti disponibili:		%d \n Data annullamento:		%s \n\n", 
 		viaggio->tourassociato,
 		viaggio->conducente, 					
 		viaggio->accompagnatrice, 				
@@ -97,7 +97,7 @@ void show_review (struct revisione *revisione){
 	get_input("Inserisci l'id d'interesse: ", NUM_LEN, buff, false); 
 	revisione->idrevisione = atoi(buff);
 	do_select_review(revisione); 
- 	printf("*Mezzo revsionato:	%s \n Id adetto: 		%d \n Data inizio: 		%s \n Data fine: 		%s\n Chilometraggio:	%d\n Operazioni eseguite:	%s \n Tipologia revsione:	%s \n Motivazione:	%s \n\n",
+ 	printf("*Mezzo revsionato:	%s \n Id adetto: 		%s \n Data inizio: 		%s \n Data fine: 		%s\n Chilometraggio:	%d\n Operazioni eseguite:	%s \n Tipologia revsione:	%s \n Motivazione:	%s \n\n",
 	revisione->mezzorevisionato,
 	revisione->addettoallarevisione,
 	revisione->datainizio,
@@ -143,10 +143,8 @@ void show_stay(struct soggiorno *soggiorno)
 
 void show_skills(struct competenze *competenze)
 {	
-	char buff [NUM_LEN]; 
 	printf("\n\n** Dettagli competenze  **\n\n");
-	get_input("Inserisci l'id del meccanico competente :",NUM_LEN, buff, false); 
-	competenze->meccanicocompetente = atoi(buff); 
+	get_input("Inserisci la mail del meccanico competente :",VARCHAR_LEN, competenze->meccanicocompetente, false); 
 	get_input("Inserisci il modello d'interesse :",VARCHAR_LEN, competenze->modelloassociato, false);
 	
 	do_select_skills(competenze);
@@ -157,17 +155,14 @@ void show_skills(struct competenze *competenze)
 
 void show_employee(struct dipendente *dipendente)
 {	
-	char buff [NUM_LEN]; 
 	printf("\n\n** Dettagli Dipendente  **\n\n");
-	get_input("Inserisci l'id d'interesse:",NUM_LEN, buff, false); 
-	dipendente->iddipendente = atoi(buff); 
+	get_input("Inserisci l'id d'interesse:",VARCHAR_LEN,dipendente->emaildipendente, false); 
 	do_select_employee(dipendente);
- 	printf("*Nome:		%s \n Cognome:	%s \n Tipologia:	%s \n Telefono:	%s \n Email:	%s\n\n",
+ 	printf("*Nome:		%s \n Cognome:	%s \n Tipologia:	%s \n Telefono:	%s \n\n",
 		dipendente->nomedipendente,
 		dipendente->cognomedipendente,
 		dipendente->tipologiadipendente,
-		dipendente->telefonoaziendale,
-		dipendente->emaildipendente); 
+		dipendente->telefonoaziendale); 
 	if (strcmp(dipendente->tipologiadipendente,"Meccanico") || strcmp(dipendente->tipologiadipendente,"Meccanico") == 0 )
 		printf("Numero competenze:	%d \n", dipendente->numerocompetenze); 
 }

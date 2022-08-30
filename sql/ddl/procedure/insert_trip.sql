@@ -1,7 +1,7 @@
 create procedure if not exists `tripdb`.`insert_trip`(
     in tsc varchar(45), 
-    in idc int, 
-    in ida int, 
+    in idc varchar(45), 
+    in ida varchar(45), 
     in trg varchar (10), 
     in ddp date, 
     in ddr date, 
@@ -13,8 +13,8 @@ create procedure if not exists `tripdb`.`insert_trip`(
 begin
 INSERT INTO viaggio
 ( TourAssociato ,
-   IdConducente ,
-   IdAccompagnatrice ,
+   Conducente ,
+   Hostess ,
    TargaMezzoImpiegato ,
    DataPartenzaViaggio ,
    DataRitornoViaggio , 

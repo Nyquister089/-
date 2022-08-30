@@ -8,19 +8,24 @@ void ins_user(struct utente *utente)
 	printf("** Dettagli inserimento utente **\n\n");
 	get_input("Inserisci la mail: ", VARCHAR_LEN, utente->email, false);
 	get_input("Inserisci la password: ", VARCHAR_LEN, utente->pswrd, false);
-	if (utente->tipo == 6)
-		utente->tipo = 2; 
-	else
-		{printf("\n Autista =	1; \n Cliente =	2; \n Hostess =	3; \n Meccanico =	4; \n Manager =	5;\n"); 
-		get_input("Inserisci la tipologia: ", NUM_LEN, buff, false);
-		utente->tipo = atoi(buff); 
+
+	printf("\n Autista =	1; \n Cliente =	2; \n Hostess =	3; \n Meccanico =	4; \n Manager =	5;\n"); 
+	get_input("Inserisci la tipologia: ", NUM_LEN, buff, false);
+	utente->tipo = atoi(buff); 
 		if(utente->tipo >5 || utente->tipo < 1)
-			update_user_type(utente, 6); 
-		}
+	update_user_type(utente,utente->tipo); 
 	do_insert_user(utente);
 }
 
-void ins_prenotation(struct prenotazione *prenotazione) //funziona
+void ins_user_costumer(struct utente *utente){
+	printf("** Dettagli inserimento utente **\n\n");
+	get_input("Inserisci la mail: ", VARCHAR_LEN, utente->email, false);
+	get_input("Inserisci la password: ", VARCHAR_LEN, utente->pswrd, false);
+	utente->tipo = 2;
+	do_insert_user(utente); 
+}
+
+void ins_prenotation(struct prenotazione *prenotazione)
 {	
 	
 	printf("\n** Dettagli inserimento prenotazione **\n\n");
@@ -61,8 +66,7 @@ void ins_review(struct revisione *revisione, struct sostituito *sostituito, stru
 	bool ans;
 	printf("\n** Dettagli inserimento revisione **\n\n");
 	get_input("Inserisci la targa del mezzo revisionato : ", VARCHAR_LEN, revisione->mezzorevisionato, false);
-	get_input("Inserisci l'ID del meccanico che ha eseguito la revisione : ", NUM_LEN, buff, false);
-	revisione->addettoallarevisione = atoi(buff); 
+	get_input("Inserisci la mail del meccanico che ha eseguito la revisione : ", VARCHAR_LEN, revisione->addettoallarevisione, false);
 	get_input("Inserisci la descrizione delle operazioni eseguite (massimo 5000 caratteri): ", DES_LEN, revisione-> operazionieseguite, false);
 	get_input("Inserisci il numero di km presenti sul conta chilometri del mezzo revisionato : ",NUM_LEN, buff, false);
 	revisione-> chilometraggio = atoi(buff); 
@@ -94,12 +98,11 @@ if(ans)
 
 }
 
-void ins_costumer(struct cliente *cliente, struct utente *utente) // funziona ma smashing stack su inserimento interi3
+void ins_costumer(struct cliente *cliente, struct utente *utente)
 {	
 	char buff[VARCHAR_LEN]; 
 	printf("** Crea un utente per questo cliente **\n"); 
-	utente->tipo = 6; 
-	ins_user(utente); 
+	ins_user_costumer(utente); 
 	strcpy(cliente->emailcliente, utente->email); 
 	printf("\nEmail: %s \n\n",cliente->emailcliente ); 
 	
@@ -265,10 +268,8 @@ void ins_trip(struct viaggio *viaggio)
 	char buffer[DEC_LEN]; 
 	printf("** Dettagli inserimento viaggio **\n\n");
 	get_input("Inserisci il tour a cui e' associato: ", VARCHAR_LEN, viaggio->tourassociato, false);
-	get_input("Inserisci l'ID del conducente assegnato: ", NUM_LEN, buff, false);
-	viaggio->conducente = atoi(buff); 
-	get_input("Inserisci l'ID dell'eventuale accompagnatrice: ", NUM_LEN, buff, false);
-	viaggio->accompagnatrice = atoi(buff); 
+	get_input("Inserisci la mail del conducente assegnato: ", VARCHAR_LEN, viaggio->conducente, false);
+	get_input("Inserisci la mail dell'eventuale accompagnatrice: ", VARCHAR_LEN, viaggio->accompagnatrice, false);
 	get_input("Inserisci la targa del mezzo impiegato: ", VARCHAR_LEN, viaggio->mezzoimpiegato, false);
 
 	while(true) {
@@ -470,11 +471,9 @@ void ins_comfort(struct comfort *comfort)
 
 void ins_skills(struct competenze *competenze)
 {	
-	char buff[NUM_LEN];
 	printf("** Dettagli inserimento competenze **\n\n");
 	get_input("Inserisci il nome del modello associato: ", VARCHAR_LEN, competenze->modelloassociato, false);
-	get_input("Inserisci l'id del meccanico competente : ", NUM_LEN, buff, false);
-	competenze->meccanicocompetente= atoi(buff); 
+	get_input("Inserisci la mail del meccanico competente : ", VARCHAR_LEN, competenze->meccanicocompetente, false);
 	do_insert_skills(competenze); 
 }
 
@@ -511,9 +510,9 @@ void ins_employee(struct dipendente *dipendente, struct utente *utente, struct c
 	get_input("Inserisci il numero di telefono aziendale: ", TEL_LEN ,dipendente->telefonoaziendale, false);
 	do_insert_employee(dipendente);
 	if (utente->tipo == 4)
-		{//do_select_max_idemployee(dipendente); 
+		{
 		printf("Ogni Meccanico richiede l'iserimento di almeno 2 competenze"); 
-		competenze->meccanicocompetente = dipendente->iddipendente; 
+		strcpy(competenze->meccanicocompetente, dipendente->emaildipendente); 
 		bool ans = false; 
 		int i;
 		i = 0; 

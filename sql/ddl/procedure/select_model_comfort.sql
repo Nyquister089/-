@@ -1,4 +1,4 @@
-CREATE DEFINER=`giordano`@`localhost` PROCEDURE `select_model_comfort`(
+Create procedure if not exists `tripdb`.`select_model_comfort`(
 in nmd varchar(45)
 )
 BEGIN

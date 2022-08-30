@@ -1412,7 +1412,7 @@ void do_insert_reservation(struct prenotazione *prenotazione) // funziona
 	mysql_stmt_reset(insert_reservation);
 }
 
-void do_insert_seat(struct postoprenotato *postoprenotato) // Funziona
+void do_insert_seat(struct postoprenotato *postoprenotato)
 {
 	MYSQL_BIND param[6];
 
@@ -1478,20 +1478,15 @@ void do_insert_review(struct revisione *revisione)
 	MYSQL_TIME datafine;
 
 	char *buff = "insert_review";
-	int addettoallarevisione;
-	int chilometraggio;
 
 	date_to_mysql_time(revisione->datainizio, &datainizio);
 	date_to_mysql_time(revisione->datafine, &datafine);
 
-	addettoallarevisione = revisione->addettoallarevisione;
-	chilometraggio = revisione->chilometraggio;
-
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, revisione->mezzorevisionato, strlen(revisione->mezzorevisionato));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &addettoallarevisione, sizeof(addettoallarevisione));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, revisione->addettoallarevisione, strlen(revisione->addettoallarevisione));
 	set_binding_param(&param[2], MYSQL_TYPE_DATE, &datainizio, sizeof(datainizio));
 	set_binding_param(&param[3], MYSQL_TYPE_DATE, &datafine, sizeof(datafine));
-	set_binding_param(&param[4], MYSQL_TYPE_LONG, &chilometraggio, sizeof(chilometraggio));
+	set_binding_param(&param[4], MYSQL_TYPE_LONG, &revisione->chilometraggio, sizeof(revisione->chilometraggio));
 	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, revisione->operazionieseguite, strlen(revisione->operazionieseguite));
 	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, revisione->tipologiarevisione, strlen(revisione->tipologiarevisione));
 	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, revisione->motivazione, strlen(revisione->motivazione));
@@ -1634,8 +1629,8 @@ void do_insert_trip(struct viaggio *viaggio)
 	date_to_mysql_time(viaggio->datadiritornoviaggio, &datadiritornoviaggio); 
 	
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, viaggio->tourassociato, strlen(viaggio->tourassociato));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &viaggio->conducente, sizeof(viaggio->conducente));
-	set_binding_param(&param[2], MYSQL_TYPE_LONG, &viaggio->accompagnatrice, sizeof(viaggio->accompagnatrice));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING,	viaggio->conducente, strlen(viaggio->conducente));
+	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, viaggio->accompagnatrice, strlen(viaggio->accompagnatrice));
 	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, viaggio->mezzoimpiegato, strlen(viaggio->mezzoimpiegato));
 	set_binding_param(&param[4], MYSQL_TYPE_DATE, &datadipartenzaviaggio, sizeof(datadipartenzaviaggio));
 	set_binding_param(&param[5], MYSQL_TYPE_DATE, &datadiritornoviaggio, sizeof(datadiritornoviaggio));
@@ -1964,7 +1959,7 @@ void do_insert_skills(struct competenze *competenze)
 	char *buff ="insert_skills"; 
 	
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, competenze->modelloassociato, strlen(competenze->modelloassociato));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &competenze->meccanicocompetente, sizeof(competenze->meccanicocompetente));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, competenze->meccanicocompetente, strlen(competenze->meccanicocompetente));
 	
 	bind_exe(insert_skills,param,buff); 
 
@@ -2158,7 +2153,7 @@ void do_select_employee(struct dipendente*dipendente)
 	
 	char *buff = "select_employee";
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &dipendente->iddipendente, sizeof(dipendente->iddipendente));
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &dipendente->emaildipendente, strlen(dipendente->emaildipendente));
 	
 	if (bind_exe(select_employee, param, buff) == -1)
 		goto stop;
@@ -2183,7 +2178,7 @@ void do_select_skills(struct competenze *competenze)
 	MYSQL_BIND param[2];
 	char *buff = "select_skills";
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &competenze->meccanicocompetente, sizeof(competenze->meccanicocompetente));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, competenze->meccanicocompetente, strlen(competenze->meccanicocompetente));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, competenze->modelloassociato, strlen(competenze->modelloassociato));
 	
 	if (bind_exe(select_skills, param, buff) == -1)
@@ -2333,8 +2328,8 @@ void do_select_review(struct revisione *revisione) // FUNZIONA
 	if (bind_exe(select_review, param, buff) == -1)
 		goto stop;
 	
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, revisione->mezzorevisionato, sizeof(revisione->mezzorevisionato));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &revisione->addettoallarevisione, sizeof(revisione->addettoallarevisione));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, revisione->mezzorevisionato, strlen(revisione->mezzorevisionato));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, revisione->addettoallarevisione, strlen(revisione->addettoallarevisione));
 	set_binding_param(&param[2], MYSQL_TYPE_DATE, &datainizio, sizeof(datainizio));
 	set_binding_param(&param[3], MYSQL_TYPE_DATE, &datafine, sizeof(datafine));
 	set_binding_param(&param[4], MYSQL_TYPE_LONG, &revisione->chilometraggio, sizeof(revisione->chilometraggio));
@@ -2353,7 +2348,7 @@ void do_select_review(struct revisione *revisione) // FUNZIONA
 	mysql_stmt_reset(select_review);
 }
 
-void do_select_trip(struct viaggio *viaggio) // Funziona
+void do_select_trip(struct viaggio *viaggio)
 {
 	MYSQL_BIND param[10];
 	MYSQL_TIME datadipartenzaviaggio;
@@ -2372,9 +2367,9 @@ void do_select_trip(struct viaggio *viaggio) // Funziona
 	if (bind_exe(select_trip, param, buff) == -1)
 		goto stop;
 
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, viaggio->tourassociato, sizeof(viaggio->tourassociato));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &viaggio->conducente, sizeof(viaggio->conducente));
-	set_binding_param(&param[2], MYSQL_TYPE_LONG, &viaggio->accompagnatrice, sizeof(viaggio->accompagnatrice));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, viaggio->tourassociato, strlen(viaggio->tourassociato));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, viaggio->conducente, strlen(viaggio->conducente));
+	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, viaggio->accompagnatrice, strlen(viaggio->accompagnatrice));
 	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, viaggio->mezzoimpiegato, sizeof(viaggio->mezzoimpiegato));
 	set_binding_param(&param[4], MYSQL_TYPE_DATE, &datadipartenzaviaggio, sizeof(datadipartenzaviaggio));
 	set_binding_param(&param[5], MYSQL_TYPE_DATE, &datadiritornoviaggio, sizeof(datadiritornoviaggio));
@@ -2820,11 +2815,11 @@ void do_delete_fmo(struct fmo *fmo)
 
 void do_delete_employee(struct dipendente*dipendente)
 {
-	MYSQL_BIND param[4];
+	MYSQL_BIND param[1];
 	
 	char *buff = "delete_employee";
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &dipendente->iddipendente, sizeof(dipendente->iddipendente));
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &dipendente->emaildipendente, strlen(dipendente->emaildipendente));
 	
 	bind_exe(delete_employee, param, buff);
 
@@ -2839,7 +2834,7 @@ void do_delete_skills(struct competenze *competenze)
 
 	char *buff = "delete_skills";
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &competenze->meccanicocompetente, sizeof(competenze->meccanicocompetente));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, competenze->meccanicocompetente, strlen(competenze->meccanicocompetente));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, competenze->modelloassociato, strlen(competenze->modelloassociato));
 	
 	bind_exe(delete_skills, param, buff);
@@ -3637,7 +3632,7 @@ stop:
 	free(tour_info);
 }
 
-struct viaggi_assegnati *get_viaggi_assegnati(int dvr) //funziona
+struct viaggi_assegnati *get_viaggi_assegnati(char *dvr) //funziona
 {
 	MYSQL_BIND param[9];
 	MYSQL_TIME ddp;
@@ -3661,7 +3656,7 @@ struct viaggi_assegnati *get_viaggi_assegnati(int dvr) //funziona
 	init_mysql_timestamp(&ddr);
 
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &dvr, sizeof(dvr));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, dvr, strlen(dvr));
 
 
 	 

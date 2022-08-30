@@ -1,4 +1,4 @@
-CREATE DEFINER=`giordano`@`localhost` PROCEDURE `select_all_tour`(
+create procedure if not exists  `tripdb`.`select_all_tour`(
  )
 BEGIN
 select distinct t.DenominazioneTour,
