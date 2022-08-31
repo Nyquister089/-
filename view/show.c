@@ -16,6 +16,7 @@ void show_reservation (struct prenotazione * prenotazione)
 		prenotazione->datadiprenotazione, 
 		prenotazione->datadiconferma, 
 		prenotazione->datasaldo); 
+	free(prenotazione); 
 
 }
 
@@ -430,13 +431,4 @@ void show_expired_review (void)
 	get_info_revisioni();
 }
 
-void show_prenotation_details(struct prenotazione *prenotazione ) 
-{	
-	char buff[VARCHAR_LEN]; 
-	printf("** Procedura visualizzazione dettagli prenotazione **\n\n"); 
-	get_input("Inserisci il numero di prenotazione : ", VARCHAR_LEN, buff, false);
-	prenotazione->numerodiprenotazione = atoi(buff); 
-	do_select_reservation(prenotazione); 
- 	show_reservation(prenotazione); 
-}
 

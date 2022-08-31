@@ -2407,6 +2407,7 @@ void do_select_reservation(struct prenotazione *prenotazione)
 	MYSQL_TIME datasaldo;
 
 	char *buff ="select_reservation"; 
+	size_t rows; 
 
 	date_to_mysql_time(prenotazione->datadiprenotazione, &datadiprenotazione);
 	date_to_mysql_time(prenotazione->datadiconferma, &datadiconferma);
@@ -2422,10 +2423,13 @@ void do_select_reservation(struct prenotazione *prenotazione)
 	set_binding_param(&param[2], MYSQL_TYPE_DATE, &datadiconferma, sizeof(datadiconferma));
 	set_binding_param(&param[3], MYSQL_TYPE_DATE, &datasaldo, sizeof(datasaldo));
 
-
-	if (take_result(select_reservation, param, buff) == -1)
+	rows = take_result(select_reservation, param, buff);
+	if (rows == -1)
 		goto stop;
-
+	if (rows == 0){
+		printf("L'Id richiesto non è presente nella tabella \n\n"); 
+		goto stop; 
+	}
 
 	mysql_date_to_string(&datadiprenotazione, prenotazione->datadiprenotazione);
 	mysql_date_to_string(&datadiconferma, prenotazione->datadiconferma);
@@ -2434,6 +2438,7 @@ void do_select_reservation(struct prenotazione *prenotazione)
 stop:
 	mysql_stmt_free_result(select_reservation);
 	mysql_stmt_reset(select_reservation);
+
 }
 
 void do_select_tour(struct tour *tour)

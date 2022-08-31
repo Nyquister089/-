@@ -179,7 +179,7 @@ int take_result(MYSQL_STMT *procedure, MYSQL_BIND *param, char *buff)
 			return -1;
 			}
 	}
-	return 0;
+	return mysql_stmt_num_rows(procedure);
 }
 
 size_t take_rows(MYSQL_STMT *procedure, char *buff)

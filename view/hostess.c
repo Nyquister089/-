@@ -78,7 +78,7 @@ bool exe_hstss_act(char sel)
 	switch (sel)
 		{	
 			case INFO_PRENOTAZIONI: {
-				show_prenotation_details(prenotazione_hstss); 
+				show_reservation(prenotazione_hstss); 
 				return true;
 				}
 			case INSERT_CLIENTE:{
