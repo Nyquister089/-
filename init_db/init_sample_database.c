@@ -199,15 +199,11 @@ void drop_procedures(){
 void create_procedures(){
     
     execute_query_from_file_sql("../sql/ddl/procedure/login.sql");
-    execute_query_from_file_sql("../sql/ddl/procedure/insert_stay.sql");
-    execute_query_from_file_sql("../sql/ddl/procedure/insert_costumer.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/update_km.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/update_spareparts_number.sql"); 
-    execute_query_from_file_sql("../sql/ddl/procedure/insert_seat.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/update_data_doc.sql");
-    execute_query_from_file_sql("../sql/ddl/procedure/insert_reservation.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/validate_reservation.sql");
-    execute_query_from_file_sql("../sql/ddl/procedure/insert_sostitution.sql"); 
+ 
 
     execute_query_from_file_sql("../sql/ddl/procedure/select_trip.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/select_tour.sql");
@@ -268,6 +264,11 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/insert_comfort.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/insert_skill.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/insert_review.sql"); 
+    execute_query_from_file_sql("../sql/ddl/procedure/insert_sostitution.sql"); 
+    execute_query_from_file_sql("../sql/ddl/procedure/insert_stay.sql");
+    execute_query_from_file_sql("../sql/ddl/procedure/insert_costumer.sql");
+    execute_query_from_file_sql("../sql/ddl/procedure/insert_seat.sql");
+    execute_query_from_file_sql("../sql/ddl/procedure/insert_reservation.sql");
 
     execute_query_from_file_sql("../sql/ddl/procedure/delete_trip.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/delete_tour.sql");
@@ -295,6 +296,7 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/delete_picture.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/delete_comfort.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/delete_service.sql");
+    execute_query_from_file_sql("../sql/ddl/procedure/delete_sostitution.sql");
 
     execute_query_from_file_sql("../sql/ddl/procedure/update_user_type.sql");
     }

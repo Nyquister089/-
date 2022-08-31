@@ -24,6 +24,6 @@ grant execute on procedure tripdb. delete_reservation to 'Manager'@'localhost';
 grant execute on procedure tripdb. delete_seat to 'Manager'@'localhost';  		
 grant execute on procedure tripdb. delete_stay to 'Manager'@'localhost'; 
 grant execute on procedure tripdb. delete_review to 'Manager'@'localhost';  
-/*grant execute on procedure tripdb. delete_sostitution to 'Manager'@'localhost';  */	
+grant execute on procedure tripdb. delete_sostitution to 'Manager'@'localhost'; 
 
 flush privileges; 

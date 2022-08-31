@@ -27,5 +27,5 @@ grant execute on procedure tripdb. select_review to 'Manager'@'localhost';
 grant execute on procedure tripdb. select_sostitution  to 'Manager'@'localhost'; 
 grant execute on procedure tripdb. select_max_idreview to 'Manager'@'localhost';  
 
-/*grant execute on procedure tripdb. select_sostitution to 'Manager'@'localhost';  	*/
+
 flush privileges; 
