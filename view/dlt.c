@@ -168,3 +168,11 @@ void dlt_service(struct servizio *servizio)
         do_delete_service(servizio);
 
 }
+
+void dlt_sostitution( struct sostituito *sostituito)
+{
+	show_sostitution(sostituito);
+	 if(yes_or_no("Vuoi cancellare questa sostitu? (s/n)",'s','n',false,false) == true)
+        do_delete_sostitution(sostituito);
+
+}

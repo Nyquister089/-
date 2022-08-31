@@ -180,6 +180,11 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close(delete_service);
 		delete_service = NULL;
 	}
+	if (delete_sostitution)
+	{
+		mysql_stmt_close(delete_sostitution);
+		delete_sostitution = NULL;
+	}
 	if (delete_certify)
 	{ 
 		mysql_stmt_close(delete_certify);
@@ -319,6 +324,11 @@ static void close_prepared_stmts(void)
 	{
 		mysql_stmt_close(select_service);
 		select_service = NULL;
+	}
+	if (select_sostitution)
+	{
+		mysql_stmt_close(select_sostitution);
+		select_sostitution = NULL;
 	}
 	if (select_model)
 	{
@@ -1067,9 +1077,14 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(delete_comfort, "Unable to initialize delete_comfort statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&delete_service , "call  delete_service (?)", conn))
+		if (!setup_prepared_stmt(&delete_service , "call  delete_service (?, ?)", conn))
 		{ 
 			print_stmt_error(delete_service , "Unable to initialize delete_service  statement\n");
+			return false;
+		}
+		if (!setup_prepared_stmt(&delete_sostitution , "call  delete_sostitution (?)", conn))
+		{ 
+			print_stmt_error(delete_sostitution , "Unable to initialize delete_sostitution  statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&select_sparepart, "call select_sparepart(?)", conn))
@@ -1095,6 +1110,11 @@ static bool initialize_prepared_stmts(role_t for_role)
 		if (!setup_prepared_stmt(&select_service , "call  select_service (?)", conn))
 		{ 
 			print_stmt_error(select_service , "Unable to initialize select_service  statement\n");
+			return false;
+		}
+		if (!setup_prepared_stmt(&select_sostitution , "call  select_sostitution (?, ?)", conn))
+		{ 
+			print_stmt_error(select_sostitution , "Unable to initialize select_sostitution  statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&select_comfort, "call  select_comfort(?)", conn))
@@ -2632,6 +2652,27 @@ void do_select_destination(struct meta *meta)
 	mysql_stmt_reset(select_destination);
 }
 
+void do_select_sostitution(struct sostituito *sostituito)
+{
+	MYSQL_BIND param[2];
+
+	char *buff ="select_sostitution"; 
+
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, sostituito->ricambioutilizzato, strlen(sostituito->ricambioutilizzato));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &sostituito->revisioneassociata, sizeof(sostituito->revisioneassociata));
+
+	if(bind_exe(select_sostitution, param, buff)==-1)
+		goto stop; 
+
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &sostituito->quantitasostituita, sizeof(sostituito->quantitasostituita));
+	
+	take_result(select_sostitution,param, buff); 
+	
+	stop: 
+	mysql_stmt_free_result(select_sostitution);
+	mysql_stmt_reset(select_sostitution);
+}
+
 void do_select_service(struct servizio *servizio)
 {
 	MYSQL_BIND param[2];
@@ -2652,7 +2693,6 @@ void do_select_service(struct servizio *servizio)
 	mysql_stmt_free_result(select_service);
 	mysql_stmt_reset(select_service);
 }
-
 
 
 
@@ -3036,6 +3076,20 @@ void do_delete_destination(struct meta *meta)
 
 	mysql_stmt_free_result(delete_destination);
 	mysql_stmt_reset(delete_destination);
+}
+void do_delete_sostitution(struct sostituito *sostituito)
+{
+	MYSQL_BIND param[2];
+
+	char *buff ="delete_sostitution"; 
+
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, sostituito->ricambioutilizzato, strlen(sostituito->ricambioutilizzato));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &sostituito->revisioneassociata, sizeof(sostituito->revisioneassociata));
+
+	bind_exe(select_sostitution, param, buff);
+	
+	mysql_stmt_free_result(select_sostitution);
+	mysql_stmt_reset(select_sostitution);
 }
 
 void do_delete_service(struct servizio *servizio)

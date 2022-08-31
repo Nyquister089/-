@@ -411,6 +411,18 @@ void show_visit(struct visita *visita){
 
 }
 
+ void show_sostitution(struct sostituito *sostituito){
+	char buff [NUM_LEN]; 
+	printf("\n\n** Dettagli sostituzione  **\n\n");
+	get_input("Inserisci l'id della revisione d'interesse:",NUM_LEN, buff, false); 
+	sostituito->revisioneassociata = atoi(buff); 
+	get_input("Inserisci il codice del ricambio d'interesse:",VARCHAR_LEN, sostituito->ricambioutilizzato,  false);
+
+	do_select_sostitution(sostituito);
+ 	printf("*Quantità:	%d\n\n",
+		sostituito->quantitasostituita); 
+ }
+
 
 void show_expired_review (void) 
 {	
@@ -427,3 +439,4 @@ void show_prenotation_details(struct prenotazione *prenotazione )
 	do_select_reservation(prenotazione); 
  	show_reservation(prenotazione); 
 }
+

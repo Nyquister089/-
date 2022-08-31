@@ -591,7 +591,7 @@ bool get_table_workshop(char sel){
 			act = get_mngr_action(); 
 			switch(act){
 				case GESTIONE_SELECT: {
-                   // show_sostitution(sostituito); 
+                    show_sostitution(sostituito); 
                 return true; 
                 }
 	            case GESTIONE_INSERT: {
@@ -615,7 +615,7 @@ bool get_table_workshop(char sel){
 
 int workshop_section(void) // sezione officina 
  {	    
-		char options[8] = {'1','2','3','4','5','6','7','8','9'};
+		char options[9] = {'1','2','3','4','5','6','7','8','9'};
         char op; 
 		 puts("*** Su quale tabella della gestione officina? ***\n");
 	 	 puts("1) Modello ");
@@ -732,13 +732,13 @@ bool get_table_costumer (char sel )
 
 int costumer_section(void) // sezione clienti
 {	
-	char options[4] = {'1','2','3','4','5'};
+	char options[5] = {'1','2','3','4','5'};
     char op; 
     puts("*** Su quale tabella della gestione clienti? ***\n");
 	puts("1) Cliente");
     puts("2) Prenotazione");
 	puts("3) Posto prenotato");
-	puts("4) Soggiorno")
+	puts("4) Soggiorno");
 	puts("5) Esci");
     op = multi_choice("Seleziona un'opzione", options, 5);
 	get_table_costumer((op-'1')); 

@@ -507,6 +507,7 @@ extern void do_delete_map(struct mappa *mappa);
 extern void do_delete_picture(struct documentazionefotografica *documentazionefotografica);
 extern void do_delete_comfort(struct comfort *comfort); 
 extern void do_delete_service(struct servizio *servizio); 
+extern void do_delete_sostitution(struct sostituito *sostituito); 
 
 extern void do_select_max_idreview(struct revisione *revisione ); 
 
