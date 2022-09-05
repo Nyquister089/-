@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`meta` (
   UNIQUE KEY `IdMeta_UNIQUE` (`IdMeta`),
   KEY `LocalitaDiappartenenza_idx` (`LocalitadiAppartenenza`),
   CONSTRAINT `FK_LocalitaDiAppartenenza` FOREIGN KEY (`LocalitaDiAppartenenza`) REFERENCES `localita` (`NomeLocalita`) on delete set null,
-  CONSTRAINT `TipologiaMetaNotValid` CHECK (`TipologiaMeta` IN ('Bene','Albergo') )
+  CONSTRAINT `TipologiaMetaNotValid` CHECK (`TipologiaMeta` IN ('Bene','Albergo', 'bene', 'albergo') )
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;

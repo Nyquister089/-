@@ -6,6 +6,9 @@
 
 #include "trpdb.h"
 #include "../utils/db.h"
+/*#include "../view/show.h"
+#include "../view/dlt.h"
+#include "../view/upd.h"*/
 
 static char *opt_host_name = "localhost"; /* host (default=localhost) */
 static char *opt_user_name = "Login";  /* username (default=login name)*/
@@ -1949,11 +1952,12 @@ void do_insert_skills(struct competenze *competenze)
 
 // Richiamo procedure di select
 
-void do_select_model(struct modello *modello)
+int do_select_model(struct modello *modello)
 {
 	MYSQL_BIND param[3];
 	
 	char *buff = "select_model";
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, modello->nomemodello, strlen(modello->nomemodello));
 	
@@ -1964,15 +1968,16 @@ void do_select_model(struct modello *modello)
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, modello->datitecnici, sizeof(modello->datitecnici));
 	set_binding_param(&param[2], MYSQL_TYPE_LONG, &modello->numeroposti, sizeof(modello->numeroposti));
 	
-	take_result(select_model, param, buff);
+	rows = take_result(select_model, param, buff);
  
 	stop:
 	mysql_stmt_free_result(select_model);
 	mysql_stmt_reset(select_model);
+	return (rows); 
  
 }
 
-void do_select_seat(struct postoprenotato *postoprenotato)
+int do_select_seat(struct postoprenotato *postoprenotato)
 {
 	MYSQL_BIND param[4];
 	
@@ -1997,7 +2002,7 @@ void do_select_seat(struct postoprenotato *postoprenotato)
  
 }
 
-void do_select_user(struct utente *utente)
+int do_select_user(struct utente *utente)
 {
 	MYSQL_BIND param[2];
 	
@@ -2020,7 +2025,7 @@ void do_select_user(struct utente *utente)
  
 }
 
-void do_select_tome(struct tome *tome)
+int do_select_tome(struct tome *tome)
 {
 	MYSQL_BIND param[2];
 	
@@ -2043,7 +2048,7 @@ void do_select_tome(struct tome *tome)
  
 }
 
-void do_select_ofr(struct offre *offre)
+int do_select_ofr(struct offre *offre)
 {
 	MYSQL_BIND param[3];
 	
@@ -2070,7 +2075,7 @@ void do_select_ofr(struct offre *offre)
  
 }
 
-void do_select_fme(struct fme *fme)
+int do_select_fme(struct fme *fme)
 {
 	MYSQL_BIND param[3];
 	
@@ -2097,7 +2102,7 @@ void do_select_fme(struct fme *fme)
  
 }
 
-void do_select_fmo(struct fmo *fmo)
+int do_select_fmo(struct fmo *fmo)
 {
 	MYSQL_BIND param[2];
 	
@@ -2124,7 +2129,7 @@ void do_select_fmo(struct fmo *fmo)
 }
  
 
-void do_select_employee(struct dipendente*dipendente)
+int do_select_employee(struct dipendente*dipendente)
 {
 	MYSQL_BIND param[4];
 	
@@ -2150,7 +2155,7 @@ void do_select_employee(struct dipendente*dipendente)
  
 }
 
-void do_select_skills(struct competenze *competenze)
+int do_select_skills(struct competenze *competenze)
 {
 	MYSQL_BIND param[2];
 	char *buff = "select_skills";
@@ -2173,7 +2178,7 @@ void do_select_skills(struct competenze *competenze)
 }
 
 
-void do_select_stay(struct soggiorno *soggiorno)
+int do_select_stay(struct soggiorno *soggiorno)
 {
 	MYSQL_BIND param[3];
 	MYSQL_TIME datainiziosoggiorno; 
@@ -2207,7 +2212,7 @@ void do_select_stay(struct soggiorno *soggiorno)
 	mysql_stmt_reset(select_stay);
 }
 
-void do_select_sparepart(struct ricambio *ricambio) //FUNZIONA
+int do_select_sparepart(struct ricambio *ricambio) //FUNZIONA
 {
 	MYSQL_BIND param[5];
 
@@ -2230,7 +2235,7 @@ stop:
 	mysql_stmt_reset(select_sparepart);
 }
 
-void do_select_certify(struct tagliando *tagliando)
+int do_select_certify(struct tagliando *tagliando)
 {
 	MYSQL_BIND param[2];
 	
@@ -2253,7 +2258,7 @@ void do_select_certify(struct tagliando *tagliando)
 	mysql_stmt_reset(select_certify);
 }
 
-void do_select_bus(struct mezzo *mezzo)
+int do_select_bus(struct mezzo *mezzo)
 {
 	MYSQL_BIND param[6];
 	MYSQL_TIME dataultimarevisioneinmotorizzazione;
@@ -2288,7 +2293,7 @@ void do_select_bus(struct mezzo *mezzo)
 	mysql_stmt_reset(select_bus);
 }
 
-void do_select_review(struct revisione *revisione) // FUNZIONA
+int do_select_review(struct revisione *revisione) // FUNZIONA
 {
 	MYSQL_BIND param[8];
 	MYSQL_TIME datainizio;
@@ -2325,7 +2330,7 @@ void do_select_review(struct revisione *revisione) // FUNZIONA
 	mysql_stmt_reset(select_review);
 }
 
-void do_select_trip(struct viaggio *viaggio)
+int do_select_trip(struct viaggio *viaggio)
 {
 	MYSQL_BIND param[10];
 	MYSQL_TIME datadipartenzaviaggio;
@@ -2368,7 +2373,7 @@ void do_select_trip(struct viaggio *viaggio)
 	mysql_stmt_reset(select_trip);
 }
 
-void do_select_costumer(struct cliente *cliente)
+int do_select_costumer(struct cliente *cliente)
 {
 	MYSQL_BIND param[7];
 	MYSQL_TIME datadocumentazione;
@@ -2399,7 +2404,7 @@ stop:
 	mysql_stmt_reset(select_costumer);
 }
 
-void do_select_reservation(struct prenotazione *prenotazione)
+int do_select_reservation(struct prenotazione *prenotazione)
 {
 	MYSQL_BIND param[4];
 	MYSQL_TIME datadiprenotazione;
@@ -2426,10 +2431,7 @@ void do_select_reservation(struct prenotazione *prenotazione)
 	rows = take_result(select_reservation, param, buff);
 	if (rows == -1)
 		goto stop;
-	if (rows == 0){
-		printf("L'Id richiesto non è presente nella tabella \n\n"); 
-		goto stop; 
-	}
+
 
 	mysql_date_to_string(&datadiprenotazione, prenotazione->datadiprenotazione);
 	mysql_date_to_string(&datadiconferma, prenotazione->datadiconferma);
@@ -2438,10 +2440,10 @@ void do_select_reservation(struct prenotazione *prenotazione)
 stop:
 	mysql_stmt_free_result(select_reservation);
 	mysql_stmt_reset(select_reservation);
-
+	return(rows); 
 }
 
-void do_select_tour(struct tour *tour)
+int do_select_tour(struct tour *tour)
 {
 	MYSQL_BIND param[6];
 
@@ -2464,7 +2466,7 @@ void do_select_tour(struct tour *tour)
 	mysql_stmt_reset(select_tour);
 }
 
-void do_select_comfort(struct comfort *comfort)
+int do_select_comfort(struct comfort *comfort)
 {
 	MYSQL_BIND param[2];
 	
@@ -2486,7 +2488,7 @@ void do_select_comfort(struct comfort *comfort)
 }
 
 
-void do_select_picture(struct documentazionefotografica *documentazionefotografica)
+int do_select_picture(struct documentazionefotografica *documentazionefotografica)
 {
 	MYSQL_BIND param[2];
 	
@@ -2507,7 +2509,7 @@ void do_select_picture(struct documentazionefotografica *documentazionefotografi
 	mysql_stmt_reset(select_picture);
 }
 
-void do_select_map(struct mappa *mappa)
+int do_select_map(struct mappa *mappa)
 {
 	MYSQL_BIND param[5];
 	
@@ -2531,7 +2533,7 @@ void do_select_map(struct mappa *mappa)
 	mysql_stmt_reset(select_map);
 }
 
-void do_select_room(struct camera *camera)
+int do_select_room(struct camera *camera)
 {
 	MYSQL_BIND param[2];
 	
@@ -2554,7 +2556,7 @@ void do_select_room(struct camera *camera)
 	mysql_stmt_reset(select_room);
 }
 
-void do_select_location(struct localita *localita)
+int do_select_location(struct localita *localita)
 {
 	MYSQL_BIND param[2];
 	
@@ -2576,7 +2578,7 @@ void do_select_location(struct localita *localita)
 	mysql_stmt_reset(select_location);
 }
 
-void do_select_visit(struct visita *visita)
+int do_select_visit(struct visita *visita)
 {
 	MYSQL_BIND param[11];
 	MYSQL_TIME orariodiarrivo;
@@ -2623,7 +2625,7 @@ void do_select_visit(struct visita *visita)
 	mysql_stmt_reset(select_visit);
 }
 
-void do_select_destination(struct meta *meta)
+int do_select_destination(struct meta *meta)
 {
 	MYSQL_BIND param[9];
 	MYSQL_TIME orariodiapertura;
@@ -2657,7 +2659,7 @@ void do_select_destination(struct meta *meta)
 	mysql_stmt_reset(select_destination);
 }
 
-void do_select_sostitution(struct sostituito *sostituito)
+int do_select_sostitution(struct sostituito *sostituito)
 {
 	MYSQL_BIND param[2];
 
@@ -2678,7 +2680,7 @@ void do_select_sostitution(struct sostituito *sostituito)
 	mysql_stmt_reset(select_sostitution);
 }
 
-void do_select_service(struct servizio *servizio)
+int do_select_service(struct servizio *servizio)
 {
 	MYSQL_BIND param[2];
 
@@ -3113,7 +3115,7 @@ void do_delete_service(struct servizio *servizio)
 
 // Richiamo procedure speciali
 
-void do_select_max_idreview(struct revisione *revisione )
+int do_select_max_idreview(struct revisione *revisione )
 {
 	MYSQL_BIND param[1]; 
 	char *buff = "select_max_idreview"; 
