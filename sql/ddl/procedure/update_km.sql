@@ -1,5 +1,5 @@
 Create procedure if not exists `tripdb`.`update_km`(
-in trg varchar (45),
+in trg varchar (10),
 in vlk int
  )
 BEGIN

@@ -15,6 +15,6 @@ from tour as t
 join viaggio as v on t.DenominazioneTour = v.TourAssociato
 join mezzo as m on v.TargaMezzoImpiegato = m.Targa
 join modello as mo on m.ModelloMezzo = mo.NomeModello
-join dipendente as d on v.IdConducente = d.EmailDipendente
+join dipendente as d on v.Conducente = d.EmailDipendente
 where v.DataPartenzaViaggio > curdate() and d.EmailDipendente = dvr; 
 END

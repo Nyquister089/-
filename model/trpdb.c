@@ -4028,9 +4028,8 @@ stop:
 
 struct prenotazioni_info *get_reservation_info (char *mlc)
 {
-MYSQL_BIND param[2];
+	MYSQL_BIND param[2];
 	MYSQL_TIME ddp;
-
 
 	struct prenotazioni_info *prenotazioni_info = NULL;
 	char *buff = "select_reservation_info";
@@ -4042,16 +4041,16 @@ MYSQL_BIND param[2];
 
 	init_mysql_timestamp(&ddp);
 
-
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, mlc, strlen(mlc));
 
 	bind_exe(select_reservation_info, param, buff);
 	rows = take_rows(select_reservation_info, buff);
+
 	if(rows == -1)
 		goto stop; 
-
-	prenotazioni_info = malloc((sizeof(struct prenotazioni_info) + sizeof(prenotazioni_info)) * rows);
-	memset(prenotazioni_info, 0, sizeof(*prenotazioni_info) + sizeof(struct prenotazioni_info) * rows);
+		
+	prenotazioni_info = malloc((sizeof(struct prenotazione) + sizeof(prenotazioni_info)) * rows);
+	memset(prenotazioni_info, 0, sizeof(*prenotazioni_info) + sizeof(struct prenotazione) * rows);
 
 	if (prenotazioni_info == NULL)
 	{
@@ -4059,6 +4058,7 @@ MYSQL_BIND param[2];
 		goto stop;
 	}
 
+	printf("pre-bind\n");
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, mlc,  strlen(mlc));
 	
@@ -4070,27 +4070,36 @@ MYSQL_BIND param[2];
 		goto stop;
 	}
 
-	prenotazioni_info->num_prenotazioni = rows;
 
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &nmp  , sizeof(nmp));
+	set_binding_param(&param[1], MYSQL_TYPE_DATE, &ddp,  sizeof(ddp));
+	
+	
+	prenotazioni_info->num_prenotazioni = rows; 
+			
 	while (true)
-	{
+	{printf("After Bind\n"); 
 		status = mysql_stmt_fetch(select_reservation_info);
+			printf("1 after Bind\n");
 		if (status == MYSQL_NO_DATA)
 			break;
 		if (status == 1)
 		{
 			print_stmt_error(select_reservation_info, "\nImpossibile eseguire fetch");
 		}
+			printf("2 after Bind\n");
 
 		prenotazioni_info->prenotazioni_info[count].numerodiprenotazione = nmp; 
 		mysql_date_to_string(&ddp,prenotazioni_info->prenotazioni_info[count].datadiconferma ); 
 
+	printf("3 after Bind\n");
 		printf("* Cliente %s *\n", mlc);
 		printf("Numero prenotazione: 	%d \n", prenotazioni_info->prenotazioni_info[count].numerodiprenotazione);
 		printf("Data di prenotazione:	%s 	\n", prenotazioni_info->prenotazioni_info[count].datadiconferma);
 		count++;
 	}
 stop:
+	printf("4 after Bind\n");
 	mysql_stmt_free_result(select_reservation_info);
 	mysql_stmt_reset(select_reservation_info);
 	free(prenotazioni_info);

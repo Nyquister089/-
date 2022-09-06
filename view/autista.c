@@ -74,9 +74,6 @@ void update_km(void)
 	char buff[VARCHAR_LEN];
 	bool ans; 
 	printf("** Selezione del mezzo d'interesse **\n\n");
-	get_input("Inserisci la targa :", VARCHAR_LEN, mezzo_drvr->targa, false);
-	printf("** Dettagli mezzo d'interesse **\n\n");
-	do_select_bus(mezzo_drvr);
 	show_bus(mezzo_drvr); 
 	ans =yes_or_no("Vuoi modificare i km di questo mezzo ? ", 's', 'n', false, false); 
 	if(ans){

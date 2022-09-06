@@ -546,7 +546,7 @@ void validate_reservation(struct prenotazione *prenotazione , struct postoprenot
 {
 	char buff[NUM_LEN]; 
 	printf("** Procedura conferma prenotazione **\n\n"); 
-	get_input("Inserisci la mail del cliente prenotante: ", VARCHAR_LEN, prenotazione ->clienteprenotante, false);
+	get_input("Inserisci la mail del cliente prenotante: ", VARCHAR_LEN, prenotazione->clienteprenotante, false);
 	get_reservation_info(prenotazione->clienteprenotante); 
 	show_reservation(prenotazione ); 
 

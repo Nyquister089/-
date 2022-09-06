@@ -3,7 +3,7 @@ Create procedure if not exists `tripdb`.`select_reservation_info`(
     )
 BEGIN
 SELECT
- p.ClientePrenotante, 
+ p.NumeroDiPrenotazione, 
  p.DataDiPrenotazione
 
 FROM prenotazione as p
