@@ -1,8 +1,8 @@
 create procedure if not exists `tripdb`.`delete_user`(
-    in idu int
+    in usr varchar(45)
 )
 begin
 delete 
 from utente
-where IdUtente = idu;  
+where EmailUtente = usr;  
 end

@@ -4,5 +4,5 @@ create procedure if not exists `tripdb`.`delete_employee`(
 begin 
 delete 
 from dipendente
-where EmailDipendente= mdp;   
+where EmailDipendente = mdp;   
 end

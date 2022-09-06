@@ -2,7 +2,7 @@
 #include "../model/trpdb.h"
 #include "show.h" 
 
-void show_reservation (struct prenotazione * prenotazione)
+int show_reservation (struct prenotazione * prenotazione)
 {	
 	char buff[NUM_LEN];
 	printf("\n\n**  Dettagli prenotazione ** \n\n"); 
@@ -16,15 +16,16 @@ void show_reservation (struct prenotazione * prenotazione)
 			prenotazione->datadiprenotazione, 
 			prenotazione->datadiconferma, 
 			prenotazione->datasaldo);
-			free(prenotazione); }
-	else 
+		 }
+	else {
 		printf("Il numero di prenotazione non esiste\n\n"); 
-	
-	
+		return -1; 
+	}
+	return 0; 
 
 }
 
-void show_trip(struct viaggio *viaggio)
+int show_trip(struct viaggio *viaggio)
 {	
 	char buff[NUM_LEN]; 
 	printf("\n\n**  Dettagli viaggio ** \n\n"); 
@@ -42,12 +43,15 @@ void show_trip(struct viaggio *viaggio)
 			viaggio->numerodikm, 
 			viaggio->postidisponibili,
 			viaggio->datadiannullamento); 
-		free(viaggio); }
-	else
+		 }
+	else{
 		 printf("L'id inserito non esiste\n\n"); 
+		 	return -1; 
+	}
+	return 0; 
 }
 
-void show_costumer (struct cliente * cliente)
+int show_costumer (struct cliente * cliente)
 {	
 	
 	get_input("Inserisci la mail d'interesse : ", VARCHAR_LEN , cliente->emailcliente, false);
@@ -62,12 +66,15 @@ void show_costumer (struct cliente * cliente)
 			cliente->recapitotelefonico,
 			cliente->fax,
 			cliente->datadocumentazione);
-		free(cliente); }
-	else 
+		}
+	else {
 		printf("La mail inserita non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
-void show_tour(struct tour *tour)
+int show_tour(struct tour *tour)
 {
 	printf("\n\n**  Dettagli tour ** \n\n");
 	get_input("Inserisci la denomiazione d'interesse: ", VARCHAR_LEN, tour->denominazionetour, false); 
@@ -79,15 +86,18 @@ void show_tour(struct tour *tour)
 			tour->bagaglio, 
 			tour->garanziaannullamento, 
 			tour->accompagnatrice);
-		free(tour);}
-	else 
+		}
+	else { 
 		printf("La denominazione inserita non esiste\n\n"); 
+			return -1; 
+	}
+	return 0; 
 
 }
 
 
 
-void show_sparepart(struct ricambio *ricambio)
+int show_sparepart(struct ricambio *ricambio)
 {	
 
 
@@ -99,13 +109,16 @@ void show_sparepart(struct ricambio *ricambio)
 			ricambio->quantitadiriordino,
 			ricambio->scortaminima,
 			ricambio->quantitainmagazzino,
-			ricambio->descrizione);
-		free(ricambio); }
-	else
+			ricambio->descrizione);	
+		}
+	else {
 		printf("Il codice inserito non esisten\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
-void show_review (struct revisione *revisione){
+int show_review (struct revisione *revisione){
 
 	char buff[NUM_LEN]; 
 	printf("\n\n** Dettagli revisione **\n\n");
@@ -121,13 +134,16 @@ void show_review (struct revisione *revisione){
 			revisione->operazionieseguite,
 			revisione->tipologiarevisione,
 			revisione->motivazione);
-		free(revisione); }
-	else 
+		}
+	else { 
 		printf("L'id inserito non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 
 }
 
-void show_bus(struct mezzo *mezzo)
+int show_bus(struct mezzo *mezzo)
 {	
 	printf("\n\n** Dettagli mezzo **\n\n");
 	get_input("Inserisci la targa del mezzo d'interesse: ", VARCHAR_LEN, mezzo->targa, false); 
@@ -139,13 +155,16 @@ void show_bus(struct mezzo *mezzo)
 			mezzo->autonomia,
 			mezzo->valorecontakm, 
 			mezzo->dataimmatricolazione); 
-		free(mezzo); }
-	else 
+		}
+	else { 
 		printf("La targa insertia non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 
 }
 
-void show_stay(struct soggiorno *soggiorno)
+int show_stay(struct soggiorno *soggiorno)
 {	
 	char buff [NUM_LEN]; 
 	printf("\n\n** Dettagli soggiorno **\n\n");
@@ -159,13 +178,16 @@ void show_stay(struct soggiorno *soggiorno)
  		printf("*Data inizio soggiorno:%s \n Data fine soggiorno:	%s \n\n",
 			soggiorno->datainiziosoggiorno,
 			soggiorno->datafinesoggiorno); 
-			free(soggiorno); }
-	else 
+		}
+	else { 
 		printf("Il soggiorno richiesto non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 
 }
 
-void show_skills(struct competenze *competenze)
+int show_skills(struct competenze *competenze)
 {	
 	printf("\n\n** Dettagli competenze  **\n\n");
 	get_input("Inserisci la mail del meccanico competente :",VARCHAR_LEN, competenze->meccanicocompetente, false); 
@@ -176,11 +198,14 @@ void show_skills(struct competenze *competenze)
 			competenze->nomemeccanico,
 			competenze->telefono);
 			free (competenze);}
-	else 
+	else { 
 		printf("La competenza richiesta non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
-void show_employee(struct dipendente *dipendente)
+int show_employee(struct dipendente *dipendente)
 {	
 	printf("\n\n** Dettagli Dipendente  **\n\n");
 	get_input("Inserisci la mail d'interesse:",VARCHAR_LEN,dipendente->emaildipendente, false); 
@@ -190,15 +215,19 @@ void show_employee(struct dipendente *dipendente)
 			dipendente->cognomedipendente,
 			dipendente->tipologiadipendente,
 			dipendente->telefonoaziendale); 
-		if (strcmp(dipendente->tipologiadipendente,"Meccanico") || strcmp(dipendente->tipologiadipendente,"Meccanico") == 0 )
+		if ((strcmp(dipendente->tipologiadipendente,"Meccanico") == 0 )||( strcmp(dipendente->tipologiadipendente,"meccanico") == 0))
 			printf("Numero competenze:	%d \n", dipendente->numerocompetenze); 
-			free(dipendente); }
-	else 
+		
+	}
+	else { 
 		printf("La mail d'interesse non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
 
-void show_fmo(struct fmo *fmo)
+int show_fmo(struct fmo *fmo)
 {	
 	char buff [NUM_LEN]; 
 	printf("\n\n** Dettagli Foto-Modelli  **\n\n");
@@ -210,12 +239,15 @@ void show_fmo(struct fmo *fmo)
  		printf("*Descrizione:	%s \n Immagine:	%s\n\n",
 			fmo->descrizione,
 			fmo->immagine); 
-		free(fmo); }
-	else
+	}
+	else {
 		printf("La relazione foto-modello d'interesse non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
-void show_fme(struct fme *fme)
+int show_fme(struct fme *fme)
 {	
 	char buff [NUM_LEN]; 
 	printf("\n\n** Dettagli Foto-Mete  **\n\n");
@@ -228,12 +260,15 @@ void show_fme(struct fme *fme)
 			fme->nome,
 			fme->descrizione,
 			fme->immagine); 
-		free(fme); }
-	else 
+	}
+	else { 
 		printf("La relazione foto-mete d'interesse non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
-void show_ofr(struct offre *offre)
+int show_ofr(struct offre *offre)
 {	
 	char buff [NUM_LEN]; 
 	printf("\n\n** Dettagli servizi-offerti  **\n\n");
@@ -246,12 +281,15 @@ void show_ofr(struct offre *offre)
 			offre->meta,
 			offre->servizio,
 			offre->descrizione); 
-		free(offre); }
-	else 
+	}
+	else { 
 		printf("La realzione offre d'interesse non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
-void show_tome(struct tome *tome)
+int show_tome(struct tome *tome)
 {	
 	char buff [NUM_LEN]; 
 	printf("\n\n** Dettagli tour-meta  **\n\n");
@@ -262,26 +300,32 @@ void show_tome(struct tome *tome)
  		printf("*Descrizione tour:	%s\n Meta:		%s\n\n",
 			tome->descrizione,
 			tome->meta); 
-		free(tome);}
-	else
+	}
+	else {
 		printf("La relazione tour-mete d'interesse non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
 
-void show_user(struct utente *utente){
+int show_user(struct utente *utente){
 
 	printf("\n\n** Dettagli utente **\n\n");
-	get_input("Inserisci l'id dell'utente d'interesse:", NUM_LEN, utente->email, false);
+	get_input("Inserisci la mail d'interesse:", VARCHAR_LEN, utente->email, false);
 	if(do_select_user(utente) > 0){
  		printf("*Password:	%s \n Tipo:		%d\n\n",
 			utente->pswrd,
 			utente->tipo); 
-		free(utente); }
-	else 
+	}
+	else { 
 		printf("L'id inserito non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
-void show_seat(struct postoprenotato *postoprenotato){
+int show_seat(struct postoprenotato *postoprenotato){
 
 	char buff [NUM_LEN]; 
 	printf("\n\n** Dettagli posto prenotato  **\n\n");
@@ -295,13 +339,16 @@ void show_seat(struct postoprenotato *postoprenotato){
 			postoprenotato->cognomepasseggero,
 			postoprenotato->etapasseggero,
 			postoprenotato->prenotazioneassociata);
-		free(postoprenotato); }
-	else
+	}
+	else {
 		printf("Il posto prenotato d'interesse non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 
 }
 
-void show_model(struct modello *modello){
+int show_model(struct modello *modello){
 	
 	printf("\n\n** Dettagli modello  **\n\n");
 	get_input("Inserisci il nome d'interesse:",VARCHAR_LEN, modello->nomemodello, false); 
@@ -310,12 +357,15 @@ void show_model(struct modello *modello){
 			modello->casacostruttrice,
 			modello->datitecnici,
 			modello->numeroposti);
-		free(modello); }
-	else 
+	}
+	else { 
 		printf("Il nome del modello inserito non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
-void show_certify(struct tagliando *tagliando){
+int show_certify(struct tagliando *tagliando){
 	
 	char buff[NUM_LEN];
 	printf("\n\n** Dettagli tagliando  **\n\n");
@@ -325,12 +375,15 @@ void show_certify(struct tagliando *tagliando){
  		printf("*Tipologia:		%s\n Validità superate:	%s \n\n",
 			tagliando->tipologiatagliando,
 			tagliando->validitasuperate);
-		free(tagliando); }
-	else
+	}
+	else {
 		printf("L'id inserito non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
-void show_destination(struct meta *meta){
+int show_destination(struct meta *meta){
 
 	char buff[NUM_LEN];
 	printf("\n\n** Dettagli meta  **\n\n");
@@ -349,13 +402,16 @@ void show_destination(struct meta *meta){
 			printf(" Categoria:	%s\n\n", meta->categoriaalbergo); 
 		else
 			printf(" Orario di apertura:%s\n\n", meta->orariodiapertura); 
-		free(meta);}
-	else 
+	}
+	else { 
 		printf("L'id inserito non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 
 }
 
-void show_service (struct servizio  *servizio ){
+int show_service (struct servizio  *servizio ){
 
 	char buff[NUM_LEN]; 
 	printf("\n\n** Dettagli servizio   **\n\n");
@@ -365,12 +421,15 @@ void show_service (struct servizio  *servizio ){
 		printf("*Nome:		%s \n Descrizione:	%s  \n\n",
 			servizio->nomeservizio ,
 			servizio->descrizioneservizio);
-			free(servizio);}
-	else
+			}
+	else {
 		printf("L'id inserito non esiste\n\n");
+		return -1; 
+	}
+	return 0; 
 }
 
-void show_comfort(struct comfort *comfort){
+int show_comfort(struct comfort *comfort){
 
 	char buff[NUM_LEN]; 
 	printf("\n\n** Dettagli comfort  **\n\n");
@@ -380,13 +439,16 @@ void show_comfort(struct comfort *comfort){
 		printf("*Nome:		%s \n Descrizione:	%s  \n\n",
 			comfort->nomecomfort,
 			comfort->descrizionecomfort);
-		free(comfort); }
-	else	
+	}
+	else {	
 		printf("L'id inserito non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
 
-void show_picture(struct documentazionefotografica *documentazionefotografica){
+int show_picture(struct documentazionefotografica *documentazionefotografica){
 
 	char buff[NUM_LEN]; 
 	printf("\n\n** Dettagli documentazionefotografica  **\n\n");
@@ -396,13 +458,16 @@ void show_picture(struct documentazionefotografica *documentazionefotografica){
 		printf("*Foto:		%s \n Descrizione:	%s  \n\n",
 			documentazionefotografica->foto,
 			documentazionefotografica->descrzione);
-		free(documentazionefotografica); }
-	else
+	}
+	else {
 		printf("L'id inserito non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 }
 
 
-void show_map(struct mappa *mappa){
+int show_map(struct mappa *mappa){
 
 	char buff[NUM_LEN]; 
 	printf("\n\n** Dettagli mappa  **\n\n");
@@ -415,13 +480,16 @@ void show_map(struct mappa *mappa){
 			mappa->dettaglio, 
 			mappa->zona,
 			mappa->immagine);
-			free(mappa); }
-	else
+	}
+	else {
 		printf("L'id inserito non esiste \n\n"); 
+		return -1; 
+	}
+	return 0; 
 
 }
 
-void show_room(struct camera *camera){
+int show_room(struct camera *camera){
 
 	char buff[NUM_LEN]; 
 	printf("\n\n** Dettagli camera  **\n\n");
@@ -433,13 +501,16 @@ void show_room(struct camera *camera){
 		printf("*Tipologia:	%s \n Costo:		%f\n\n",
 			camera->tipologia,
 			camera->costo);
-		free(camera); }
-	else
+	}
+	else {
 		printf("La camera d'interesse non esiste \n\n"); 
+		return -1; 
+	}
+	return 0; 
 
 }
 
-void show_location(struct localita *localita){
+int show_location(struct localita *localita){
 
 
 	printf("\n\n** Dettagli localita  **\n\n");
@@ -448,13 +519,16 @@ void show_location(struct localita *localita){
 	if (do_select_location(localita) > 0){
 		printf("*Stato:		%s\n\n",
 			localita->stato);
-		free(localita); }
-	else
+	}
+	else {
 		printf("Il nome d'interesse non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 
 }
 
-void show_visit(struct visita *visita){
+int show_visit(struct visita *visita){
 	char buff[NUM_LEN];
 	printf("\n\n** Dettagli visita  **\n\n");
 	get_input("Inserisci l'id  d'interesse:",NUM_LEN, buff, false); 
@@ -472,13 +546,16 @@ void show_visit(struct visita *visita){
 			visita->guida,
 			visita->supplemento,
 			visita->trattamentoalberghiero);
-		free(visita); }
-	else
+	}
+	else {
 		printf("L'id d'interesse non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
 
 }
 
- void show_sostitution(struct sostituito *sostituito){
+ int show_sostitution(struct sostituito *sostituito){
 	char buff [NUM_LEN]; 
 	printf("\n\n** Dettagli sostituzione  **\n\n");
 	get_input("Inserisci l'id della revisione d'interesse:",NUM_LEN, buff, false); 
@@ -488,9 +565,12 @@ void show_visit(struct visita *visita){
 	if(do_select_sostitution(sostituito) > 0) {
  		printf("*Quantità:	%d\n\n",
 			sostituito->quantitasostituita); 
-		free(sostituito); }
-	else
+	}
+	else {
 		printf("La sostizione d'interesse non esiste\n\n"); 
+			return -1; 
+	}
+	return 0; 
  }
 
 

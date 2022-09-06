@@ -14,7 +14,7 @@ begin
 INSERT INTO viaggio
 ( TourAssociato ,
    Conducente ,
-   Hostess ,
+   Accompagnatrice ,
    TargaMezzoImpiegato ,
    DataPartenzaViaggio ,
    DataRitornoViaggio , 

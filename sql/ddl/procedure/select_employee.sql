@@ -1,12 +1,13 @@
 CREATE PROCEDURE IF NOT EXISTS `tripdb`.`select_employee`(
-    IN id int
+    IN mld varchar(45)
     )
 BEGIN
      SELECT  
     NomeDipendente, 
     CognomeDipendente,
     TipologiaDipendente, 
-    TelefonoAziendale
+    TelefonoAziendale, 
+    NumeroCompetenze
 FROM dipendente
-    WHERE IdDipendente = id;
+    WHERE EmailDipendente = mld;
 END;

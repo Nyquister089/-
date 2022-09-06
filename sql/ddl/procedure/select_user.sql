@@ -1,11 +1,10 @@
 create procedure if not exists `tripdb`.`select_user`(
-    in idu int
+    in usr varchar(45)
 )
 begin
 select 
-u.EmailUtente,
 u.Pswrd, 
 u.TipoUtente
 from  utente as u
-Where u.IdUtente = idu; 
+Where u.EmailUtente = usr; 
 end

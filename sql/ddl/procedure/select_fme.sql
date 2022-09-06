@@ -1,7 +1,7 @@
 create procedure if not exists `tripdb`.`select_fme`
-(
-    in mtr int, 
-    in fmt int
+(   
+    in fmt int,
+    in mtr int
 )
 begin
 select 

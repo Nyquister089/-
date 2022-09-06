@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`dipendente` (
   `NumeroCompetenze` int default NULL, 
   PRIMARY KEY (`EmailDipendente`),
   UNIQUE KEY `EmailDipendente_UNIQUE` (`EmailDipendente`),
-  CONSTRAINT `Fk_EmailDipendente` FOREIGN KEY (`EmailDipendente`) REFERENCES `utente` (`EmailUtente`),
+  CONSTRAINT `Fk_EmailDipendente` FOREIGN KEY (`EmailDipendente`) REFERENCES `utente` (`EmailUtente`) on delete cascade,
   CONSTRAINT `TipologiaDipendentiNotValid` CHECK (`TipologiaDipendente` IN ('Autista','Hostess','Meccanico','Manager','autista','hostess','meccanico','manager') )/*,
   CONSTRAINT `NumeroCompetenzeNotValid` CHECK  (`NumeroCompetenze`=  0 OR 'NumeroCompetenze'>1)*/
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;

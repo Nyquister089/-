@@ -1103,12 +1103,12 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(delete_comfort, "Unable to initialize delete_comfort statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&delete_service , "call  delete_service (?, ?)", conn))
+		if (!setup_prepared_stmt(&delete_service , "call  delete_service (?)", conn))
 		{ 
 			print_stmt_error(delete_service , "Unable to initialize delete_service  statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&delete_sostitution , "call  delete_sostitution (?)", conn))
+		if (!setup_prepared_stmt(&delete_sostitution , "call  delete_sostitution (?, ?)", conn))
 		{ 
 			print_stmt_error(delete_sostitution , "Unable to initialize delete_sostitution  statement\n");
 			return false;
@@ -2053,7 +2053,7 @@ int do_select_user(struct utente *utente)
 	char *buff = "select_user";
 	int rows; 
 
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, utente->email, sizeof(utente->email));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, utente->email, strlen(utente->email));
 	
 	if (bind_exe(select_user, param, buff) == -1)
 		goto stop;
@@ -2103,20 +2103,23 @@ int do_select_ofr(struct offre *offre)
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &offre->albergoofferente, sizeof(offre->albergoofferente));
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &offre->idservizio, sizeof(offre->servizio));
-	
+
 	if (bind_exe(select_ofr, param, buff) == -1)
 		goto stop;
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, offre->meta, sizeof(offre->meta));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, offre->servizio, sizeof(offre->servizio));
 	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, offre->descrizione, sizeof(offre->descrizione));
+
 	
 	rows = take_result(select_ofr, param, buff); 
+
 	
 	stop:
 	mysql_stmt_free_result(select_ofr);
 	mysql_stmt_reset(select_ofr);
 	return (rows); 
+
 }
 
 int do_select_fme(struct fme *fme)
@@ -2173,20 +2176,22 @@ int do_select_fmo(struct fmo *fmo)
 
 int do_select_employee(struct dipendente*dipendente)
 {
-	MYSQL_BIND param[4];
+	MYSQL_BIND param[5];
 	
 	char *buff = "select_employee";
 	int rows; 
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &dipendente->emaildipendente, strlen(dipendente->emaildipendente));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, dipendente->emaildipendente, strlen(dipendente->emaildipendente));
 	
 	if (bind_exe(select_employee, param, buff) == -1)
 		goto stop;
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, dipendente->nomedipendente, sizeof(dipendente->nomedipendente));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, dipendente->cognomedipendente, sizeof(dipendente->cognomedipendente));
-	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, dipendente->tipologiadipendente, sizeof(dipendente->cognomedipendente));
+	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, dipendente->tipologiadipendente, sizeof(dipendente->tipologiadipendente));
 	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, dipendente->telefonoaziendale, sizeof(dipendente->telefonoaziendale));
+	set_binding_param(&param[4], MYSQL_TYPE_LONG, &dipendente->numerocompetenze, sizeof(dipendente->numerocompetenze));
+
 	
 	rows = take_result(select_employee, param, buff); 
 	
@@ -2404,9 +2409,9 @@ int do_select_trip(struct viaggio *viaggio)
 	if (bind_exe(select_trip, param, buff) == -1)
 		goto stop;
 
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, viaggio->tourassociato, strlen(viaggio->tourassociato));
-	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, viaggio->conducente, strlen(viaggio->conducente));
-	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, viaggio->accompagnatrice, strlen(viaggio->accompagnatrice));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, viaggio->tourassociato, sizeof(viaggio->tourassociato));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, viaggio->conducente, sizeof(viaggio->conducente));
+	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, viaggio->accompagnatrice, sizeof(viaggio->accompagnatrice));
 	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, viaggio->mezzoimpiegato, sizeof(viaggio->mezzoimpiegato));
 	set_binding_param(&param[4], MYSQL_TYPE_DATE, &datadipartenzaviaggio, sizeof(datadipartenzaviaggio));
 	set_binding_param(&param[5], MYSQL_TYPE_DATE, &datadiritornoviaggio, sizeof(datadiritornoviaggio));
@@ -2635,7 +2640,7 @@ int do_select_location(struct localita *localita)
 	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, localita->nomelocalita, strlen(localita->nomelocalita));
-	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, localita->regione, sizeof(localita->regione));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, localita->regione, strlen(localita->regione));
 
 	if(bind_exe(select_location, param, buff)==-1)
 		goto stop; 
@@ -2823,7 +2828,7 @@ void do_delete_user(struct utente *utente)
 	
 	char *buff = "delete_user";
 
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, utente->email, sizeof(utente->email));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, utente->email, strlen(utente->email));
 	
 	bind_exe(delete_user, param, buff); 
 
@@ -2903,7 +2908,7 @@ void do_delete_employee(struct dipendente*dipendente)
 	
 	char *buff = "delete_employee";
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &dipendente->emaildipendente, strlen(dipendente->emaildipendente));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, dipendente->emaildipendente, strlen(dipendente->emaildipendente));
 	
 	bind_exe(delete_employee, param, buff);
 

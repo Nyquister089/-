@@ -6,35 +6,36 @@
 
 #include "../utils/io.h"
 #include "../utils/validation.h"
+
 #include "../model/trpdb.h"
 
-extern void show_reservation (struct prenotazione * prenotazione);
-extern void show_trip(struct viaggio *viaggio); 
-extern void show_costumer (struct cliente * cliente); 
-extern void show_tour(struct tour *tour); 
-extern void show_service(struct servizio * servizio); 
-extern void show_sparepart(struct ricambio *ricambio);
-extern void show_review(struct revisione *revisione); 
-extern void show_bus(struct mezzo *mezzo); 
-extern void show_stay(struct soggiorno *soggiorno); 
-extern void show_skills(struct competenze *competenze);
-extern void show_employee(struct dipendente *dipendente); 
-extern void show_fmo(struct fmo *fmo); 
-extern void show_fme(struct fme *fme); 
-extern void show_ofr(struct offre *offre);
-extern void show_tome(struct tome *tome); 
-extern void show_user(struct utente *utente); 
-extern void show_seat(struct postoprenotato *postoprenotato); 
-extern void show_model(struct modello *modello); 
-extern void show_certify(struct tagliando *tagliando); 
-extern void show_destination(struct meta *meta); 
-extern void show_visit(struct visita *visita); 
-extern void show_location(struct localita *localita); 
-extern void show_room(struct camera *camera); 
-extern void show_map(struct mappa *mappa); 
-extern void show_picture(struct documentazionefotografica *documentazionefotografica); 
-extern void show_comfort(struct comfort *comfort); 
-extern void show_service(struct servizio *servizio); 
+extern int show_reservation (struct prenotazione * prenotazione);
+extern int show_trip(struct viaggio *viaggio); 
+extern int show_costumer (struct cliente * cliente); 
+extern int show_tour(struct tour *tour); 
+extern int show_service(struct servizio * servizio); 
+extern int show_sparepart(struct ricambio *ricambio);
+extern int show_review(struct revisione *revisione); 
+extern int show_bus(struct mezzo *mezzo); 
+extern int show_stay(struct soggiorno *soggiorno); 
+extern int show_skills(struct competenze *competenze);
+extern int show_employee(struct dipendente *dipendente); 
+extern int show_fmo(struct fmo *fmo); 
+extern int show_fme(struct fme *fme); 
+extern int show_ofr(struct offre *offre);
+extern int show_tome(struct tome *tome); 
+extern int show_user(struct utente *utente); 
+extern int show_seat(struct postoprenotato *postoprenotato); 
+extern int show_model(struct modello *modello); 
+extern int show_certify(struct tagliando *tagliando); 
+extern int show_destination(struct meta *meta); 
+extern int show_visit(struct visita *visita); 
+extern int show_location(struct localita *localita); 
+extern int show_room(struct camera *camera); 
+extern int show_map(struct mappa *mappa); 
+extern int show_picture(struct documentazionefotografica *documentazionefotografica); 
+extern int show_comfort(struct comfort *comfort); 
+extern int show_service(struct servizio *servizio); 
 extern void show_expired_review (void); 
-extern void show_prenotation_details(struct prenotazione *prenotazione ); 
-extern void show_sostitution(struct sostituito *sostituito); 
+extern int show_prenotation_details(struct prenotazione *prenotazione ); 
+extern int show_sostitution(struct sostituito *sostituito); 
