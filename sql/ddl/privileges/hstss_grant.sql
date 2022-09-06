@@ -17,6 +17,11 @@ to 'Hostess'@'localhost';
 
 grant execute on procedure
 tripdb. 
+select_reservation_info
+to 'Hostess'@'localhost';
+
+grant execute on procedure
+tripdb. 
 insert_seat
 to 'Hostess'@'localhost'; 
 

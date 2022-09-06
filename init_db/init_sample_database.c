@@ -220,6 +220,7 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/select_dvr_map.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_bus.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_reservation.sql");
+    execute_query_from_file_sql("../sql/ddl/procedure/select_reservation_info.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/select_costumer.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/select_stay.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_skills.sql"); 
@@ -241,6 +242,7 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/select_comfort.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/select_service.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_sostitution.sql"); 
+
 
     execute_query_from_file_sql("../sql/ddl/procedure/insert_tour.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/insert_trip.sql"); 

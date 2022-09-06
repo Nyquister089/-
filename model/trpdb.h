@@ -221,6 +221,12 @@ struct prenotazione {
 	char datasaldo[DATE_LEN]; 
 }; 
 
+
+struct prenotazioni_info{
+	size_t num_prenotazioni; 
+	struct prenotazione prenotazioni_info[]; 
+};
+
 struct presenti {
 	char comfortpresenti[NUM_LEN]; //Corretto trasformandolo da carattere a puntatore di carattere
 	char modelloassciato[VARCHAR_LEN]; 
@@ -520,6 +526,7 @@ extern struct revisioni_scadute *get_info_revisioni(void);
 extern struct viaggi_assegnati *get_viaggi_assegnati(char *dvr);
 extern struct mete_visite *get_mete_visite(int idv);
 extern struct mappe *get_mappe(char* nml); 
+extern struct prenotazioni_info *get_reservation_info (char *mlc); 
 
 extern void do_update_user_type(struct utente *utente); 
 extern void do_update_data_doc(struct cliente *cliente); 

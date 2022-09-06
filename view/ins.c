@@ -546,6 +546,8 @@ void validate_reservation(struct prenotazione *prenotazione , struct postoprenot
 {
 	char buff[NUM_LEN]; 
 	printf("** Procedura conferma prenotazione **\n\n"); 
+	get_input("Inserisci la mail del cliente prenotante: ", VARCHAR_LEN, prenotazione ->clienteprenotante, false);
+	get_reservation_info(prenotazione->clienteprenotante); 
 	show_reservation(prenotazione ); 
 
  	bool ans = yes_or_no("\n\n Vuoi confermare questa prenotazione? (s/n) ",'s','n',false,false);
@@ -566,7 +568,7 @@ void validate_reservation(struct prenotazione *prenotazione , struct postoprenot
 			break;
 		fprintf(stderr, "Data errata!\n");
 		}
-		
+
 	do_validate_reservation(prenotazione);
 	bool seat_ans, association_ans;   
 

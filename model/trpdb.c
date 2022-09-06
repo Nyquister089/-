@@ -119,6 +119,7 @@ static MYSQL_STMT *select_max_idreview;   	// ok Meccanico
 static MYSQL_STMT *select_assigned_trip; 	// ok AUTISTA 
 static MYSQL_STMT *select_dest_time;		// ok AUTISTA
 static MYSQL_STMT *select_dvr_map; 			// ok AUTISTA
+static MYSQL_STMT *select_reservation_info; 
 
 static MYSQL_STMT *validate_reservation;	 // ok HOSTESS
 static MYSQL_STMT *update_data_doc;			 // Ok HOSTESS
@@ -381,6 +382,11 @@ static void close_prepared_stmts(void)
 	if(select_assigned_trip) {	
 		mysql_stmt_close(select_assigned_trip);
 		select_assigned_trip = NULL;
+	}
+	if (select_reservation_info)
+	{ 
+		mysql_stmt_close(select_reservation_info);
+		select_reservation_info = NULL;
 	}
 	if (select_dvr_map)
 	{ 
@@ -732,6 +738,11 @@ static bool initialize_prepared_stmts(role_t for_role)
 		{ 
 			print_stmt_error(insert_costumer_user, "Unable to initialize insert_costumer_userstatement\n");
 			return false;
+		}
+		if (!setup_prepared_stmt(&select_reservation_info, "call select_reservation_info(?)", conn))
+		{
+		print_stmt_error(select_reservation_info, "Unable to select_reservation_info statement\n");
+		return false;
 		}
 		break;
 
@@ -3719,7 +3730,7 @@ stop:
 	free(tour_info);
 }
 
-struct viaggi_assegnati *get_viaggi_assegnati(char *dvr) //funziona
+struct viaggi_assegnati *get_viaggi_assegnati(char *dvr)
 {
 	MYSQL_BIND param[9];
 	MYSQL_TIME ddp;
@@ -3931,8 +3942,7 @@ stop:
 	free(mete_visite);
 };
 
-
-extern struct mappe *get_mappe (char* nml)
+struct mappe *get_mappe (char* nml)
 {
 	MYSQL_BIND param[4];
 
@@ -4014,7 +4024,79 @@ stop:
 	free(mappe);
 }
 
-void do_update_data_doc(struct cliente *cliente) // funziona
+
+
+struct prenotazioni_info *get_reservation_info (char *mlc)
+{
+MYSQL_BIND param[2];
+	MYSQL_TIME ddp;
+
+
+	struct prenotazioni_info *prenotazioni_info = NULL;
+	char *buff = "select_reservation_info";
+	int status; 
+	size_t rows, count;
+	count = 0;
+
+	int nmp; 
+
+	init_mysql_timestamp(&ddp);
+
+
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, mlc, strlen(mlc));
+
+	 bind_exe(select_reservation_info, param, buff);
+	 rows = take_rows(select_reservation_info, buff);
+	if(rows == -1)
+		goto stop; 
+
+	prenotazioni_info = malloc((sizeof(struct prenotazioni_info) + sizeof(prenotazioni_info)) * rows);
+	memset(prenotazioni_info, 0, sizeof(*prenotazioni_info) + sizeof(struct prenotazioni_info) * rows);
+
+	if (prenotazioni_info == NULL)
+	{
+		printf("Impossibile eseguire la malloc su prenotazioni info");
+		goto stop;
+	}
+
+
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, mlc,  strlen(mlc));
+	
+	if (mysql_stmt_bind_result(select_reservation_info, param))
+	{
+		print_stmt_error(select_reservation_info, "\n\n Impossibile eseguire il bind risult\n\n");
+		free(prenotazioni_info);
+		prenotazioni_info = NULL;
+		goto stop;
+	}
+
+	prenotazioni_info->num_prenotazioni = rows;
+
+	while (true)
+	{
+		status = mysql_stmt_fetch(select_reservation_info);
+		if (status == MYSQL_NO_DATA)
+			break;
+		if (status == 1)
+		{
+			print_stmt_error(select_reservation_info, "\nImpossibile eseguire fetch");
+		}
+
+		prenotazioni_info->prenotazioni_info[count].numerodiprenotazione = nmp; 
+		mysql_date_to_string(&ddp,prenotazioni_info->prenotazioni_info[count].datadiconferma ); 
+
+		printf("* Cliente %s *\n", mlc);
+		printf("Numero prenotazione: 	%d \n", prenotazioni_info->prenotazioni_info[count].numerodiprenotazione);
+		printf("Data di prenotazione:	%s 	\n", prenotazioni_info->prenotazioni_info[count].datadiconferma);
+		count++;
+	}
+stop:
+	mysql_stmt_free_result(select_reservation_info);
+	mysql_stmt_reset(select_reservation_info);
+	free(prenotazioni_info);
+}
+
+void do_update_data_doc(struct cliente *cliente)
 {
 	MYSQL_BIND param[2];
 	MYSQL_TIME datadocumentazione;
