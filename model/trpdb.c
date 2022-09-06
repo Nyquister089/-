@@ -1273,6 +1273,11 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(insert_costumer_user, "Unable to initialize insert_costumer_userstatement\n");
 			return false;
 		}
+		if (!setup_prepared_stmt(&select_max_idreview, "call select_max_idreview()", conn))
+		{
+			print_stmt_error(select_max_idreview, "Unable to initialize select_max_idreview statement\n");
+			return false;
+		}
 
 		break;
 
@@ -2367,8 +2372,8 @@ int do_select_review(struct revisione *revisione)
 	if (bind_exe(select_review, param, buff) == -1)
 		goto stop;
 	
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, revisione->mezzorevisionato, strlen(revisione->mezzorevisionato));
-	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, revisione->addettoallarevisione, strlen(revisione->addettoallarevisione));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, revisione->mezzorevisionato, sizeof(revisione->mezzorevisionato));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, revisione->addettoallarevisione, sizeof(revisione->addettoallarevisione));
 	set_binding_param(&param[2], MYSQL_TYPE_DATE, &datainizio, sizeof(datainizio));
 	set_binding_param(&param[3], MYSQL_TYPE_DATE, &datafine, sizeof(datafine));
 	set_binding_param(&param[4], MYSQL_TYPE_LONG, &revisione->chilometraggio, sizeof(revisione->chilometraggio));
@@ -3200,18 +3205,18 @@ void do_delete_service(struct servizio *servizio)
 
 // Richiamo procedure speciali
 
-int do_select_max_idreview(struct revisione *revisione )
+void do_select_max_idreview(struct revisione *revisione )
 {
 	MYSQL_BIND param[1]; 
 	char *buff = "select_max_idreview"; 
-
+	printf("max ID\n\n"); 
 	if(exe_proc(select_max_idreview, buff)==-1)
 		goto stop; 
-
+	printf("max ID\n\n"); 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &revisione->idrevisione, sizeof(revisione->idrevisione));
-
+	printf("max ID\n\n"); 
 	take_result(select_max_idreview,param,buff); 
-
+	printf("max ID\n\n"); 
 	stop: 
 	mysql_stmt_free_result(select_max_idreview);
 	mysql_stmt_reset(select_max_idreview);

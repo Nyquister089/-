@@ -516,7 +516,7 @@ extern void do_delete_comfort(struct comfort *comfort);
 extern void do_delete_service(struct servizio *servizio); 
 extern void do_delete_sostitution(struct sostituito *sostituito); 
 
-extern int do_select_max_idreview(struct revisione *revisione ); 
+extern void do_select_max_idreview(struct revisione *revisione ); 
 
 extern struct tour_info *get_tour_info (void);
 extern struct info_mete *get_mete_info(int idv);

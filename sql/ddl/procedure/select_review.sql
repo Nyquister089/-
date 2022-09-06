@@ -13,6 +13,6 @@ SELECT
    r.Motivazione 
 FROM revisione as r
 join mezzo as m on r.MezzoRevisionato = m.Targa
-join dipendente as d on r.AddettoAllaRevisione = d.IdDipendente
+join dipendente as d on r.AddettoAllaRevisione = d.EmailDipendente
 WHERE r.IdRevisione = idr; 
 END
