@@ -4045,8 +4045,8 @@ MYSQL_BIND param[2];
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, mlc, strlen(mlc));
 
-	 bind_exe(select_reservation_info, param, buff);
-	 rows = take_rows(select_reservation_info, buff);
+	bind_exe(select_reservation_info, param, buff);
+	rows = take_rows(select_reservation_info, buff);
 	if(rows == -1)
 		goto stop; 
 
