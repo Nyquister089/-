@@ -44,6 +44,7 @@ static MYSQL_STMT *insert_certify; 		// ok Manager
 static MYSQL_STMT *insert_comfort; 		// ok Manager
 static MYSQL_STMT *insert_skills; 		// ok Manager
 static MYSQL_STMT *insert_costumer;		// OK HOSTESS, Manager
+static MYSQL_STMT *insert_costumer_user; 
 static MYSQL_STMT *insert_reservation;	// OK HOSTESS, Manager
 static MYSQL_STMT *insert_seat;			// OK HOSTESS, Manager
 static MYSQL_STMT *insert_stay;		// OK HOSTESS, Manager
@@ -556,6 +557,11 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close( insert_trip);
 		 insert_trip = NULL;
 	}
+	if (insert_costumer_user)
+	{ 
+		mysql_stmt_close(insert_costumer_user);
+		insert_costumer_user = NULL;
+	}
 	if (insert_costumer)
 	{ 
 		mysql_stmt_close(insert_costumer);
@@ -722,7 +728,13 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(insert_stay, "Unable to initialize insert_stay statement statement\n");
 			return false;
 		}
+		if (!setup_prepared_stmt(&insert_costumer_user, "call insert_costumer_user(?, ?)", conn))
+		{ 
+			print_stmt_error(insert_costumer_user, "Unable to initialize insert_costumer_userstatement\n");
+			return false;
+		}
 		break;
+
 
 	case CLIENTE:
 
@@ -1241,8 +1253,13 @@ static bool initialize_prepared_stmts(role_t for_role)
 			return false;
 		}
 		if (!setup_prepared_stmt(&update_spareparts_number, "call  update_spareparts_number(?,?)", conn))
-		{ // Insert
+		{
 			print_stmt_error(update_spareparts_number, "Unable to initialize insert review statement\n");
+			return false;
+		}
+		if (!setup_prepared_stmt(&insert_costumer_user, "call insert_costumer_user(?, ?)", conn))
+		{ 
+			print_stmt_error(insert_costumer_user, "Unable to initialize insert_costumer_userstatement\n");
 			return false;
 		}
 
@@ -1742,6 +1759,21 @@ void do_insert_offert(struct offre *offre)
 	
 }
 
+void do_insert_costumer_user(struct utente *utente)
+{	
+	MYSQL_BIND param[2]; 
+	char *buff = "insert_costumer_user"; 
+
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, utente->email, strlen(utente->email));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, utente->pswrd, strlen(utente->pswrd));
+	
+	bind_exe( insert_costumer_user, param, buff); 
+	
+	mysql_stmt_free_result(insert_costumer_user);
+	mysql_stmt_reset(insert_costumer_user);
+	
+}
+
 void do_insert_user(struct utente *utente)
 {	
 	MYSQL_BIND param[3]; 
@@ -1982,6 +2014,7 @@ int do_select_seat(struct postoprenotato *postoprenotato)
 	MYSQL_BIND param[4];
 	
 	char *buff = "select_seat";
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &postoprenotato->numerodiposto, sizeof(postoprenotato->numerodiposto));
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &postoprenotato->viaggioassociato, sizeof(postoprenotato->viaggioassociato));
@@ -1994,12 +2027,12 @@ int do_select_seat(struct postoprenotato *postoprenotato)
 	set_binding_param(&param[2], MYSQL_TYPE_LONG, &postoprenotato->etapasseggero, sizeof(postoprenotato->etapasseggero));
 	set_binding_param(&param[3], MYSQL_TYPE_LONG, &postoprenotato->prenotazioneassociata, sizeof(postoprenotato->prenotazioneassociata));
 	
-	take_result(select_seat, param, buff);
+	rows = take_result(select_seat, param, buff);
  
 	stop:
 	mysql_stmt_free_result(select_seat);
 	mysql_stmt_reset(select_seat);
- 
+	return (rows); 
 }
 
 int do_select_user(struct utente *utente)
@@ -2007,6 +2040,7 @@ int do_select_user(struct utente *utente)
 	MYSQL_BIND param[2];
 	
 	char *buff = "select_user";
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, utente->email, sizeof(utente->email));
 	
@@ -2017,12 +2051,12 @@ int do_select_user(struct utente *utente)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, utente->pswrd, sizeof(utente->pswrd));
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &utente->tipo, sizeof(utente->tipo));
 	
-	take_result(select_user, param, buff);
+	rows = take_result(select_user, param, buff);
  
 	stop:
 	mysql_stmt_free_result(select_user);
 	mysql_stmt_reset(select_user);
- 
+	return (rows); 
 }
 
 int do_select_tome(struct tome *tome)
@@ -2030,6 +2064,7 @@ int do_select_tome(struct tome *tome)
 	MYSQL_BIND param[2];
 	
 	char *buff = "select_tome";
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, tome->tourinquestione, strlen(tome->tourinquestione));
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &tome->metainquestione, sizeof(tome->metainquestione));
@@ -2040,12 +2075,12 @@ int do_select_tome(struct tome *tome)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, tome->descrizione, sizeof(tome->descrizione));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, tome->meta, sizeof(tome->meta));
 	
-	take_result(select_tome, param, buff);
+	rows = take_result(select_tome, param, buff);
  
 	stop:
 	mysql_stmt_free_result(select_tome);
 	mysql_stmt_reset(select_tome);
- 
+	return (rows); 
 }
 
 int do_select_ofr(struct offre *offre)
@@ -2053,11 +2088,10 @@ int do_select_ofr(struct offre *offre)
 	MYSQL_BIND param[3];
 	
 	char *buff = "select_ofr";
-
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &offre->albergoofferente, sizeof(offre->albergoofferente));
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &offre->idservizio, sizeof(offre->servizio));
-	
 	
 	if (bind_exe(select_ofr, param, buff) == -1)
 		goto stop;
@@ -2066,13 +2100,12 @@ int do_select_ofr(struct offre *offre)
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, offre->servizio, sizeof(offre->servizio));
 	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, offre->descrizione, sizeof(offre->descrizione));
 	
-	if(take_result(select_ofr, param, buff)== -1)
-		goto stop; 
+	rows = take_result(select_ofr, param, buff); 
 	
 	stop:
 	mysql_stmt_free_result(select_ofr);
 	mysql_stmt_reset(select_ofr);
- 
+	return (rows); 
 }
 
 int do_select_fme(struct fme *fme)
@@ -2080,7 +2113,7 @@ int do_select_fme(struct fme *fme)
 	MYSQL_BIND param[3];
 	
 	char *buff = "select_fme";
-
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &fme->foto, sizeof(fme->foto));
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &fme->meta, sizeof(fme->meta));
@@ -2093,13 +2126,12 @@ int do_select_fme(struct fme *fme)
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, fme->descrizione, sizeof(fme->descrizione));
 	set_binding_param(&param[2], MYSQL_TYPE_BLOB, fme->immagine, sizeof(fme->immagine));
 	
-	if(take_result(select_fme, param, buff)== -1)
-		goto stop; 
+	rows = take_result(select_fme, param, buff);
 	
 	stop:
 	mysql_stmt_free_result(select_fme);
 	mysql_stmt_reset(select_fme);
- 
+	return (rows); 
 }
 
 int do_select_fmo(struct fmo *fmo)
@@ -2107,7 +2139,7 @@ int do_select_fmo(struct fmo *fmo)
 	MYSQL_BIND param[2];
 	
 	char *buff = "select_fmo";
-
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &fmo->foto, sizeof(fmo->foto));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, fmo->modello, strlen(fmo->modello));
@@ -2119,13 +2151,12 @@ int do_select_fmo(struct fmo *fmo)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, fmo->descrizione, sizeof(fmo->descrizione));
 	set_binding_param(&param[1], MYSQL_TYPE_BLOB, fmo->immagine, sizeof(fmo->immagine));
 	
-	if(take_result(select_fmo, param, buff)== -1)
-		goto stop; 
+	rows = take_result(select_fmo, param, buff); 
 	
 	stop:
 	mysql_stmt_free_result(select_fmo);
 	mysql_stmt_reset(select_fmo);
- 
+	return (rows); 
 }
  
 
@@ -2134,6 +2165,7 @@ int do_select_employee(struct dipendente*dipendente)
 	MYSQL_BIND param[4];
 	
 	char *buff = "select_employee";
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &dipendente->emaildipendente, strlen(dipendente->emaildipendente));
 	
@@ -2145,13 +2177,12 @@ int do_select_employee(struct dipendente*dipendente)
 	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, dipendente->tipologiadipendente, sizeof(dipendente->cognomedipendente));
 	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, dipendente->telefonoaziendale, sizeof(dipendente->telefonoaziendale));
 	
-	
-	if(take_result(select_employee, param, buff)== -1)
-		goto stop; 
+	rows = take_result(select_employee, param, buff); 
 	
 	stop:
 	mysql_stmt_free_result(select_employee);
 	mysql_stmt_reset(select_employee);
+	return (rows); 
  
 }
 
@@ -2159,6 +2190,7 @@ int do_select_skills(struct competenze *competenze)
 {
 	MYSQL_BIND param[2];
 	char *buff = "select_skills";
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, competenze->meccanicocompetente, strlen(competenze->meccanicocompetente));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, competenze->modelloassociato, strlen(competenze->modelloassociato));
@@ -2169,12 +2201,12 @@ int do_select_skills(struct competenze *competenze)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, competenze->nomemeccanico, sizeof(competenze->nomemeccanico));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, competenze->telefono, sizeof(competenze->telefono));
 	
-	if(take_result(select_skills, param, buff)== -1)
-		goto stop; 
+	rows = take_result(select_skills, param, buff); 
 	
 	stop:
 	mysql_stmt_free_result(select_skills);
 	mysql_stmt_reset(select_skills);
+	return (rows); 
 }
 
 
@@ -2185,6 +2217,7 @@ int do_select_stay(struct soggiorno *soggiorno)
 	MYSQL_TIME datafinesoggiorno;
 
 	char *buff = "select_stay";
+	int rows; 
 
 	date_to_mysql_time(soggiorno->datainiziosoggiorno, &datainiziosoggiorno);
 	date_to_mysql_time(soggiorno->datafinesoggiorno,&datafinesoggiorno);
@@ -2200,7 +2233,8 @@ int do_select_stay(struct soggiorno *soggiorno)
 	set_binding_param(&param[1], MYSQL_TYPE_DATE, &datafinesoggiorno, sizeof(datafinesoggiorno));
 	 
 	
-	if (take_result(select_stay, param, buff)== -1)
+	rows = take_result(select_stay, param, buff); 
+	if(rows == -1)
 		goto stop; 
 
 	mysql_date_to_string(&datainiziosoggiorno, soggiorno->datainiziosoggiorno); 
@@ -2210,15 +2244,19 @@ int do_select_stay(struct soggiorno *soggiorno)
 
 	mysql_stmt_free_result(select_stay);
 	mysql_stmt_reset(select_stay);
+	return (rows); 
 }
 
-int do_select_sparepart(struct ricambio *ricambio) //FUNZIONA
+int do_select_sparepart(struct ricambio *ricambio)
 {
 	MYSQL_BIND param[5];
+	
+	char *buff = "select_sparepart"; 
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, ricambio->codice, strlen(ricambio->codice));
 
-	if (bind_exe(select_sparepart, param, "select_sparepart") == -1)
+	if (bind_exe(select_sparepart, param, buff) == -1)
 		goto stop;
 
 	set_binding_param(&param[0], MYSQL_TYPE_FLOAT, &ricambio->costounitario, sizeof(ricambio->costounitario));
@@ -2227,20 +2265,20 @@ int do_select_sparepart(struct ricambio *ricambio) //FUNZIONA
 	set_binding_param(&param[3], MYSQL_TYPE_LONG, &ricambio->scortaminima, sizeof(ricambio->scortaminima));
 	set_binding_param(&param[4], MYSQL_TYPE_LONG, &ricambio->quantitainmagazzino, sizeof(ricambio->quantitainmagazzino));
 
-	take_result(select_sparepart, param, "select_sparepart");
+	rows = take_result(select_sparepart, param, buff);
 
-stop:
-
+	stop:
 	mysql_stmt_free_result(select_sparepart);
 	mysql_stmt_reset(select_sparepart);
+	return (rows); 
 }
 
 int do_select_certify(struct tagliando *tagliando)
 {
 	MYSQL_BIND param[2];
-	
 
 	char *buff = "select_certify";  
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &tagliando->idtagliando, sizeof(tagliando->idtagliando));
 
@@ -2250,12 +2288,12 @@ int do_select_certify(struct tagliando *tagliando)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, tagliando->tipologiatagliando, sizeof(tagliando->tipologiatagliando));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, tagliando->validitasuperate, sizeof(tagliando->validitasuperate));
 	
-	take_result(select_certify, param, buff); 
+	rows = take_result(select_certify, param, buff); 
 
    	stop:
-
 	mysql_stmt_free_result(select_certify);
 	mysql_stmt_reset(select_certify);
+	return (rows); 
 }
 
 int do_select_bus(struct mezzo *mezzo)
@@ -2265,6 +2303,7 @@ int do_select_bus(struct mezzo *mezzo)
 	MYSQL_TIME dataimmatricolazione;
 
 	char *buff = "select_bus";  
+	int rows; 
 
 	date_to_mysql_time(mezzo->dataultimarevisioneinmotorizzazione, &dataultimarevisioneinmotorizzazione);
 	date_to_mysql_time(mezzo->dataimmatricolazione, &dataimmatricolazione);
@@ -2281,25 +2320,27 @@ int do_select_bus(struct mezzo *mezzo)
 	set_binding_param(&param[4], MYSQL_TYPE_LONG, &mezzo->valorecontakm, sizeof(mezzo->valorecontakm));
 	set_binding_param(&param[5], MYSQL_TYPE_DATE, &dataimmatricolazione, sizeof(dataimmatricolazione));
 
-	if( take_result(select_bus, param, buff) == -1)
+	rows =  take_result(select_bus, param, buff); 
+	if(rows == -1)
 		goto stop; 
-
-   	stop:
 
 	mysql_date_to_string(&dataultimarevisioneinmotorizzazione, mezzo->dataultimarevisioneinmotorizzazione);
 	mysql_date_to_string(&dataimmatricolazione, mezzo->dataimmatricolazione);
 
+	stop:
 	mysql_stmt_free_result(select_bus);
 	mysql_stmt_reset(select_bus);
+	return (rows); 
 }
 
-int do_select_review(struct revisione *revisione) // FUNZIONA
+int do_select_review(struct revisione *revisione) 
 {
 	MYSQL_BIND param[8];
 	MYSQL_TIME datainizio;
 	MYSQL_TIME datafine;
 
 	char *buff = "select_review";
+	int rows; 
 
 	init_mysql_timestamp(&datainizio);
 	init_mysql_timestamp(&datafine);
@@ -2319,7 +2360,8 @@ int do_select_review(struct revisione *revisione) // FUNZIONA
 	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, revisione->tipologiarevisione, sizeof(revisione->tipologiarevisione));
 	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, revisione->motivazione, sizeof(revisione->motivazione));
 	
-	if (take_result(select_review, param, buff) == -1)
+	rows = take_result(select_review, param, buff); 
+	if (rows == -1)
 		goto stop;
 	
 	mysql_date_to_string(&datainizio, revisione->datainizio);
@@ -2328,6 +2370,7 @@ int do_select_review(struct revisione *revisione) // FUNZIONA
 	stop:
 	mysql_stmt_free_result(select_review);
 	mysql_stmt_reset(select_review);
+	return(rows); 
 }
 
 int do_select_trip(struct viaggio *viaggio)
@@ -2338,6 +2381,7 @@ int do_select_trip(struct viaggio *viaggio)
 	MYSQL_TIME datadiannullamento;
 
 	char *buff =  "select_trip"; 
+	int rows; 
 
 	date_to_mysql_time(viaggio->datadipartenzaviaggio, &datadipartenzaviaggio);
 	date_to_mysql_time(viaggio->datadiritornoviaggio, &datadiritornoviaggio);
@@ -2360,8 +2404,8 @@ int do_select_trip(struct viaggio *viaggio)
 	set_binding_param(&param[8], MYSQL_TYPE_LONG, &viaggio->postidisponibili, sizeof(viaggio->postidisponibili));
 	set_binding_param(&param[9], MYSQL_TYPE_DATE, &datadiannullamento, sizeof(datadiannullamento));
 
-
-	if (take_result(select_trip, param,buff) == -1)
+	rows = take_result(select_trip, param,buff); 
+	if (rows == -1)
 		goto stop;
 
 	mysql_date_to_string(&datadipartenzaviaggio, viaggio->datadipartenzaviaggio);
@@ -2371,13 +2415,16 @@ int do_select_trip(struct viaggio *viaggio)
 	stop:
 	mysql_stmt_free_result(select_trip);
 	mysql_stmt_reset(select_trip);
+	return(rows); 
 }
 
 int do_select_costumer(struct cliente *cliente)
 {
 	MYSQL_BIND param[7];
 	MYSQL_TIME datadocumentazione;
+
 	char *buff ="select_costumer"; 
+	int rows; 
 
 	date_to_mysql_time(cliente->datadocumentazione, &datadocumentazione);
 
@@ -2394,14 +2441,16 @@ int do_select_costumer(struct cliente *cliente)
 	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, cliente->recapitotelefonico, sizeof(cliente->recapitotelefonico));
 	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, cliente->fax, sizeof(cliente->fax));
 
-	if (take_result(select_costumer, param, buff) == -1)
+	rows = take_result(select_costumer, param, buff); 
+	if (rows == -1)
 		goto stop;
 
 	mysql_date_to_string(&datadocumentazione, cliente->datadocumentazione);
 
-stop:
+	stop:
 	mysql_stmt_free_result(select_costumer);
 	mysql_stmt_reset(select_costumer);
+	return(rows); 
 }
 
 int do_select_reservation(struct prenotazione *prenotazione)
@@ -2412,7 +2461,7 @@ int do_select_reservation(struct prenotazione *prenotazione)
 	MYSQL_TIME datasaldo;
 
 	char *buff ="select_reservation"; 
-	size_t rows; 
+	int rows; 
 
 	date_to_mysql_time(prenotazione->datadiprenotazione, &datadiprenotazione);
 	date_to_mysql_time(prenotazione->datadiconferma, &datadiconferma);
@@ -2437,7 +2486,7 @@ int do_select_reservation(struct prenotazione *prenotazione)
 	mysql_date_to_string(&datadiconferma, prenotazione->datadiconferma);
 	mysql_date_to_string(&datasaldo, prenotazione->datasaldo);
 
-stop:
+    stop:
 	mysql_stmt_free_result(select_reservation);
 	mysql_stmt_reset(select_reservation);
 	return(rows); 
@@ -2446,10 +2495,13 @@ stop:
 int do_select_tour(struct tour *tour)
 {
 	MYSQL_BIND param[6];
+	
+	char *buff = "select_tour"; 
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, tour->denominazionetour, strlen(tour->denominazionetour));
 	
-	if (bind_exe(select_tour, param, "select_tour") == -1)
+	if (bind_exe(select_tour, param, buff) == -1)
 		goto stop;
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, tour->descrizionetour, sizeof(tour->descrizionetour));
@@ -2459,11 +2511,12 @@ int do_select_tour(struct tour *tour)
 	set_binding_param(&param[4], MYSQL_TYPE_FLOAT, &tour->garanziaannullamento, sizeof(tour->garanziaannullamento));
 	set_binding_param(&param[5], MYSQL_TYPE_TINY, &tour->accompagnatrice, sizeof(tour->accompagnatrice));
 
-	take_result(select_tour, param, "select_tour"); 
+	rows = take_result(select_tour, param, buff); 
 
 	stop:
 	mysql_stmt_free_result(select_tour);
 	mysql_stmt_reset(select_tour);
+	return(rows); 
 }
 
 int do_select_comfort(struct comfort *comfort)
@@ -2471,6 +2524,7 @@ int do_select_comfort(struct comfort *comfort)
 	MYSQL_BIND param[2];
 	
 	char *buff = "select_comfort";
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &comfort->idcomfort, sizeof(comfort->idcomfort));
 
@@ -2480,11 +2534,12 @@ int do_select_comfort(struct comfort *comfort)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, comfort->nomecomfort, sizeof(comfort->nomecomfort));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, comfort->descrizionecomfort, sizeof(comfort->descrizionecomfort));
 	
-	take_result(select_comfort, param, buff); 
+	rows = take_result(select_comfort, param, buff); 
 	
 	stop:
 	mysql_stmt_free_result(select_comfort);
 	mysql_stmt_reset(select_comfort);
+	return(rows); 
 }
 
 
@@ -2493,6 +2548,7 @@ int do_select_picture(struct documentazionefotografica *documentazionefotografic
 	MYSQL_BIND param[2];
 	
 	char *buff = "select_picture";
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &documentazionefotografica->idfoto, sizeof(documentazionefotografica->idfoto));
 
@@ -2502,11 +2558,12 @@ int do_select_picture(struct documentazionefotografica *documentazionefotografic
 	set_binding_param(&param[0], MYSQL_TYPE_BLOB, &documentazionefotografica->foto, sizeof(documentazionefotografica->foto));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, documentazionefotografica->descrzione, sizeof(documentazionefotografica->descrzione));
 	
-	take_result(select_picture, param, buff); 
+	rows = take_result(select_picture, param, buff); 
 	
 	stop:
 	mysql_stmt_free_result(select_picture);
 	mysql_stmt_reset(select_picture);
+	return(rows); 
 }
 
 int do_select_map(struct mappa *mappa)
@@ -2514,6 +2571,7 @@ int do_select_map(struct mappa *mappa)
 	MYSQL_BIND param[5];
 	
 	char *buff = "select_map";
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &mappa->idmappa, sizeof(mappa->idmappa));
 
@@ -2526,11 +2584,12 @@ int do_select_map(struct mappa *mappa)
 	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, mappa->zona, sizeof(mappa->zona));
 	set_binding_param(&param[4], MYSQL_TYPE_BLOB, &mappa->immagine, sizeof(mappa->immagine));
 
-	take_result(select_map, param, buff); 
+	rows = take_result(select_map, param, buff); 
 	
 	stop:
 	mysql_stmt_free_result(select_map);
 	mysql_stmt_reset(select_map);
+	return(rows); 
 }
 
 int do_select_room(struct camera *camera)
@@ -2538,6 +2597,7 @@ int do_select_room(struct camera *camera)
 	MYSQL_BIND param[2];
 	
 	char *buff = "select_room";
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &camera->numerocamera, sizeof(camera->numerocamera));
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &camera->albergo, sizeof(camera->albergo));
@@ -2548,12 +2608,12 @@ int do_select_room(struct camera *camera)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, camera->tipologia, sizeof(camera->tipologia));
 	set_binding_param(&param[1], MYSQL_TYPE_FLOAT, &camera->costo, sizeof(camera->costo));
 	
-	take_result(select_room, param, buff); 
-	
+	rows = take_result(select_room, param, buff); 
 	
 	stop:
 	mysql_stmt_free_result(select_room);
 	mysql_stmt_reset(select_room);
+	return(rows); 
 }
 
 int do_select_location(struct localita *localita)
@@ -2561,6 +2621,7 @@ int do_select_location(struct localita *localita)
 	MYSQL_BIND param[2];
 	
 	char *buff = "select_location";
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, localita->nomelocalita, strlen(localita->nomelocalita));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, localita->regione, sizeof(localita->regione));
@@ -2570,12 +2631,12 @@ int do_select_location(struct localita *localita)
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, localita->stato, sizeof(localita->stato));
 	
-	take_result(select_location, param, buff); 
-	
+	rows = take_result(select_location, param, buff); 
 	
 	stop:
 	mysql_stmt_free_result(select_location);
 	mysql_stmt_reset(select_location);
+	return(rows); 
 }
 
 int do_select_visit(struct visita *visita)
@@ -2587,7 +2648,7 @@ int do_select_visit(struct visita *visita)
 	MYSQL_TIME datadipartenza; 
 
 	char *buff = "select_visit";
-
+	int rows; 
 
 	init_mysql_timestamp(&orariodiarrivo); 
 	init_mysql_timestamp(&orariodipartenza);
@@ -2611,8 +2672,8 @@ int do_select_visit(struct visita *visita)
 	set_binding_param(&param[9], MYSQL_TYPE_FLOAT, &visita->supplemento, sizeof(visita->supplemento));
 	set_binding_param(&param[10], MYSQL_TYPE_VAR_STRING, visita->trattamentoalberghiero, sizeof(visita->trattamentoalberghiero));
 	
-
-	if(take_result(select_visit, param, buff)==-1)
+	rows = take_result(select_visit, param, buff); 
+	if(rows ==-1)
 		goto stop; 
 	
 	mysql_time_to_string(&orariodiarrivo,visita->oradiarrivo); 
@@ -2623,6 +2684,7 @@ int do_select_visit(struct visita *visita)
 	stop:
 	mysql_stmt_free_result(select_visit);
 	mysql_stmt_reset(select_visit);
+	return(rows); 
 }
 
 int do_select_destination(struct meta *meta)
@@ -2631,6 +2693,7 @@ int do_select_destination(struct meta *meta)
 	MYSQL_TIME orariodiapertura;
 
 	char *buff = "select_destination";
+	int rows; 
 
 	init_mysql_timestamp(&orariodiapertura); 
 
@@ -2649,7 +2712,8 @@ int do_select_destination(struct meta *meta)
 	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, meta->categoriaalbergo, sizeof(meta->categoriaalbergo));
 	set_binding_param(&param[8], MYSQL_TYPE_TIME, &orariodiapertura, sizeof(orariodiapertura));
 
-	if(take_result(select_destination, param, buff)==-1)
+	rows = take_result(select_destination, param, buff); 
+	if(rows ==-1)
 		goto stop; 
 	
 	mysql_time_to_string(&orariodiapertura,meta->orariodiapertura); 
@@ -2657,6 +2721,7 @@ int do_select_destination(struct meta *meta)
 	stop:
 	mysql_stmt_free_result(select_destination);
 	mysql_stmt_reset(select_destination);
+	return(rows); 
 }
 
 int do_select_sostitution(struct sostituito *sostituito)
@@ -2664,6 +2729,7 @@ int do_select_sostitution(struct sostituito *sostituito)
 	MYSQL_BIND param[2];
 
 	char *buff ="select_sostitution"; 
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, sostituito->ricambioutilizzato, strlen(sostituito->ricambioutilizzato));
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &sostituito->revisioneassociata, sizeof(sostituito->revisioneassociata));
@@ -2673,11 +2739,12 @@ int do_select_sostitution(struct sostituito *sostituito)
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &sostituito->quantitasostituita, sizeof(sostituito->quantitasostituita));
 	
-	take_result(select_sostitution,param, buff); 
+	rows = take_result(select_sostitution,param, buff); 
 	
 	stop: 
 	mysql_stmt_free_result(select_sostitution);
 	mysql_stmt_reset(select_sostitution);
+	return(rows); 
 }
 
 int do_select_service(struct servizio *servizio)
@@ -2685,6 +2752,7 @@ int do_select_service(struct servizio *servizio)
 	MYSQL_BIND param[2];
 
 	char *buff ="select_service"; 
+	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &servizio->idservizio, sizeof(servizio->idservizio));
 
@@ -2694,11 +2762,12 @@ int do_select_service(struct servizio *servizio)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, servizio->nomeservizio, sizeof(servizio->nomeservizio));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, servizio->descrizioneservizio, sizeof(servizio->descrizioneservizio));
 
-	take_result(select_service,param, buff); 
+	rows = take_result(select_service,param, buff); 
 	
 	stop: 
 	mysql_stmt_free_result(select_service);
 	mysql_stmt_reset(select_service);
+	return(rows); 
 }
 
 

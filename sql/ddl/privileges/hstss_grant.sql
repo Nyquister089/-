@@ -2,6 +2,11 @@ grant execute on procedure tripdb.login to 'Hostess'@'localhost';
 
 grant execute on procedure
 tripdb. 
+insert_costumer_user
+to 'Hostess'@'localhost'; 
+
+grant execute on procedure
+tripdb. 
 insert_costumer
 to 'Hostess'@'localhost'; 
 

@@ -267,8 +267,10 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/insert_sostitution.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/insert_stay.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/insert_costumer.sql");
+    execute_query_from_file_sql("../sql/ddl/procedure/insert_costumer_user.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/insert_seat.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/insert_reservation.sql");
+
 
     execute_query_from_file_sql("../sql/ddl/procedure/delete_trip.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/delete_tour.sql");

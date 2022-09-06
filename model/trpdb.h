@@ -431,6 +431,7 @@ extern void do_insert_destination(struct meta *meta);
 extern void do_insert_visit(struct visita *visita); 
 extern void do_insert_room(struct camera *camera); 
 extern void do_insert_costumer(struct cliente *cliente);
+extern void do_insert_costumer_user(struct utente *utente);
 extern void do_insert_reservation(struct prenotazione *prenotazione);
 extern void do_insert_seat(struct postoprenotato *postoprenotato);
 extern void do_insert_stay(struct soggiorno *soggiorno);

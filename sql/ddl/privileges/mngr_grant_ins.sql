@@ -24,6 +24,7 @@ grant execute on procedure tripdb. insert_sparepart to 'Manager'@'localhost';
 grant execute on procedure tripdb. insert_certify to 'Manager'@'localhost';   		 
 grant execute on procedure tripdb. insert_comfort to 'Manager'@'localhost';   		 
 grant execute on procedure tripdb. insert_skills to 'Manager'@'localhost';   		 
+grant execute on procedure tripdb. insert_costumer_user to 'Manager'@'localhost'; 
 grant execute on procedure tripdb. insert_costumer to 'Manager'@'localhost'; 
 grant execute on procedure tripdb. insert_reservation to 'Manager'@'localhost';  
 grant execute on procedure tripdb. insert_seat to 'Manager'@'localhost';  		

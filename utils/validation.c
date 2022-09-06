@@ -73,7 +73,6 @@ bool init_validation(void)
 bool validate(char *str, regex_t *regex){
 
 	init_validation();
-	//Questa istruzione causa Segfault ->
 	int ret = regexec(regex, str, 0, NULL, REG_NOTEOL);
 
 	if(ret != 0 && ret != REG_NOMATCH) {
@@ -90,6 +89,7 @@ bool validate(char *str, regex_t *regex){
 bool validate_date(char *str)
 {
 	return validate(str, &regex_date);
+	free(&regex_date); 
 }
 
 bool validate_time(char *str)

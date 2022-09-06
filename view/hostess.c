@@ -82,7 +82,7 @@ bool exe_hstss_act(char sel)
 				return true;
 				}
 			case INSERT_CLIENTE:{
-				ins_costumer(cliente_hstss, utente_hstss); 
+				ins_costumer_hstss(cliente_hstss, utente_hstss); 
 				return true; 
 				}
 		

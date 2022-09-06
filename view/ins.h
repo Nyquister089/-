@@ -10,6 +10,7 @@
 
 
 extern void ins_costumer(struct cliente *cliente, struct utente *utente );
+extern void ins_costumer_hstss(struct cliente *cliente, struct utente *utente );
 extern void ins_prenotation(struct prenotazione *prenotazione);
 extern void ins_seat(struct postoprenotato *postoprenotato);
 extern void ins_review(struct revisione *revisione, struct sostituito *sostituito, struct ricambio *ricambio);
@@ -38,6 +39,6 @@ extern void ins_bus(struct mezzo *mezzo);
 extern void ins_sparepart(struct ricambio *ricambio);
 extern void ins_comfort(struct comfort *comfort);
 extern void ins_skills(struct competenze *competenze); 
-extern void ins_user_costumer(struct utente *utente); 
+extern void ins_costumer_user(struct utente *utente); 
 extern void validate_reservation(struct prenotazione *prenotazione , struct postoprenotato *postoprenotato, struct soggiorno *soggiorno); 
 

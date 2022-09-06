@@ -18,12 +18,11 @@ void ins_user(struct utente *utente)
 	do_insert_user(utente);
 }
 
-void ins_user_costumer(struct utente *utente){
+void ins_costumer_user(struct utente *utente){
 	printf("** Dettagli inserimento utente **\n\n");
 	get_input("Inserisci la mail: ", VARCHAR_LEN, utente->email, false);
 	get_input("Inserisci la password: ", VARCHAR_LEN, utente->pswrd, false);
-	utente->tipo = 2;
-	do_insert_user(utente); 
+	do_insert_costumer_user(utente); 
 }
 
 void ins_prenotation(struct prenotazione *prenotazione)
@@ -101,7 +100,33 @@ void ins_costumer(struct cliente *cliente, struct utente *utente)
 {	
 	char buff[VARCHAR_LEN]; 
 	printf("** Crea un utente per questo cliente **\n"); 
-	ins_user_costumer(utente); 
+	ins_costumer_user(utente); 
+	strcpy(cliente->emailcliente, utente->email); 
+	printf("\nEmail: %s \n\n",cliente->emailcliente ); 
+	
+	printf("\n** Dettagli inserimento cliente **\n\n");
+	get_input("Inserisci il nome: ", VARCHAR_LEN, cliente->nomecliente, false);
+	get_input("Inserisci il cognome: ", VARCHAR_LEN, cliente->cognomecliente, false);
+	get_input("Inserisci l'indirizzo: ", VARCHAR_LEN, cliente->indirizzocliente, false);
+	get_input("Inserisci il codice fiscale: ", VARCHAR_LEN, cliente->codicefiscale, false);
+	get_input("Inserisci il recapito telefonico: ", NUM_LEN, cliente->recapitotelefonico, false);
+	get_input("Inserisci il numero di fax: ", NUM_LEN, cliente->fax, false);
+
+
+	while(true){
+		get_input("Inserisci l'ultima data d'invio dei documuenti [YYYY-MM-DD]: ", DATE_LEN, cliente->datadocumentazione, false);
+		if(validate_date(cliente->datadocumentazione))
+			break;
+		fprintf(stderr, "Data errata!\n");
+	}
+	do_insert_costumer(cliente); 
+}
+
+void ins_costumer_hstss(struct cliente *cliente, struct utente *utente)
+{	
+	char buff[VARCHAR_LEN]; 
+	printf("** Crea un utente per questo cliente **\n"); 
+	ins_costumer_user(utente); 
 	strcpy(cliente->emailcliente, utente->email); 
 	printf("\nEmail: %s \n\n",cliente->emailcliente ); 
 	
@@ -529,20 +554,21 @@ void validate_reservation(struct prenotazione *prenotazione , struct postoprenot
 		}
 
 	while(true){
-		get_input("\nModifica data di conferma [YYYY-MM-DD]: ", DATE_LEN, prenotazione ->datadiconferma, false);
+		get_input("Modifica data di conferma [YYYY-MM-DD]: ", DATE_LEN, prenotazione ->datadiconferma, false);
 		if(validate_date(prenotazione ->datadiconferma))
 			break;
 		fprintf(stderr, "Data errata!\n");
 		}
 
 	while(true){
-		get_input("\nModifica data di saldo [YYYY-MM-DD]: ", DATE_LEN, prenotazione ->datasaldo, false);
+		get_input("Modifica data di saldo [YYYY-MM-DD]: ", DATE_LEN, prenotazione->datasaldo, false);
 		if(validate_date(prenotazione ->datasaldo))
 			break;
 		fprintf(stderr, "Data errata!\n");
 		}
-		do_validate_reservation(prenotazione );
-		bool seat_ans, association_ans;   
+		
+	do_validate_reservation(prenotazione);
+	bool seat_ans, association_ans;   
 
 	do {
 		printf("\n\n** Associa un passeggero alla prenotazione ** \n\n"); 
