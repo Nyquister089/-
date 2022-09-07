@@ -197,7 +197,7 @@ int show_skills(struct competenze *competenze)
  		printf("*Nome meccanico:%s \n Telefono :	%s \n\n",
 			competenze->nomemeccanico,
 			competenze->telefono);
-			free (competenze);}
+			}
 	else { 
 		printf("La competenza richiesta non esiste\n\n"); 
 		return -1; 

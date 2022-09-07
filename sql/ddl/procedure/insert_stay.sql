@@ -6,7 +6,7 @@ in dis date,
 in dfs date
  )
 BEGIN
-insert into associata 
+insert into soggiorno 
 			(CameraPrenotata, 
 			 Ospite, 
              AlbergoInQuestione,

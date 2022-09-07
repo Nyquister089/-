@@ -21,6 +21,7 @@ grant execute on procedure tripdb. select_comfort to 'Manager'@'localhost';
 grant execute on procedure tripdb. select_skills to 'Manager'@'localhost';   		 
 grant execute on procedure tripdb. select_costumer to 'Manager'@'localhost'; 
 grant execute on procedure tripdb. select_reservation to 'Manager'@'localhost';  
+grant execute on procedure tripdb. select_reservation_info to 'Manager'@'localhost'; 
 grant execute on procedure tripdb. select_seat to 'Manager'@'localhost';  		
 grant execute on procedure tripdb. select_stay to 'Manager'@'localhost'; 
 grant execute on procedure tripdb. select_review to 'Manager'@'localhost';  

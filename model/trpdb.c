@@ -1273,6 +1273,11 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(insert_costumer_user, "Unable to initialize insert_costumer_userstatement\n");
 			return false;
 		}
+		if (!setup_prepared_stmt(&select_reservation_info, "call select_reservation_info(?)", conn))
+		{
+		print_stmt_error(select_reservation_info, "Unable to select_reservation_info statement\n");
+		return false;
+		}
 		if (!setup_prepared_stmt(&select_max_idreview, "call select_max_idreview()", conn))
 		{
 			print_stmt_error(select_max_idreview, "Unable to initialize select_max_idreview statement\n");
@@ -1480,20 +1485,13 @@ void do_insert_stay(struct soggiorno *soggiorno)
 	MYSQL_TIME datainiziosoggiorno;
 
 	char *buff = "insert_stay";
-	int cameraprenotata;
-	int ospite;
-	int albergoinquestione;
 
 	date_to_mysql_time(soggiorno->datainiziosoggiorno, &datainiziosoggiorno);
 	date_to_mysql_time(soggiorno->datafinesoggiorno, &datafinesoggiorno);
 
-	cameraprenotata = soggiorno->cameraprenotata;
-	albergoinquestione = soggiorno->albergoinquestione;
-	ospite = soggiorno->ospite;
-
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &cameraprenotata, sizeof(cameraprenotata));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &ospite, sizeof(ospite));
-	set_binding_param(&param[2], MYSQL_TYPE_LONG, &albergoinquestione, sizeof(albergoinquestione));
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &soggiorno->cameraprenotata, sizeof(soggiorno->cameraprenotata));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &soggiorno->ospite, sizeof(soggiorno->ospite));
+	set_binding_param(&param[2], MYSQL_TYPE_LONG, &soggiorno->albergoinquestione, sizeof(soggiorno->albergoinquestione));
 	set_binding_param(&param[3], MYSQL_TYPE_DATE, &datainiziosoggiorno, sizeof(datainiziosoggiorno));
 	set_binding_param(&param[4], MYSQL_TYPE_DATE, &datafinesoggiorno, sizeof(datafinesoggiorno));
 
@@ -3183,10 +3181,10 @@ void do_delete_sostitution(struct sostituito *sostituito)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, sostituito->ricambioutilizzato, strlen(sostituito->ricambioutilizzato));
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &sostituito->revisioneassociata, sizeof(sostituito->revisioneassociata));
 
-	bind_exe(select_sostitution, param, buff);
+	bind_exe(delete_sostitution, param, buff);
 	
-	mysql_stmt_free_result(select_sostitution);
-	mysql_stmt_reset(select_sostitution);
+	mysql_stmt_free_result(delete_sostitution);
+	mysql_stmt_reset(delete_sostitution);
 }
 
 void do_delete_service(struct servizio *servizio)
@@ -4050,16 +4048,18 @@ struct prenotazioni_info *get_reservation_info (char *mlc)
 	int nmp; 
 
 	init_mysql_timestamp(&ddp);
-
+	
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, mlc, strlen(mlc));
 
 	bind_exe(select_reservation_info, param, buff);
 	rows = take_rows(select_reservation_info, buff);
 
+
 	if(rows == -1)
 		goto stop; 
-		
+
 	prenotazioni_info = malloc((sizeof(struct prenotazione) + sizeof(prenotazioni_info)) * rows);
+
 	memset(prenotazioni_info, 0, sizeof(*prenotazioni_info) + sizeof(struct prenotazione) * rows);
 
 	if (prenotazioni_info == NULL)
@@ -4068,9 +4068,9 @@ struct prenotazioni_info *get_reservation_info (char *mlc)
 		goto stop;
 	}
 
-	printf("pre-bind\n");
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &nmp  , sizeof(nmp));
+	set_binding_param(&param[1], MYSQL_TYPE_DATE, &ddp,  sizeof(ddp));
 
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, mlc,  strlen(mlc));
 	
 	if (mysql_stmt_bind_result(select_reservation_info, param))
 	{
@@ -4079,37 +4079,30 @@ struct prenotazioni_info *get_reservation_info (char *mlc)
 		prenotazioni_info = NULL;
 		goto stop;
 	}
-
-
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &nmp  , sizeof(nmp));
-	set_binding_param(&param[1], MYSQL_TYPE_DATE, &ddp,  sizeof(ddp));
-	
 	
 	prenotazioni_info->num_prenotazioni = rows; 
 			
 	while (true)
-	{printf("After Bind\n"); 
+	{
 		status = mysql_stmt_fetch(select_reservation_info);
-			printf("1 after Bind\n");
+			
 		if (status == MYSQL_NO_DATA)
 			break;
 		if (status == 1)
 		{
 			print_stmt_error(select_reservation_info, "\nImpossibile eseguire fetch");
 		}
-			printf("2 after Bind\n");
 
 		prenotazioni_info->prenotazioni_info[count].numerodiprenotazione = nmp; 
 		mysql_date_to_string(&ddp,prenotazioni_info->prenotazioni_info[count].datadiconferma ); 
 
-	printf("3 after Bind\n");
 		printf("* Cliente %s *\n", mlc);
 		printf("Numero prenotazione: 	%d \n", prenotazioni_info->prenotazioni_info[count].numerodiprenotazione);
 		printf("Data di prenotazione:	%s 	\n", prenotazioni_info->prenotazioni_info[count].datadiconferma);
 		count++;
 	}
 stop:
-	printf("4 after Bind\n");
+
 	mysql_stmt_free_result(select_reservation_info);
 	mysql_stmt_reset(select_reservation_info);
 	free(prenotazioni_info);
@@ -4122,7 +4115,7 @@ void do_update_data_doc(struct cliente *cliente)
 
 	date_to_mysql_time(cliente->datadocumentazione, &datadocumentazione);
 
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, cliente->emailcliente, sizeof(cliente->emailcliente));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, cliente->emailcliente, strlen(cliente->emailcliente));
 	set_binding_param(&param[1], MYSQL_TYPE_DATETIME, &datadocumentazione, sizeof(datadocumentazione));
 
 	if (mysql_stmt_bind_param(update_data_doc, param) != 0)

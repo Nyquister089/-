@@ -40,11 +40,6 @@ struct utente *utente;
 int allocation_gest(void)
 {
 
-	soggiorno = malloc(sizeof(struct soggiorno)); 
-	if(soggiorno == NULL)
-		{printf("Fallimento malloc su soggiorno (manager)) \n\n"); 
-		 return -1; 
-		}
 	dipendente = malloc(sizeof(struct dipendente));
 	if(dipendente == NULL)
 		{printf("Fallimento malloc su dipendente (manager) \n\n"); 
@@ -115,6 +110,13 @@ int allocation_costumer(void)
 		{printf("Fallimento malloc su postoprenotato (manager) \n\n"); 
 		 return -1; 
 		}
+	
+	soggiorno = malloc(sizeof(struct soggiorno)); 
+	if(soggiorno == NULL)
+		{printf("Fallimento malloc su soggiorno (manager)) \n\n"); 
+		 return -1; 
+		}
+		
 
 }
 
@@ -723,6 +725,9 @@ bool get_table_costumer (char sel )
             } 
 			return true;
         } 
+		case VALIDAZIONE_PRENOTAZIONE: 
+		validate_reservation(prenotazione, postoprenotato,soggiorno); 
+
     	case QUIT_GEST_CLIENTE: {
 		return false; 
 		}
@@ -732,15 +737,16 @@ bool get_table_costumer (char sel )
 
 int costumer_section(void) // sezione clienti
 {	
-	char options[5] = {'1','2','3','4','5'};
+	char options[6] = {'1','2','3','4','5','6'};
     char op; 
     puts("*** Su quale tabella della gestione clienti? ***\n");
 	puts("1) Cliente");
     puts("2) Prenotazione");
 	puts("3) Posto prenotato");
 	puts("4) Soggiorno");
-	puts("5) Esci");
-    op = multi_choice("Seleziona un'opzione", options, 5);
+	puts("5) Validazione prenotazioni");
+	puts("6) Esci");
+    op = multi_choice("Seleziona un'opzione", options, 6);
 	get_table_costumer((op-'1')); 
 }
 

@@ -8,5 +8,5 @@ SELECT
 
 FROM prenotazione as p
 JOIN cliente as c on p.ClientePrenotante = c.EmailCliente
-WHERE p.ClientePrenotante = c.EmailCliente; 
+WHERE p.ClientePrenotante = mlc; 
 END

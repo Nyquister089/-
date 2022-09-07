@@ -6,6 +6,6 @@ create procedure if not exists `tripdb`.`delete_stay`(
 )
 begin
 delete 
-from associata
+from soggiorno
 where CameraPrenotata = cmp and Ospite = spt and AlbergoInQuestione = htl; 
 end

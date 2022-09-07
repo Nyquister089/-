@@ -220,6 +220,8 @@ void ins_stay(struct soggiorno *soggiorno)
 	soggiorno->cameraprenotata = atoi(buff); 
 	get_input("Inserisci l'albergo in cui è ubicata la camera: ", NUM_LEN, buff,false);	
 	soggiorno->albergoinquestione = atoi(buff); 
+	get_input("Inserisci il numero di posto di viaggio dell'ospite: ", NUM_LEN, buff, false);
+	soggiorno->ospite = atoi(buff); 
 	while(true){
 	get_input("Inserici la data d'inizio del soggiorno [YYYY-MM-DD]: ",DATE_LEN, soggiorno->datainiziosoggiorno,false); 
 	if(validate_date(soggiorno->datainiziosoggiorno))
@@ -240,11 +242,9 @@ void ins_sostitution( struct sostituito *sostituito)
 	char buff[NUM_LEN]; 
 	int num; 
 	printf("\n** Dettagli sostituzione ricambio**\n\n");
-	if(&sostituito->revisioneassociata == NULL){
-		get_input("Inserisci il numero della revsione in questione: ",NUM_LEN, buff, false);
-		sostituito->revisioneassociata = atoi(buff);
-	} 
-	get_input("Inserisci il codice del ricambio utilizzato : ", NUM_LEN, sostituito->ricambioutilizzato,false);
+	get_input("Inserisci il numero della revsione in questione: ",NUM_LEN, buff, false);
+	sostituito->revisioneassociata = atoi(buff);
+	get_input("Inserisci il codice del ricambio utilizzato : ", VARCHAR_LEN, sostituito->ricambioutilizzato,false);
 	get_input("Inserisci la quantità di ricambi sostituiti : ",NUM_LEN, buff, false);
 	sostituito->quantitasostituita = atoi(buff); 
 
@@ -546,15 +546,14 @@ void validate_reservation(struct prenotazione *prenotazione , struct postoprenot
 {
 	char buff[NUM_LEN]; 
 	printf("** Procedura conferma prenotazione **\n\n"); 
-	get_input("Inserisci la mail del cliente prenotante: ", VARCHAR_LEN, prenotazione->clienteprenotante, false);
-	get_reservation_info(prenotazione->clienteprenotante); 
-	show_reservation(prenotazione ); 
-
- 	bool ans = yes_or_no("\n\n Vuoi confermare questa prenotazione? (s/n) ",'s','n',false,false);
+	get_input("Inserisci la mail del cliente prenotante: ", VARCHAR_LEN,prenotazione->clienteprenotante, false);
+	get_reservation_info(prenotazione->clienteprenotante);
+ 	bool ans = yes_or_no("\n\n Vuoi confermare una di queste prenotazioni? (s/n) ",'s','n',false,false);
 	if(!ans) {
 		return;
 		}
-
+	get_input("Inserisci il numero di prenotazione che si intende confermare: ", NUM_LEN, buff, false);
+	prenotazione->numerodiprenotazione = atoi(buff); 
 	while(true){
 		get_input("Modifica data di conferma [YYYY-MM-DD]: ", DATE_LEN, prenotazione ->datadiconferma, false);
 		if(validate_date(prenotazione ->datadiconferma))

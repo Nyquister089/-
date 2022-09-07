@@ -137,18 +137,19 @@ if(mysql_stmt_execute(procedure) != 0) {
 
 size_t bind_exe(MYSQL_STMT *procedure, MYSQL_BIND *param, char * buff)
 {
-
+ 
 if(mysql_stmt_bind_param(procedure, param) != 0) {
 		printf("Procedura : %s \n", buff);
 		print_stmt_error(procedure, "\nImpossibile eseguire bind param");
 		return-1;
 	}
-
+ 
 	if(mysql_stmt_execute(procedure) != 0) {
 		printf("Procedura : %s \n", buff);
 		print_stmt_error(procedure, "\nImpossibile eseguire execute ");
 		return -1;
 	}
+ 
 	return 0;
 }
 
