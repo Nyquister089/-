@@ -3207,14 +3207,14 @@ void do_select_max_idreview(struct revisione *revisione )
 {
 	MYSQL_BIND param[1]; 
 	char *buff = "select_max_idreview"; 
-	printf("max ID\n\n"); 
+	 
 	if(exe_proc(select_max_idreview, buff)==-1)
 		goto stop; 
-	printf("max ID\n\n"); 
+	 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &revisione->idrevisione, sizeof(revisione->idrevisione));
-	printf("max ID\n\n"); 
+	 
 	take_result(select_max_idreview,param,buff); 
-	printf("max ID\n\n"); 
+	 
 	stop: 
 	mysql_stmt_free_result(select_max_idreview);
 	mysql_stmt_reset(select_max_idreview);

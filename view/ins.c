@@ -25,6 +25,17 @@ void ins_costumer_user(struct utente *utente){
 	do_insert_costumer_user(utente); 
 }
 
+void ins_sostitution_review(struct sostituito *sostituito)
+{
+	char buff[NUM_LEN]; 
+	printf("\n** Dettagli sostituzione ricambio**\n\n");
+	get_input("Inserisci il codice del ricambio utilizzato : ", VARCHAR_LEN, sostituito->ricambioutilizzato,false);
+	get_input("Inserisci la quantità di ricambi sostituiti : ",NUM_LEN, buff, false);
+	sostituito->quantitasostituita = atoi(buff); 
+	do_insert_sostitution(sostituito);
+
+}
+
 void ins_prenotation(struct prenotazione *prenotazione)
 {	
 	
@@ -91,7 +102,7 @@ if(ans)
 	{	do_select_max_idreview(revisione); 
 		sostituito->revisioneassociata = revisione->idrevisione; 
 		
-		ins_sostitution(sostituito); 
+		ins_sostitution_review(sostituito); 
 	}
 
 }
@@ -240,16 +251,16 @@ void ins_stay(struct soggiorno *soggiorno)
 void ins_sostitution( struct sostituito *sostituito)
 {	
 	char buff[NUM_LEN]; 
-	int num; 
 	printf("\n** Dettagli sostituzione ricambio**\n\n");
 	get_input("Inserisci il numero della revsione in questione: ",NUM_LEN, buff, false);
 	sostituito->revisioneassociata = atoi(buff);
 	get_input("Inserisci il codice del ricambio utilizzato : ", VARCHAR_LEN, sostituito->ricambioutilizzato,false);
 	get_input("Inserisci la quantità di ricambi sostituiti : ",NUM_LEN, buff, false);
-	sostituito->quantitasostituita = atoi(buff); 
-
+	sostituito->quantitasostituita = atoi(buff);
 	do_insert_sostitution(sostituito); 
 }
+
+
 
 void ins_tour(struct tour *tour){
 

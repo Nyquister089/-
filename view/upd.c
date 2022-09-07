@@ -33,4 +33,6 @@ void update_data_doc(struct cliente *cliente)
 	do_update_data_doc(cliente); 
 
 }
+
+
 			
