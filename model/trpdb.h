@@ -517,6 +517,7 @@ extern void do_delete_service(struct servizio *servizio);
 extern void do_delete_sostitution(struct sostituito *sostituito); 
 
 extern void do_select_max_idreview(struct revisione *revisione ); 
+extern void do_init_skill(struct competenze *competenze);
 
 extern struct tour_info *get_tour_info (void);
 extern struct info_mete *get_mete_info(int idv);
@@ -529,7 +530,6 @@ extern struct mappe *get_mappe(char* nml);
 extern struct prenotazioni_info *get_reservation_info (char *mlc); 
 
 extern void do_update_user_type(struct utente *utente); 
-extern void do_update_data_doc(struct cliente *cliente); 
 extern void do_validate_reservation(struct prenotazione *prenotazione);
 extern void do_update_spareparts_number(struct ricambio *ricambio); 
 extern void do_update_km(struct mezzo *mezzo); 

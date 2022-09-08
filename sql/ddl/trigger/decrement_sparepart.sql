@@ -3,5 +3,5 @@ on `sostituito`
 for each row 
 update ricambio
 join sostituito
-set QuantitaMagazzino = QuantitaMagazzino-QuantitàSostituita
-where Codice = CodiceRicambioSostituito; 
+set QuantitaMagazzino = QuantitaMagazzino-NEW.QuantitàSostituita
+where Codice = NEW.CodiceRicambioSostituito; 

@@ -32,8 +32,5 @@ grant execute on procedure
 tripdb.select_max_idreview 
 to 'Meccanico'@'localhost'; 
 
-grant execute on procedure 
-tripdb.update_spareparts_number 
-to 'Meccanico'@'localhost'; 
 
 flush privileges; 

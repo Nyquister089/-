@@ -52,11 +52,6 @@ to 'Hostess'@'localhost';
 
 grant execute on procedure
 tripdb. 
-update_data_doc 
-to 'Hostess'@'localhost';
-
-grant execute on procedure
-tripdb. 
 delete_trip 
 to 'Hostess'@'localhost';	
 

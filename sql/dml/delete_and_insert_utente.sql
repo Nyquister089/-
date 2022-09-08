@@ -79,7 +79,22 @@ INSERT INTO `tripdb`.`utente`
  ('smn@mail.com',
   '1',
   '2');
-
+  INSERT INTO `tripdb`.`utente` 
+(`EmailUtente`,
+  `Pswrd`,
+  `TipoUtente`)
+ VALUES 
+ ('mch1@mail.com',
+  '1',
+  '4');
+    INSERT INTO `tripdb`.`utente` 
+(`EmailUtente`,
+  `Pswrd`,
+  `TipoUtente`)
+ VALUES 
+ ('mch2@mail.com',
+  '1',
+  '4');
 
   
 

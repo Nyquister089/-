@@ -18,6 +18,14 @@ void ins_user(struct utente *utente)
 	do_insert_user(utente);
 }
 
+void ins_init_skill(struct competenze *competenze){
+	char buff[VARCHAR_LEN];
+	printf("** Dettagli inizializzazione competenze **\n\n");
+	get_input("Inserisci il primo modello di competenza del meccanico : ", VARCHAR_LEN, competenze->modelloassociato, false);
+	get_input("Inserisci il secondo modello di competenza del meccanico ", VARCHAR_LEN, competenze->nomemeccanico, false);
+	do_init_skill(competenze); 
+}
+
 void ins_costumer_user(struct utente *utente){
 	printf("** Dettagli inserimento utente **\n\n");
 	get_input("Inserisci la mail: ", VARCHAR_LEN, utente->email, false);
@@ -496,6 +504,12 @@ void ins_comfort(struct comfort *comfort)
 	do_insert_comfort(comfort); 
 }
 
+void ins_another_skill (struct competenze *competenze)
+{	
+	printf("** Dettagli inserimento competenze **\n\n");
+	get_input("Inserisci il nome del modello associato: ", VARCHAR_LEN, competenze->modelloassociato, false);
+	do_insert_skills(competenze); 
+}
 void ins_skills(struct competenze *competenze)
 {	
 	printf("** Dettagli inserimento competenze **\n\n");
@@ -538,17 +552,11 @@ void ins_employee(struct dipendente *dipendente, struct utente *utente, struct c
 	do_insert_employee(dipendente);
 	if (utente->tipo == 4)
 		{
-		printf("Ogni Meccanico richiede l'iserimento di almeno 2 competenze"); 
 		strcpy(competenze->meccanicocompetente, dipendente->emaildipendente); 
-		bool ans = false; 
-		int i;
-		i = 0; 
-		while(ans){
-			
-			ins_skills(competenze); 
-			i++; 
-			if ( i == 2)
-				ans = yes_or_no("Vuoi inserire un altra competenza ? ", 's', 'n', false, false); 
+
+		ins_init_skill(competenze); 
+		while(yes_or_no("Vuoi inserire un altra competenza ? ", 's', 'n', false, false)){
+			ins_another_skill(competenze); 
 			}
 		}
 }

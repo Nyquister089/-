@@ -32,6 +32,8 @@ grant execute on procedure tripdb. insert_stay to 'Manager'@'localhost';
 grant execute on procedure tripdb. insert_review to 'Manager'@'localhost';  
 grant execute on procedure tripdb. insert_sostitution to 'Manager'@'localhost'; 
 
+grant execute on procedure tripdb. init_skill to 'Manager'@'localhost'; 
+
 flush privileges; 
 	
 

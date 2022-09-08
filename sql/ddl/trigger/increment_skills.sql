@@ -4,7 +4,9 @@ for each row
   update dipendente
   join competenze
   set NumeroCompetenze = NumeroCompetenze+1
-  where EmailDipendente = MeccanicoCompetente;
+  where EmailDipendente = NEW.MeccanicoCompetente and NumeroCompetenze>='2';
+
+
 
 /*
 4. Modifica la procedure insert_employee:

@@ -4,4 +4,4 @@ for each row
 update viaggio
 join postoprenotato
 set PostiDisponibili = PostiDisponibili -1
-where idviaggio = ViaggioAssociato; 
+where idviaggio = NEW.ViaggioAssociato; 

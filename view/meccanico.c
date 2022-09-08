@@ -66,7 +66,6 @@ bool exe_mch_act(mch_act sel)
 			ins_review(revisione_mch, sostituito_mch, ricambio_mch); 
 		return true;   
 		}
-		
 		case PIANIFICA_REVISIONE: {
 			show_expired_review(); 
 		return true; 

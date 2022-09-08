@@ -53,7 +53,7 @@ int allocation_hstss(void)
 
 int get_hstss_action(void)
 {
-	char options[7] = {'1','2','3','4','5','6'};
+	char options[7] = {'1','2','3','4','5'};
 	char op;
 	
 	puts("*********************************");
@@ -64,10 +64,9 @@ int get_hstss_action(void)
 	puts("2) Inserire un nuovo cliente");
 	puts("3) Inserire una nuova prenotazione");  
 	puts("4) Conferma prenotazione ed intestazione posti");
-	puts("5) Modificare la data di invio degli ultimi documenti di un cliente"); 
-	puts("6) Esci");
+	puts("5) Esci");
 
-	op = multi_choice("Scegli un opzione", options, 6);
+	op = multi_choice("Scegli un opzione", options, 5);
 
 	return op -'1'; 
 }
@@ -94,12 +93,6 @@ bool exe_hstss_act(char sel)
 				validate_reservation (prenotazione_hstss, postoprenotato_hstss, soggiorno_hstss); 
 				return true;
 		 		}
-
-			case UPDATE_DATA_DOC:{
-				update_data_doc(cliente_hstss); 
-				return true;
-				}
-		
 			case QUIT_HSST: 
 				return false; 
 		

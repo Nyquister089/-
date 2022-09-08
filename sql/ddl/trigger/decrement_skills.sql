@@ -4,4 +4,4 @@ for each row
   update dipendente
   join competenze 
   set NumeroCompetenze = NumeroCompetenze - 1
-  where EmailDipendente= MeccanicoCompetente;
+  where EmailDipendente= OLD.MeccanicoCompetente;

@@ -122,10 +122,9 @@ static MYSQL_STMT *select_dvr_map; 			// ok AUTISTA
 static MYSQL_STMT *select_reservation_info; 
 
 static MYSQL_STMT *validate_reservation;	 // ok HOSTESS
-static MYSQL_STMT *update_data_doc;			 // Ok HOSTESS
-static MYSQL_STMT *update_spareparts_number; // ok Meccanico
 static MYSQL_STMT *update_km;				// Autista
 static MYSQL_STMT *update_user_type; 		// Manager
+static MYSQL_STMT *init_skill; 
 
 
 static void close_prepared_stmts(void)
@@ -583,11 +582,7 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close(insert_review);
 		insert_review = NULL;
 	}
-	if (update_spareparts_number)
-	{ 
-		mysql_stmt_close(update_spareparts_number);
-		update_spareparts_number = NULL;
-	}
+
 	if (insert_sostitution)
 	{ 
 		mysql_stmt_close(insert_sostitution);
@@ -603,16 +598,15 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close(validate_reservation);
 		validate_reservation = NULL;
 	}
-
-	if (update_data_doc)
-	{
-		mysql_stmt_close(update_data_doc);
-		update_data_doc = NULL;
-	}
 	if(update_km)
 	{ 				
 		mysql_stmt_close(update_km);
 		update_km = NULL;
+	}
+	if(init_skill)
+	{ 				
+		mysql_stmt_close(init_skill);
+		init_skill = NULL;
 	}
 	if(update_user_type)
 	{ 				
@@ -724,11 +718,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(select_trip, "Unable to initialize select_trip statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&update_data_doc, "call update_data_doc(?, ?)", conn))
-		{
-			print_stmt_error(update_data_doc, "Unable to initialize update _data_doc statement statement\n");
-			return false;
-		}
+
 		if (!setup_prepared_stmt(&insert_stay, "call insert_stay(?, ?, ?, ?, ?)", conn))
 		{
 			print_stmt_error(insert_stay, "Unable to initialize insert_stay statement statement\n");
@@ -794,11 +784,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 		init_db(); 
 
 
-		if (!setup_prepared_stmt(&update_spareparts_number, "call  update_spareparts_number(?,?)", conn))
-		{ // Insert
-			print_stmt_error(update_spareparts_number, "Unable to initialize insert review statement\n");
-			return false;
-		}
+
 		if (!setup_prepared_stmt(&insert_review, "call insert_review(?, ?, ?, ?, ?, ?, ?, ?)", conn))
 		{ // Insert
 			print_stmt_error(insert_review, "Unable to initialize insert review statement\n");
@@ -1248,6 +1234,11 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(select_skills, "Unable to initialize select_skills statement\n");
 			return false;
 		}
+		if (!setup_prepared_stmt(& init_skill, "call  init_skill(?,?,?)", conn))
+		{
+			print_stmt_error( init_skill, "Unable to initialize init_skill statement\n");
+			return false;
+		}
 		if (!setup_prepared_stmt(& update_user_type, "call  update_user_type(?,?)", conn))
 		{
 			print_stmt_error( update_user_type, "Unable to initialize update_user_type statement\n");
@@ -1256,16 +1247,6 @@ static bool initialize_prepared_stmts(role_t for_role)
 		if (!setup_prepared_stmt(& update_km, "call  update_km(?,?)", conn))
 		{
 			print_stmt_error( update_km, "Unable to initialize update_km statement\n");
-			return false;
-		}
-		if (!setup_prepared_stmt(&update_data_doc, "call update_data_doc(?, ?)", conn))
-		{
-			print_stmt_error(update_data_doc, "Unable to initialize update trip statement statement\n");
-			return false;
-		}
-		if (!setup_prepared_stmt(&update_spareparts_number, "call  update_spareparts_number(?,?)", conn))
-		{
-			print_stmt_error(update_spareparts_number, "Unable to initialize insert review statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&insert_costumer_user, "call insert_costumer_user(?, ?)", conn))
@@ -3234,19 +3215,22 @@ void do_update_user_type(struct utente *utente)
 	mysql_stmt_reset(update_user_type);
 }
 
-void do_update_spareparts_number(struct ricambio *ricambio) //FUNZIONA
-{
-	MYSQL_BIND param[2];
-	char *buff = "update_spareparts_number"; 
+void do_init_skill(struct competenze *competenze)
+{	
+	MYSQL_BIND param[3]; 
+	char *buff = "init_skill"; 
 
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, ricambio->codice, strlen(ricambio->codice));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &ricambio->quantitainmagazzino, sizeof(ricambio->quantitainmagazzino));
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, competenze->meccanicocompetente, strlen(competenze->meccanicocompetente));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, competenze->modelloassociato, strlen(competenze->modelloassociato));
+	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, competenze->nomemeccanico, strlen(competenze->nomemeccanico));
 	
-	bind_exe(update_spareparts_number, param, buff);
-
-	mysql_stmt_free_result(update_spareparts_number);
-	mysql_stmt_reset(update_spareparts_number);
+	
+	bind_exe( init_skill, param, buff); 
+	
+	mysql_stmt_free_result(init_skill);
+	mysql_stmt_reset(init_skill);
 }
+
 
 struct info_modelli *get_info_modello(char *nmd)
 {
@@ -4106,28 +4090,4 @@ stop:
 	mysql_stmt_free_result(select_reservation_info);
 	mysql_stmt_reset(select_reservation_info);
 	free(prenotazioni_info);
-}
-
-void do_update_data_doc(struct cliente *cliente)
-{
-	MYSQL_BIND param[2];
-	MYSQL_TIME datadocumentazione;
-
-	date_to_mysql_time(cliente->datadocumentazione, &datadocumentazione);
-
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, cliente->emailcliente, strlen(cliente->emailcliente));
-	set_binding_param(&param[1], MYSQL_TYPE_DATETIME, &datadocumentazione, sizeof(datadocumentazione));
-
-	if (mysql_stmt_bind_param(update_data_doc, param) != 0)
-	{
-		print_stmt_error(update_data_doc, "Could not bind parameters for update_data_doc");
-		return;
-	}
-	if (mysql_stmt_execute(update_data_doc) != 0)
-	{
-		print_stmt_error(update_data_doc, "Could not execute update_data_doc");
-		return;
-	}
-	mysql_stmt_free_result(update_data_doc);
-	mysql_stmt_reset(update_data_doc);
 }

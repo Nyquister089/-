@@ -16,23 +16,5 @@ void update_user_type( struct utente *utente, int type) {
 	do_update_user_type(utente); 
 }
 
-void update_data_doc(struct cliente *cliente)
-{ 	
-	printf("\n\n** Procedura di modifica data documenti cliente **\n\n");
-	show_costumer (cliente); 
-    bool ans = yes_or_no("\n\n Vuoi modificare la data documentazione di questo cliente? (s/n) ",'s','n',false,false);
-	if(!ans) {
-		return;
-	}
-	while(true){
-		get_input("\nModifica l'ultima data d'invio dei documuenti [YYYY-MM-DD]: ", DATE_LEN, cliente->datadocumentazione, false);
-		if(validate_date(cliente->datadocumentazione))
-			break;
-		fprintf(stderr, "Data errata!\n");
-	}
-	do_update_data_doc(cliente); 
-
-}
-
 
 			
