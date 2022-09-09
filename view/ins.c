@@ -504,7 +504,7 @@ void ins_comfort(struct comfort *comfort)
 	do_insert_comfort(comfort); 
 }
 
-void ins_presenti(struct presenti *presenti)
+void ins_presents(struct presenti *presenti)
 {	
 	char buff[NUM_LEN]; 
 	printf("** Dettagli inserimento presenti **\n\n");

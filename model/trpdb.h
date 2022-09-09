@@ -228,7 +228,7 @@ struct prenotazioni_info{
 };
 
 struct presenti {
-	char comfortpresenti[NUM_LEN]; //Corretto trasformandolo da carattere a puntatore di carattere
+	int comfortpresenti; //Corretto trasformandolo da carattere a puntatore di carattere
 	char modelloassciato[VARCHAR_LEN]; 
 };
 
@@ -459,6 +459,7 @@ extern void do_insert_sparepart(struct ricambio *ricambio);
 extern void do_insert_certify(struct tagliando *tagliando); 
 extern void do_insert_comfort(struct comfort *comfort); 
 extern void do_insert_skills(struct competenze *competenze); 
+
 extern void do_insert_presents(struct presenti *presenti);
 
 extern int do_select_trip(struct viaggio *viaggio);
