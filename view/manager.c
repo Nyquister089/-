@@ -26,7 +26,9 @@ struct modello *modello;
 struct offre *offre; 
 struct postoprenotato *postoprenotato; 
 struct prenotazione *prenotazione; 
-struct revisione *revisione; 
+struct presenti *presenti;
+struct revisione *revisione;
+struct rt *rt;  
 struct ricambio *ricambio; 
 struct servizio *servizio; 
 struct sostituito *sostituito; 
@@ -45,16 +47,6 @@ int allocation_gest(void)
 		{printf("Fallimento malloc su dipendente (manager) \n\n"); 
 		 return -1; 
 		}
-	fmo = malloc(sizeof(struct fmo)); 
-	if(fmo == NULL)
-		{printf("Fallimento malloc su fmo (manager) \n\n"); 
-		 return -1;
-		}
-	fme = malloc(sizeof(struct fme));
-	if(fme == NULL)
-		{printf("Fallimento malloc fme (manager) \n\n"); 
-		 return -1; 
-		 }
     offre = malloc(sizeof(struct offre));
 	if(offre == NULL)
 		{printf("Fallimento malloc offre (manager) \n\n"); 
@@ -65,11 +57,6 @@ int allocation_gest(void)
 		{printf("Fallimento malloc servizio(manager) \n\n"); 
 		 return -1; 
 	    }
-    tome = malloc(sizeof(struct tome));
-	if(tome == NULL)
-		{printf("Fallimento malloc tome (manager) \n\n"); 
-		 return -1; 
-		 }
 	if(utente == NULL)
     	{utente = malloc(sizeof(struct utente));
 		if(utente == NULL)
@@ -77,13 +64,7 @@ int allocation_gest(void)
 		 return -1; 
 			 }
 		}
-	if(competenze == NULL)
-		{competenze = malloc(sizeof(struct competenze)); 
-			if(competenze == NULL)
-				{printf("Fallimento malloc su competenze (manager) \n\n");
-		 		return -1; 
-				}
-		}
+
 }
 
 int allocation_costumer(void)
@@ -213,6 +194,36 @@ int allocation_tour(void){
 
 }
 
+int allocation_con_table(void)
+{
+	presenti = malloc(sizeof(struct presenti)); 
+	if(presenti == NULL)
+		{printf("Fallimento malloc su presenti (manager) \n\n"); 
+		 return -1;
+		}
+	rt = malloc(sizeof(struct rt)); 
+	if(rt == NULL)
+		{printf("Fallimento malloc su rt (manager) \n\n"); 
+		 return -1;
+		}
+	fmo = malloc(sizeof(struct fmo)); 
+	if(fmo == NULL)
+		{printf("Fallimento malloc su fmo (manager) \n\n"); 
+		 return -1;
+		}
+	fme = malloc(sizeof(struct fme));
+	if(fme == NULL)
+		{printf("Fallimento malloc fme (manager) \n\n"); 
+		 return -1; 
+		 }
+    tome = malloc(sizeof(struct tome));
+	if(tome == NULL)
+		{printf("Fallimento malloc tome (manager) \n\n"); 
+		 return -1; 
+		 }
+	
+}
+
 
 int get_mngr_action(void) 
 {	char options[4] = {'1','2','3','4'};
@@ -227,7 +238,7 @@ int get_mngr_action(void)
 }
 
 int get_mngr_group(void)
-{	char options[5] = {'1','2','3','4','5'};
+{	char options[6] = {'1','2','3','4','5','6'};
 	char op; 
 	puts("*********************************");
 	puts("*   INTERFACCIA AMMINISTRATORE    *");
@@ -237,9 +248,10 @@ int get_mngr_group(void)
 	puts("2) Gestione tour");
 	puts("3) Gestione officina");
 	puts("4) Gestione clienti");
-	puts("5) Esci");
+	puts("5) Gestione tabelle connessione");
+	puts("6) Esci");
 
-	op = multi_choice("Seleziona un'opzione", options, 5);
+	op = multi_choice("Seleziona un'opzione", options, 6);
 	return op - '1';
 
 }
@@ -725,8 +737,10 @@ bool get_table_costumer (char sel )
             } 
 			return true;
         } 
-		case VALIDAZIONE_PRENOTAZIONE: 
-		validate_reservation(prenotazione, postoprenotato,soggiorno); 
+		case VALIDAZIONE_PRENOTAZIONE: {
+			validate_reservation(prenotazione, postoprenotato,soggiorno); 
+			return true; 
+		}
 
     	case QUIT_GEST_CLIENTE: {
 		return false; 
@@ -753,7 +767,7 @@ int costumer_section(void) // sezione clienti
 
 bool get_table_gest (char sel)
 {   char act;
-    if(soggiorno == NULL || dipendente == NULL ||fme == NULL ||fmo == NULL|| offre == NULL || servizio == NULL || tome == NULL || utente == NULL) {
+    if( dipendente == NULL || servizio == NULL  || utente == NULL) {
 		allocation_gest();
 		printf("\n\nAllocazione gest avvenuta.\n\n");
      } 
@@ -802,27 +816,6 @@ bool get_table_gest (char sel)
         return true; 
         }
 
-        case TABELLA_OFFRE: {
-			act = get_mngr_action();
-            switch (act){
-                case GESTIONE_SELECT: {
-                    show_ofr(offre); 
-                return true; 
-                }
-	            case GESTIONE_INSERT: {
-                    ins_offert(offre); 
-                return true; 
-                }
-	            case GESTIONE_DELETE: {
-                    dlt_ofr(offre); 
-                return true; 
-                }
-	            case QUIT_GEST_OP: {
-                    return false; 
-                }
-            } 
-		return true; 
-        }
 
 		case TABELLA_SERVIZI: {
 			act = get_mngr_action();
@@ -846,7 +839,82 @@ bool get_table_gest (char sel)
 		return true; 
         }
 
-        case TABELLA_TOME: {
+
+
+        case QUIT_ANAG: {
+
+        return false; 
+        }
+    }
+
+}
+
+int gest_section(void)
+ {	    
+		char options[4] = {'1','2','3','4'};
+        char op; 
+		 puts("*** Su quale tabella della gestione interna? ***\n");
+	 	 puts("1) Dipendenti");
+	 	 puts("2) Utenti");
+		 puts("3) Servizi"); 
+         puts("4) Esci"); 
+		 op = multi_choice("Seleziona un'opzione", options, 4);
+         get_table_gest((op - '1')); 
+}
+
+bool get_table_con_tab (char sel)
+{   char act;
+    if(offre == NULL||fme == NULL ||fmo == NULL ||  tome == NULL  || presenti == NULL || rt == NULL) {
+		allocation_con_table();
+		printf("\n\nAllocazione gest avvenuta.\n\n");
+     } 
+    switch(sel){    
+		
+        case TABELLA_OFFRE: {
+			act = get_mngr_action();
+            switch (act){
+                case GESTIONE_SELECT: {
+                    show_ofr(offre); 
+                return true; 
+                }
+	            case GESTIONE_INSERT: {
+                    ins_offert(offre); 
+                return true; 
+                }
+	            case GESTIONE_DELETE: {
+                    dlt_ofr(offre); 
+                return true; 
+                }
+	            case QUIT_GEST_OP: {
+                    return false; 
+                }
+            } 
+		return true; 
+        }    
+
+		 case TABELLA_PRESENTI: {
+			act = get_mngr_action();
+            switch (act){
+                case GESTIONE_SELECT: {
+                    //show_(presenti); 
+                return true; 
+                }
+	            case GESTIONE_INSERT: {
+                    //ins_offert(presenti); 
+                return true; 
+                }
+	            case GESTIONE_DELETE: {
+                   // dlt_ofr(presenti); 
+                return true; 
+                }
+	            case QUIT_GEST_OP: {
+                    return false; 
+                }
+            } 
+		return true; 
+        }    
+		
+		case TABELLA_TOME: {
         act = get_mngr_action();
             switch (act){
                 case GESTIONE_SELECT: {
@@ -913,31 +981,51 @@ bool get_table_gest (char sel)
 			}
 			return true;
         }
-
-        case QUIT_ANAG: {
+		case TABELLA_RT: {
+			act = get_mngr_action();
+            switch (act){
+                case GESTIONE_SELECT: {
+                   // show_fme(rt)); 
+                return true; 
+                }
+	            case GESTIONE_INSERT: {
+                   // ins_fme(rt); 
+                return true; 
+                }
+	            case GESTIONE_DELETE: {
+                  //  dlt_fme(rt); 
+                return true; 
+                }
+	            case QUIT_GEST_OP: {
+                return false; 
+				}
+			}
+			return true;
+        }
+        case QUIT_GEST_TAB: {
 
         return false; 
         }
     }
-
 }
 
-int gest_section(void)
+
+int tab_con_section(void)
  {	    
-		char options[9] = {'1','2','3','4','5','6','7','8'};
+		char options[7] = {'1','2','3','4','5','6','7'};
         char op; 
-		 puts("*** Su quale tabella della gestione officina? ***\n");
-	 	 puts("1) Dipendenti");
-	 	 puts("2) Utenti");
-		 puts("3) Offre");
-		 puts("4) Servizi"); 
-		 puts("5) Collegamento tour-mete");
-         puts("6) Collegamento foto-modelli");
-         puts("7) Collegamento foto-mete");
-         puts("8) Esci"); 
-		 op = multi_choice("Seleziona un'opzione", options, 8);
-         get_table_gest((op - '1')); 
+		 puts("*** Su quale delle tabelle di connessione ? ***\n");
+		 puts("1) Offre");
+		 puts("2) Presenti"); 							///
+		 puts("3) Collegamento tour-mete");
+         puts("4) Collegamento foto-modelli");
+         puts("5) Collegamento foto-mete");
+		 puts("6) Collegamento revisione-tagliando");  ///
+         puts("7) Esci"); 
+		 op = multi_choice("Seleziona un'opzione", options, 7);
+         get_table_con_tab ((op - '1')); 
 }
+
 
 
 bool exe_mngr_group(char sel)
@@ -962,6 +1050,10 @@ bool exe_mngr_group(char sel)
                 tour_section(); 
 				return true; 
 				}
+			case GESTIONE_TABELLE_CONNESSIONE:{
+				tab_con_section();
+				return true; 
+			}
 			case QUIT_GEST_GROUP:{ 
 				return false;
 		 		} 

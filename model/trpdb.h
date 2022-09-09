@@ -459,6 +459,7 @@ extern void do_insert_sparepart(struct ricambio *ricambio);
 extern void do_insert_certify(struct tagliando *tagliando); 
 extern void do_insert_comfort(struct comfort *comfort); 
 extern void do_insert_skills(struct competenze *competenze); 
+extern void do_insert_presents(struct presenti *presenti);
 
 extern int do_select_trip(struct viaggio *viaggio);
 extern int do_select_costumer(struct cliente *cliente);

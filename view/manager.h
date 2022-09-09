@@ -10,6 +10,7 @@ typedef enum{
 	GESTIONE_TOUR,
 	GESTIONE_OFFICINA,
     GESTIONE_CLIENTI,
+    GESTIONE_TABELLE_CONNESSIONE, 
 	QUIT_GEST_GROUP
 } gest_act;
 
@@ -22,13 +23,19 @@ typedef enum{
 } gest_op;
 
 typedef enum{
-    TABELLA_DIPENDENTI,
-    TABELLA_UTENTI,
-    TABELLA_OFFRE, 
-    TABELLA_SERVIZI,
+    TABELLA_OFFRE,
+    TABELLA_PRESENTI,
     TABELLA_TOME,
     TABELLA_FMO, 
     TABELLA_FME,
+    TABELLA_RT,
+	QUIT_GEST_TAB
+} gest_con_tab;
+
+typedef enum{
+    TABELLA_DIPENDENTI,
+    TABELLA_UTENTI,
+    TABELLA_SERVIZI,
     QUIT_ANAG
 }gest_str;
 

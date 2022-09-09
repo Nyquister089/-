@@ -50,6 +50,7 @@ static MYSQL_STMT *insert_seat;			// OK HOSTESS, Manager
 static MYSQL_STMT *insert_stay;		// OK HOSTESS, Manager
 static MYSQL_STMT *insert_review;		// ok Meccanico, Manager
 static MYSQL_STMT *insert_sostitution;	// ok Meccanico, Manager
+static MYSQL_STMT *insert_presents; 
 
 
 static MYSQL_STMT *select_trip;		   // ok HOSTESS, ok Manager
@@ -588,6 +589,11 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close(insert_sostitution);
 		insert_sostitution = NULL;
 	}
+	if (insert_presents)
+	{ 
+		mysql_stmt_close(insert_presents);
+		insert_presents = NULL;
+	}
 	if (insert_seat)
 	{ 
 		mysql_stmt_close(insert_seat);
@@ -837,6 +843,11 @@ static bool initialize_prepared_stmts(role_t for_role)
 		if (!setup_prepared_stmt(&insert_review, "call insert_review(?, ?, ?, ?, ?, ?, ?, ?)", conn))
 		{
 			print_stmt_error(insert_review, "Unable to initialize insert review statement\n");
+			return false;
+		}
+		if (!setup_prepared_stmt(&insert_presents, "call insert_presents(?,?)", conn))
+		{
+			print_stmt_error(insert_presents, "Unable to initialize insert_presents statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&insert_sostitution, "call insert_sostitution(?,?,?)", conn))
@@ -1532,7 +1543,7 @@ void do_validate_reservation(struct prenotazione *prenotazione) // Funziona
 	mysql_stmt_reset(validate_reservation);
 }
 
-void do_insert_sostitution(struct sostituito *sostituito) // FUNZIONA
+void do_insert_sostitution(struct sostituito *sostituito)
 {
 	MYSQL_BIND param[3];
 
@@ -1544,6 +1555,19 @@ void do_insert_sostitution(struct sostituito *sostituito) // FUNZIONA
 
 	mysql_stmt_free_result(insert_sostitution);
 	mysql_stmt_reset(insert_sostitution);
+}
+
+void do_insert_presents(struct presenti *presenti)
+{
+	MYSQL_BIND param[2];
+
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &presenti->comfortpresenti, sizeof(presenti->comfortpresenti));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, presenti->modelloassciato, strlen(presenti->modelloassciato));
+
+	bind_exe(insert_presents, param, "insert_presents");
+
+	mysql_stmt_free_result(insert_presents);
+	mysql_stmt_reset(insert_presents);
 }
 
 

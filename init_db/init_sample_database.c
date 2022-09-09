@@ -239,7 +239,9 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/select_picture.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_comfort.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/select_service.sql"); 
+    execute_query_from_file_sql("../sql/ddl/procedure/select_presents.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_sostitution.sql"); 
+    execute_query_from_file_sql("../sql/ddl/procedure/select_rt.sql");
 
 
     execute_query_from_file_sql("../sql/ddl/procedure/insert_tour.sql"); 
@@ -270,7 +272,8 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/insert_costumer_user.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/insert_seat.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/insert_reservation.sql");
-
+    execute_query_from_file_sql("../sql/ddl/procedure/insert_presents.sql"); 
+    execute_query_from_file_sql("../sql/ddl/procedure/insert_rt.sql"); 
 
     execute_query_from_file_sql("../sql/ddl/procedure/delete_trip.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/delete_tour.sql");
@@ -298,7 +301,9 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/delete_picture.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/delete_comfort.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/delete_service.sql");
+    execute_query_from_file_sql("../sql/ddl/procedure/delete_presents.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/delete_sostitution.sql");
+    execute_query_from_file_sql("../sql/ddl/procedure/delete_rt.sql");
 
     execute_query_from_file_sql("../sql/ddl/procedure/update_user_type.sql");
     }

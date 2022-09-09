@@ -504,6 +504,17 @@ void ins_comfort(struct comfort *comfort)
 	do_insert_comfort(comfort); 
 }
 
+void ins_presenti(struct presenti *presenti)
+{	
+	char buff[NUM_LEN]; 
+	printf("** Dettagli inserimento presenti **\n\n");
+	get_input("Inserisci il nome del modello in questione: ", VARCHAR_LEN, presenti->modelloassciato, false);
+	get_input("Inserisci l'id del comfort in questione: ", NUM_LEN, buff, false);
+	presenti->comfortpresenti= atoi(buff); 
+	do_insert_presents(presenti); 
+}
+
+
 void ins_another_skill (struct competenze *competenze)
 {	
 	printf("** Dettagli inserimento competenze **\n\n");
