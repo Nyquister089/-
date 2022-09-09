@@ -259,8 +259,8 @@ struct ricambio {
 }; 
 
 struct rt {
-	char  revisionerelativa[NUM_LEN]; 					//FK //Corretto trasformandolo da carattere a puntatore di carattere
-	char  tagliandoassociato[NUM_LEN]; 				//FK //Corretto trasformandolo da carattere a puntatore di carattere
+	int  revisionerelativa; 					//FK //Corretto trasformandolo da carattere a puntatore di carattere
+	int  tagliandoassociato; 				//FK //Corretto trasformandolo da carattere a puntatore di carattere
 }; 
 
 struct servizio {
@@ -459,8 +459,8 @@ extern void do_insert_sparepart(struct ricambio *ricambio);
 extern void do_insert_certify(struct tagliando *tagliando); 
 extern void do_insert_comfort(struct comfort *comfort); 
 extern void do_insert_skills(struct competenze *competenze); 
-
 extern void do_insert_presents(struct presenti *presenti);
+extern void do_insert_rt(struct rt *rt); 
 
 extern int do_select_trip(struct viaggio *viaggio);
 extern int do_select_costumer(struct cliente *cliente);
@@ -489,6 +489,8 @@ extern int do_select_picture(struct documentazionefotografica *documentazionefot
 extern int do_select_comfort(struct comfort *comfort); 
 extern int do_select_service(struct servizio *servizio); 
 extern int do_select_sostitution(struct sostituito*sostituito); 
+extern int do_select_presents(struct presenti *presenti);
+extern int do_select_rt(struct rt *rt); 
 
 extern void do_delete_trip(struct viaggio *viaggio);
 extern void do_delete_costumer(struct cliente *cliente);
@@ -517,6 +519,8 @@ extern void do_delete_picture(struct documentazionefotografica *documentazionefo
 extern void do_delete_comfort(struct comfort *comfort); 
 extern void do_delete_service(struct servizio *servizio); 
 extern void do_delete_sostitution(struct sostituito *sostituito); 
+extern void do_delete_presents(struct presenti *presenti);
+extern void do_delete_rt(struct rt *rt); 
 
 extern void do_select_max_idreview(struct revisione *revisione ); 
 extern void do_init_skill(struct competenze *competenze);

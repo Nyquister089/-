@@ -838,11 +838,7 @@ bool get_table_gest (char sel)
             } 
 		return true; 
         }
-
-
-
         case QUIT_ANAG: {
-
         return false; 
         }
     }
@@ -896,15 +892,15 @@ bool get_table_con_tab (char sel)
 			act = get_mngr_action();
             switch (act){
                 case GESTIONE_SELECT: {
-                    //show_(presenti); 
+                    show_presents(presenti); 
                 return true; 
                 }
 	            case GESTIONE_INSERT: {
-                    //ins_offert(presenti); 
+                    ins_presents(presenti); 
                 return true; 
                 }
 	            case GESTIONE_DELETE: {
-                   // dlt_ofr(presenti); 
+                    dlt_presents(presenti); 
                 return true; 
                 }
 	            case QUIT_GEST_OP: {
@@ -985,15 +981,15 @@ bool get_table_con_tab (char sel)
 			act = get_mngr_action();
             switch (act){
                 case GESTIONE_SELECT: {
-                   // show_fme(rt)); 
+                   show_rt(rt); 
                 return true; 
                 }
 	            case GESTIONE_INSERT: {
-                   // ins_fme(rt); 
+                   ins_rt(rt); 
                 return true; 
                 }
 	            case GESTIONE_DELETE: {
-                  //  dlt_fme(rt); 
+                  dlt_rt(rt); 
                 return true; 
                 }
 	            case QUIT_GEST_OP: {
@@ -1003,7 +999,6 @@ bool get_table_con_tab (char sel)
 			return true;
         }
         case QUIT_GEST_TAB: {
-
         return false; 
         }
     }

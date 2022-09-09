@@ -180,3 +180,19 @@ void dlt_sostitution( struct sostituito *sostituito)
         	do_delete_sostitution(sostituito);
 
 }
+
+void dlt_rt( struct rt *rt)
+{
+	if(show_rt(rt)!=-1)
+		if(yes_or_no("Vuoi cancellare questa relazione tra revisione e tagliando? (s/n)",'s','n',false,false) == true)
+        	do_delete_rt(rt);
+
+}
+
+void dlt_presents( struct presenti *presenti)
+{
+	if(show_presents(presenti)!=-1)
+		if(yes_or_no("Vuoi cancellare questa relazione tra comfort e modello? (s/n)",'s','n',false,false) == true)
+        	do_delete_presents(presenti);
+
+}

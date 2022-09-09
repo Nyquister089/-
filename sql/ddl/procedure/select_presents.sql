@@ -6,6 +6,6 @@ begin
 select
     ComfortPresenti, 
     ModelloAssociato
-from presnti 
+from presenti 
 where ComfortPresenti = cmf and ModelloAssociato = mdl; 
 end

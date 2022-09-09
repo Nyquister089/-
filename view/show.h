@@ -39,3 +39,5 @@ extern int show_service(struct servizio *servizio);
 extern void show_expired_review (void); 
 extern int show_prenotation_details(struct prenotazione *prenotazione ); 
 extern int show_sostitution(struct sostituito *sostituito); 
+extern int show_presents(struct presenti *presenti); 
+extern int show_rt(struct rt *rt); 

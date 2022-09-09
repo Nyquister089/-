@@ -38,3 +38,5 @@ extern void dlt_bus(struct mezzo *mezzo);
 extern void dlt_sparepart(struct ricambio *ricambio);
 extern void dlt_comfort(struct comfort *comfort);
 extern void dlt_skills(struct competenze *competenze); 
+extern void dlt_presents(struct presenti *presenti); 
+extern void dlt_rt(struct rt *rt); 

@@ -504,6 +504,17 @@ void ins_comfort(struct comfort *comfort)
 	do_insert_comfort(comfort); 
 }
 
+void ins_rt(struct rt *rt)
+{	
+	char buff[NUM_LEN]; 
+	printf("** Dettagli inserimento rt **\n\n");
+	get_input("Inserisci l'id della revisione in questione: ", NUM_LEN, buff, false);
+	rt->revisionerelativa = atoi(buff);
+	get_input("Inserisci l'id del tagliando in questione: ", NUM_LEN, buff, false);
+	rt->tagliandoassociato= atoi(buff); 
+	do_insert_rt(rt); 
+}
+
 void ins_presents(struct presenti *presenti)
 {	
 	char buff[NUM_LEN]; 

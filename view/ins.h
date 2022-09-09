@@ -42,4 +42,5 @@ extern void ins_skills(struct competenze *competenze);
 extern void ins_costumer_user(struct utente *utente); 
 extern void validate_reservation(struct prenotazione *prenotazione , struct postoprenotato *postoprenotato, struct soggiorno *soggiorno); 
 extern void ins_presents(struct presenti *presenti); 
+extern void ins_rt(struct rt *rt); 
 

@@ -309,6 +309,45 @@ int show_tome(struct tome *tome)
 }
 
 
+int show_presents(struct presenti *presenti){
+
+	char buff[NUM_LEN]; 
+	printf("\n\n** Dettagli presenti **\n\n");
+	get_input("Inserisci il modello d'interesse:", VARCHAR_LEN, presenti->modelloassciato, false);
+	get_input("Inserici l'id del servizio d'interesse: ", NUM_LEN, buff, false); 
+	presenti->comfortpresenti = atoi(buff); 
+	if(do_select_presents(presenti) > 0 ){
+ 		printf("*Modello:	%s \n Comfort:		%d\n\n",
+			presenti->modelloassciato,
+			presenti->comfortpresenti); 
+	}
+	else { 
+		printf("La relazione tra comfort e modelli d'interesse non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
+}
+
+int show_rt(struct rt *rt){
+
+	char buff[NUM_LEN]; 
+	printf("\n\n** Dettagli relazione tagliando-revsione **\n\n");
+	get_input("Inserisci l'id del tagliando  d'interesse:", NUM_LEN, buff, false);
+	rt->tagliandoassociato = atoi(buff); 
+	get_input("Inserisci l'id della revisione  d'interesse: ", NUM_LEN, buff, false); 
+	rt->revisionerelativa = atoi(buff); 
+	if(do_select_rt(rt) > 0 ){
+ 		printf("*Tagliando:	%d \n Revisione:		%d\n\n",
+			rt->tagliandoassociato,
+			rt->revisionerelativa); 
+	}
+	else { 
+		printf("La relazione tra comfort e modelli d'interesse non esiste\n\n"); 
+		return -1; 
+	}
+	return 0; 
+}
+
 int show_user(struct utente *utente){
 
 	printf("\n\n** Dettagli utente **\n\n");

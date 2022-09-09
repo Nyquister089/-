@@ -51,6 +51,8 @@ static MYSQL_STMT *insert_stay;		// OK HOSTESS, Manager
 static MYSQL_STMT *insert_review;		// ok Meccanico, Manager
 static MYSQL_STMT *insert_sostitution;	// ok Meccanico, Manager
 static MYSQL_STMT *insert_presents; 
+static MYSQL_STMT *insert_rt; 
+
 
 
 static MYSQL_STMT *select_trip;		   // ok HOSTESS, ok Manager
@@ -80,7 +82,8 @@ static MYSQL_STMT *select_picture;	   	// ok Manager
 static MYSQL_STMT *select_comfort;	   	// ok Manager
 static MYSQL_STMT *select_service;	  	// ok Manager
 static MYSQL_STMT *select_sostitution; 
-
+static MYSQL_STMT *select_presents;
+static MYSQL_STMT *select_rt;
 
 static MYSQL_STMT *delete_trip;		   // ok HOSTESS, ok Manager
 static MYSQL_STMT *delete_costumer;	   // Ok HOSTESS
@@ -109,6 +112,8 @@ static MYSQL_STMT *delete_picture;	   	// ok Manager
 static MYSQL_STMT *delete_comfort;	   	// ok Manager
 static MYSQL_STMT *delete_service;	  	// ok Manager
 static MYSQL_STMT *delete_sostitution; 
+static MYSQL_STMT *delete_presents;
+static MYSQL_STMT *delete_rt;
 
 
 static MYSQL_STMT *select_all_tour;		  	// ok Cliente
@@ -184,6 +189,16 @@ static void close_prepared_stmts(void)
 	{
 		mysql_stmt_close(delete_service);
 		delete_service = NULL;
+	}
+	if (delete_presents)
+	{
+		mysql_stmt_close(delete_presents);
+		delete_presents = NULL;
+	}
+	if (delete_rt)
+	{
+		mysql_stmt_close(delete_rt);
+		delete_rt = NULL;
 	}
 	if (delete_sostitution)
 	{
@@ -329,6 +344,16 @@ static void close_prepared_stmts(void)
 	{
 		mysql_stmt_close(select_service);
 		select_service = NULL;
+	}
+	if (select_presents)
+	{
+		mysql_stmt_close(select_presents);
+		select_presents = NULL;
+	}
+	if (select_rt)
+	{
+		mysql_stmt_close(select_rt);
+		select_rt = NULL;
 	}
 	if (select_sostitution)
 	{
@@ -588,6 +613,11 @@ static void close_prepared_stmts(void)
 	{ 
 		mysql_stmt_close(insert_sostitution);
 		insert_sostitution = NULL;
+	}
+	if (insert_rt)
+	{ 
+		mysql_stmt_close(insert_rt);
+		insert_rt = NULL;
 	}
 	if (insert_presents)
 	{ 
@@ -850,6 +880,11 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(insert_presents, "Unable to initialize insert_presents statement\n");
 			return false;
 		}
+		if (!setup_prepared_stmt(&insert_rt, "call insert_rt(?,?)", conn))
+		{
+			print_stmt_error(insert_rt, "Unable to initialize insert_rt statement\n");
+			return false;
+		}
 		if (!setup_prepared_stmt(&insert_sostitution, "call insert_sostitution(?,?,?)", conn))
 		{
 			print_stmt_error(insert_sostitution, "Unable to initialize insert_sostitution statement\n");
@@ -1105,6 +1140,16 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(delete_service , "Unable to initialize delete_service  statement\n");
 			return false;
 		}
+		if (!setup_prepared_stmt(&delete_presents , "call  delete_presents (?, ?)", conn))
+		{ 
+			print_stmt_error(delete_presents , "Unable to initialize delete_presents  statement\n");
+			return false;
+		}
+		if (!setup_prepared_stmt(&delete_rt , "call  delete_rt (?, ?)", conn))
+		{ 
+			print_stmt_error(delete_rt , "Unable to initialize delete_rt  statement\n");
+			return false;
+		}
 		if (!setup_prepared_stmt(&delete_sostitution , "call  delete_sostitution (?, ?)", conn))
 		{ 
 			print_stmt_error(delete_sostitution , "Unable to initialize delete_sostitution  statement\n");
@@ -1133,6 +1178,16 @@ static bool initialize_prepared_stmts(role_t for_role)
 		if (!setup_prepared_stmt(&select_service , "call  select_service (?)", conn))
 		{ 
 			print_stmt_error(select_service , "Unable to initialize select_service  statement\n");
+			return false;
+		}
+		if (!setup_prepared_stmt(&select_rt , "call  select_rt (?, ?)", conn))
+		{ 
+			print_stmt_error(select_rt , "Unable to initialize select_rt  statement\n");
+			return false;
+		}
+		if (!setup_prepared_stmt(&select_presents , "call  select_presents (?, ?)", conn))
+		{ 
+			print_stmt_error(select_presents , "Unable to initialize select_presents  statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&select_sostitution , "call  select_sostitution (?, ?)", conn))
@@ -1556,6 +1611,24 @@ void do_insert_sostitution(struct sostituito *sostituito)
 	mysql_stmt_free_result(insert_sostitution);
 	mysql_stmt_reset(insert_sostitution);
 }
+
+void do_insert_rt(struct rt *rt)
+{
+	MYSQL_BIND param[2];
+
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &rt->revisionerelativa, sizeof(rt->revisionerelativa));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &rt->tagliandoassociato, sizeof(rt->tagliandoassociato));
+
+	bind_exe(insert_rt, param, "insert_rt");
+
+	mysql_stmt_free_result(insert_rt);
+	mysql_stmt_reset(insert_rt);
+}
+
+
+
+
+
 
 void do_insert_presents(struct presenti *presenti)
 {
@@ -2748,6 +2821,56 @@ int do_select_destination(struct meta *meta)
 	return(rows); 
 }
 
+
+int do_select_rt(struct rt *rt)
+{
+	MYSQL_BIND param[2];
+
+	char *buff = "select_rt"; 
+	int rows; 
+
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &rt->revisionerelativa, sizeof(rt->revisionerelativa));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &rt->tagliandoassociato, sizeof(rt->tagliandoassociato));
+
+	if(bind_exe(select_rt, param, buff)==-1)
+		goto stop; 
+
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &rt->revisionerelativa, sizeof(rt->revisionerelativa));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &rt->tagliandoassociato, sizeof(rt->tagliandoassociato));
+
+	rows = take_result(select_rt,param, buff); 
+	
+	stop: 
+	mysql_stmt_free_result(select_rt);
+	mysql_stmt_reset(select_rt);
+	return(rows); 
+
+}
+
+int do_select_presents(struct presenti *presenti)
+{
+	MYSQL_BIND param[2];
+
+	char *buff ="select_presents"; 
+	int rows; 
+
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &presenti->comfortpresenti, sizeof(presenti->comfortpresenti));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, presenti->modelloassciato, strlen(presenti->modelloassciato));
+
+	if(bind_exe(select_presents, param, buff)==-1)
+		goto stop; 
+
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &presenti->comfortpresenti, sizeof(presenti->comfortpresenti));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, presenti->modelloassciato, strlen(presenti->modelloassciato));
+
+	rows = take_result(select_presents,param, buff); 
+	
+	stop: 
+	mysql_stmt_free_result(select_presents);
+	mysql_stmt_reset(select_presents);
+	return(rows); 
+}
+
 int do_select_sostitution(struct sostituito *sostituito)
 {
 	MYSQL_BIND param[2];
@@ -3177,6 +3300,37 @@ void do_delete_destination(struct meta *meta)
 	mysql_stmt_free_result(delete_destination);
 	mysql_stmt_reset(delete_destination);
 }
+
+void do_delete_rt(struct rt *rt)
+{
+	MYSQL_BIND param[2];
+
+	char *buff ="delete_rt"; 
+
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &rt->revisionerelativa, sizeof(rt->revisionerelativa));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &rt->tagliandoassociato, sizeof(rt->tagliandoassociato));
+
+	bind_exe(delete_rt, param, buff);
+	
+	mysql_stmt_free_result(delete_rt);
+	mysql_stmt_reset(delete_rt);
+}
+
+void do_delete_presents(struct presenti *presenti)
+{
+	MYSQL_BIND param[2];
+
+	char *buff ="delete_presents"; 
+
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &presenti->comfortpresenti, sizeof(presenti->comfortpresenti));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, presenti->modelloassciato, strlen(presenti->modelloassciato));
+
+	bind_exe(delete_presents, param, buff);
+	
+	mysql_stmt_free_result(delete_presents);
+	mysql_stmt_reset(delete_presents);
+}
+
 void do_delete_sostitution(struct sostituito *sostituito)
 {
 	MYSQL_BIND param[2];
