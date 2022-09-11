@@ -17,7 +17,7 @@ int get_cstmr_action(void)
 	puts("*********************************\n");
 	puts("*** Quale operazione vorresti eseguire? ***\n");
 	puts("1) Visualizza i tour disponibili ed i relativi viaggi previsti");
-	puts("2) Consulta le mete relative ad un tour");
+	puts("2) Consulta le mete relative ad un viaggio");
 	puts("3) Consulta i servizi offerti da un albergo");
 	puts("4) Consulta i comfort presenti su un modello");
 	puts("5) Esci ");
@@ -58,45 +58,6 @@ bool exe_cstmr_act(cstmr_act sel)
 
 
 
-void show_tour_information(void)
-{	
-	printf("\n\n** Tour offerti  **\n\n"); 
-	get_tour_info(); 
-}
-
-void show_tour_destination(void)
-{
-	char buff[VARCHAR_LEN]; 
-	int idv; 
-	printf("\n\n ** Esplora le destinazioni dei viaggi **\n\n"); 
-	get_input("Inserisca il numero del viaggio a cui è interessato: ",VARCHAR_LEN, buff, false);  
-	printf("\n**\n**\n"); 
-	idv = atoi(buff); 
-	get_mete_info(idv); 
-}
-
-
-void show_service_destination(void)
-{	
-	char buff[VARCHAR_LEN]; 
-	int idh; 
-	printf("\n\n ** Esplora i servizi offerti dagli alberghi **\n\n"); 
-	get_input("Inserisca il codice dell'albergo a cui è interessato: ",VARCHAR_LEN, buff, false);  
-	printf("\n**\n**\n"); 
-	idh = atoi(buff); 
-	get_servizi_albergo(idh); 
-}
-
-
-void show_comfort_model(void)
-{	
-	char buff[VARCHAR_LEN]; 
-	
-	printf("\n\n ** Esplora comfort presenti sui nostri pullman  **\n\n"); 
-	get_input("Inserisca il nome del modello a cui è interessato: ",VARCHAR_LEN, buff, false);  
-	printf("\n**\n**\n");  
-	get_info_modello(buff); 
-}
 
 void run_cstmr_interface (void)
 { 	char sel; 

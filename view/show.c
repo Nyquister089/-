@@ -623,3 +623,75 @@ void show_expired_review (void)
 }
 
 
+void show_tour_information(void)
+{	
+	printf("\n\n** Tour offerti  **\n\n"); 
+	get_tour_info(); 
+}
+
+void show_tour_destination(void)
+{
+	char buff[VARCHAR_LEN]; 
+	int idv; 
+	printf("\n\n ** Esplora le destinazioni dei viaggi **\n\n"); 
+	get_input("Inserisca il numero del viaggio a cui è interessato: ",VARCHAR_LEN, buff, false);  
+	printf("\n**\n**\n"); 
+	idv = atoi(buff); 
+	get_mete_info(idv); 
+}
+
+
+void show_service_destination(void)
+{	
+	char buff[VARCHAR_LEN]; 
+	int idh; 
+	printf("\n\n ** Esplora i servizi offerti dagli alberghi **\n\n"); 
+	get_input("Inserisca il codice dell'albergo a cui è interessato: ",VARCHAR_LEN, buff, false);  
+	printf("\n**\n**\n"); 
+	idh = atoi(buff); 
+	get_servizi_albergo(idh); 
+}
+
+
+void show_comfort_model(void)
+{	
+	char buff[VARCHAR_LEN]; 
+	
+	printf("\n\n ** Esplora comfort presenti sui nostri pullman  **\n\n"); 
+	get_input("Inserisca il nome del modello a cui è interessato: ",VARCHAR_LEN, buff, false);  
+	printf("\n**\n**\n");  
+	get_info_modello(buff); 
+}
+
+
+void show_assigned_trip(void)
+{	
+	char buff[VARCHAR_LEN];
+
+	printf("** Ricerca viaggi assegnati **\n\n");
+	get_input("Inserisci la mail del conducente:", VARCHAR_LEN,buff, false);
+	printf("** Dettagli del viaggio assegnato **\n\n");
+	get_viaggi_assegnati(buff); 
+}
+
+void show_dest_time(void)
+{	
+	char buff[NUM_LEN];
+	int dvr; 
+
+	printf("** Ricerca visite d'interesse **\n\n");
+	get_input("Inserisci l'ID del viaggio:", VARCHAR_LEN, buff, false);
+	dvr = atoi(buff); 
+	printf("** Dettagli temporali delle visite **\n\n");
+	get_mete_visite(dvr); 
+}
+
+void show_drvr_map(void)
+{
+	char buff[VARCHAR_LEN];
+	printf("** Ricerca la mappa d'interesse **\n\n");
+	get_input("Inserisci il nome della località:", VARCHAR_LEN, buff, false);
+	printf("** Dettagli mappe relative alla località inserita **\n\n");
+	get_mappe(buff); 
+}
+

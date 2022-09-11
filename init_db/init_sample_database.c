@@ -314,6 +314,7 @@ void create_procedures(){
         execute_query_from_file_sql("../sql/ddl/trigger/decrement_sparepart.sql"); 
         execute_query_from_file_sql("../sql/ddl/trigger/update_tripseat.sql"); 
         execute_query_from_file_sql("../sql/ddl/trigger/update_data_doc.sql"); 
+         execute_query_from_file_sql("../sql/ddl/trigger/update_km_after_review.sql"); 
     }
 
     void privileges (void){
