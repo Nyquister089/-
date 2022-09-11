@@ -168,14 +168,16 @@ int show_stay(struct soggiorno *soggiorno)
 {	
 	char buff [NUM_LEN]; 
 	printf("\n\n** Dettagli soggiorno **\n\n");
-	get_input("Inserisci il codice dell'albergo:",NUM_LEN, buff, false); 
-	soggiorno->albergoinquestione = atoi(buff); 
-	get_input("Inserisci il codice della camera :",NUM_LEN, buff, false);
-	soggiorno->cameraprenotata = atoi(buff); 
-	get_input("Inserisci il numero dell'ospite :",NUM_LEN, buff, false);
-	soggiorno->ospite = atoi(buff); 
+	get_input("Inserisci l'id del soggiorno:",NUM_LEN, buff, false); 
+	soggiorno->idsoggiorno = atoi(buff); 
+	printf("show\n\n"); 
 	if(do_select_stay(soggiorno) > 0){
- 		printf("*Data inizio soggiorno:%s \n Data fine soggiorno:	%s \n\n",
+		printf("show\n\n"); 
+ 		printf("*Albergo:	%s \n Camera:	%d \n Ospite:	%s \n Viaggio:	%d \n Data inizio soggiorno: %s \n Data fine soggiorno:	%s \n\n",
+			soggiorno->nomealbergo,
+			soggiorno->cameraprenotata,
+			soggiorno->nomeospite,
+			soggiorno->viaggioinquestione,
 			soggiorno->datainiziosoggiorno,
 			soggiorno->datafinesoggiorno); 
 		}

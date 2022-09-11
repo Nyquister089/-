@@ -46,11 +46,16 @@ extern role_t attempt_login(struct credentials *cred);
 extern void db_switch_to_administrator(void);
 
 struct soggiorno{
+	int  idsoggiorno; 
 	int  cameraprenotata; 				//FK //Corretto trasformandolo da carattere a puntatore di carattere
 	int  ospite; 						//FK //Corretto trasformandolo da carattere a puntatore di carattere
 	int  albergoinquestione; 			//FK //Corretto trasformandolo da carattere a puntatore di carattere
+	int  viaggioinquestione;
 	char datainiziosoggiorno[DATE_LEN]; 
 	char datafinesoggiorno[DATE_LEN];
+	//variabili di appoggio
+	char nomeospite[VARCHAR_LEN]; 
+	char nomealbergo[VARCHAR_LEN]; 
 }; 
 
 struct camera {

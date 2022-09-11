@@ -239,6 +239,8 @@ void ins_stay(struct soggiorno *soggiorno)
 	soggiorno->cameraprenotata = atoi(buff); 
 	get_input("Inserisci l'albergo in cui è ubicata la camera: ", NUM_LEN, buff,false);	
 	soggiorno->albergoinquestione = atoi(buff); 
+	get_input("Inserisci l'id del viaggio a cui il passeggero partecipa: ", NUM_LEN, buff, false);
+	soggiorno->viaggioinquestione = atoi(buff); 
 	get_input("Inserisci il numero di posto di viaggio dell'ospite: ", NUM_LEN, buff, false);
 	soggiorno->ospite = atoi(buff); 
 	while(true){

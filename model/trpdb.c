@@ -755,7 +755,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 			return false;
 		}
 
-		if (!setup_prepared_stmt(&insert_stay, "call insert_stay(?, ?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(&insert_stay, "call insert_stay(?, ?, ?, ?, ?, ?)", conn))
 		{
 			print_stmt_error(insert_stay, "Unable to initialize insert_stay statement statement\n");
 			return false;
@@ -865,7 +865,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 		init_db(); 
 
 
-		if (!setup_prepared_stmt(&insert_stay, "call insert_stay(?, ?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(&insert_stay, "call insert_stay(?, ?, ?, ?, ?, ?)", conn))
 		{
 			print_stmt_error(insert_stay, "Unable to initialize insert_stay statement statement\n");
 			return false;
@@ -1045,7 +1045,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(delete_costumer, "Unable to initialize delete_costumer statement\n");
 			return false;
 		}
-			if (!setup_prepared_stmt(&delete_stay, "call  delete_stay(?, ?, ?)", conn))
+			if (!setup_prepared_stmt(&delete_stay, "call  delete_stay(?)", conn))
 		{ 
 			print_stmt_error(delete_stay, "Unable to initialize delete_stay statement\n");
 			return false;
@@ -1165,7 +1165,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(select_review, "Unable to initialize select_review statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&select_stay, "call  select_stay(?,?,?)", conn))
+		if (!setup_prepared_stmt(&select_stay, "call  select_stay(?)", conn))
 		{ 
 			print_stmt_error(select_stay, "Unable to initialize select_stay statement\n");
 			return false;
@@ -1527,7 +1527,7 @@ void do_insert_seat(struct postoprenotato *postoprenotato)
 
 void do_insert_stay(struct soggiorno *soggiorno)
 {
-	MYSQL_BIND param[5];
+	MYSQL_BIND param[6];
 	MYSQL_TIME datafinesoggiorno;
 	MYSQL_TIME datainiziosoggiorno;
 
@@ -1539,8 +1539,9 @@ void do_insert_stay(struct soggiorno *soggiorno)
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &soggiorno->cameraprenotata, sizeof(soggiorno->cameraprenotata));
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &soggiorno->ospite, sizeof(soggiorno->ospite));
 	set_binding_param(&param[2], MYSQL_TYPE_LONG, &soggiorno->albergoinquestione, sizeof(soggiorno->albergoinquestione));
-	set_binding_param(&param[3], MYSQL_TYPE_DATE, &datainiziosoggiorno, sizeof(datainiziosoggiorno));
-	set_binding_param(&param[4], MYSQL_TYPE_DATE, &datafinesoggiorno, sizeof(datafinesoggiorno));
+	set_binding_param(&param[3], MYSQL_TYPE_LONG, &soggiorno->viaggioinquestione, sizeof(soggiorno->viaggioinquestione));
+	set_binding_param(&param[4], MYSQL_TYPE_DATE, &datainiziosoggiorno, sizeof(datainiziosoggiorno));
+	set_binding_param(&param[5], MYSQL_TYPE_DATE, &datafinesoggiorno, sizeof(datafinesoggiorno));
 
 	bind_exe(insert_stay, param, buff);
 
@@ -2309,7 +2310,7 @@ int do_select_skills(struct competenze *competenze)
 
 int do_select_stay(struct soggiorno *soggiorno)
 {
-	MYSQL_BIND param[3];
+	MYSQL_BIND param[6];
 	MYSQL_TIME datainiziosoggiorno; 
 	MYSQL_TIME datafinesoggiorno;
 
@@ -2319,16 +2320,17 @@ int do_select_stay(struct soggiorno *soggiorno)
 	date_to_mysql_time(soggiorno->datainiziosoggiorno, &datainiziosoggiorno);
 	date_to_mysql_time(soggiorno->datafinesoggiorno,&datafinesoggiorno);
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &soggiorno->albergoinquestione, sizeof(soggiorno->albergoinquestione));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &soggiorno->cameraprenotata, sizeof(soggiorno->cameraprenotata));
-	set_binding_param(&param[2], MYSQL_TYPE_LONG, &soggiorno->ospite, sizeof(soggiorno->ospite));
-
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &soggiorno->idsoggiorno, sizeof(soggiorno->idsoggiorno));
+	 
 	if (bind_exe(select_stay, param, buff) == -1)
 		goto stop;
 
-	set_binding_param(&param[0], MYSQL_TYPE_DATE, &datainiziosoggiorno, sizeof(datainiziosoggiorno));
-	set_binding_param(&param[1], MYSQL_TYPE_DATE, &datafinesoggiorno, sizeof(datafinesoggiorno));
-	 
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, soggiorno->nomealbergo, sizeof(soggiorno->nomealbergo));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, soggiorno->nomeospite, sizeof(soggiorno->nomeospite));
+	set_binding_param(&param[2], MYSQL_TYPE_LONG, &soggiorno->cameraprenotata, sizeof(soggiorno->cameraprenotata));
+	set_binding_param(&param[3], MYSQL_TYPE_LONG, &soggiorno->viaggioinquestione, sizeof(soggiorno->viaggioinquestione));
+	set_binding_param(&param[4], MYSQL_TYPE_DATE, &datainiziosoggiorno, sizeof(datainiziosoggiorno));
+	set_binding_param(&param[5], MYSQL_TYPE_DATE, &datafinesoggiorno, sizeof(datafinesoggiorno));
 	
 	rows = take_result(select_stay, param, buff); 
 	if(rows == -1)
@@ -2341,6 +2343,7 @@ int do_select_stay(struct soggiorno *soggiorno)
 
 	mysql_stmt_free_result(select_stay);
 	mysql_stmt_reset(select_stay);
+
 	return (rows); 
 }
 
@@ -2363,7 +2366,7 @@ int do_select_sparepart(struct ricambio *ricambio)
 	set_binding_param(&param[4], MYSQL_TYPE_LONG, &ricambio->quantitainmagazzino, sizeof(ricambio->quantitainmagazzino));
 
 	rows = take_result(select_sparepart, param, buff);
-
+	printf("orw %d \n\n", rows); 
 	stop:
 	mysql_stmt_free_result(select_sparepart);
 	mysql_stmt_reset(select_sparepart);
@@ -3066,13 +3069,12 @@ void do_delete_skills(struct competenze *competenze)
 
 void do_delete_stay(struct soggiorno *soggiorno)
 {
-	MYSQL_BIND param[3];
+	MYSQL_BIND param[1];
 	
 	char *buff = "delete_stay";
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &soggiorno->albergoinquestione, sizeof(soggiorno->albergoinquestione));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &soggiorno->cameraprenotata, sizeof(soggiorno->cameraprenotata));
-	set_binding_param(&param[2], MYSQL_TYPE_LONG, &soggiorno->ospite, sizeof(soggiorno->ospite));
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &soggiorno->idsoggiorno, sizeof(soggiorno->idsoggiorno));
+
 
 	bind_exe(delete_stay, param, buff);
 
