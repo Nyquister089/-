@@ -4,11 +4,11 @@ in idm int
 begin
 select
 m.Citta, 
-m.LocalitaRappresentata,
+m.RegioneInQuestione,
 m.Dettaglio,
 m.Zona,
 m.ImmagineMappa
 from mappa as m 
-join localita as l on m.LocalitaRappresentata = l.NomeLocalita
+join localita as l on m.Citta = l.NomeLocalita 
 where m.IdMappa = idm; 
 end

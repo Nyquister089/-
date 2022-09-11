@@ -1,6 +1,7 @@
 
 create procedure if not exists `tripdb`.`insert_destination`(
     in lcl varchar(45), 
+    in rgn varchar(45),
     in nmm varchar(45),
     in tlf varchar(15), 
     in mlm varchar(45),
@@ -13,6 +14,7 @@ create procedure if not exists `tripdb`.`insert_destination`(
 begin
 INSERT INTO meta(  
      LocalitaDiAppartenenza ,
+     RegioneDiAppartenenza, 
      NomeMeta , 
      TelefonoMeta , 
      EmailMeta ,
@@ -23,6 +25,7 @@ INSERT INTO meta(
      OrarioDiApertura ) 
     VALUES (
      lcl,
+     rgn,
      nmm,
      tlf, 
      mlm,

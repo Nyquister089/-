@@ -995,7 +995,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(  insert_visit, "Unable to initialize insert costumer statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(& insert_destination, "call  insert_destination(?, ?, ?, ?, ?, ?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(& insert_destination, "call  insert_destination(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", conn))
 		{ 
 			print_stmt_error( insert_destination, "Unable to initialize insert costumer statement\n");
 			return false;
@@ -1682,7 +1682,7 @@ void do_insert_tour(struct tour *tour)
 
 void do_insert_destination(struct meta *meta)
 { 	
-	MYSQL_BIND param[9]; 
+	MYSQL_BIND param[10]; 
 	MYSQL_TIME orariodiapertura; 
 
 	char *buff = "insert_destination"; 
@@ -1690,14 +1690,15 @@ void do_insert_destination(struct meta *meta)
 	time_to_mysql_time(meta->orariodiapertura, &orariodiapertura);
 	
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, meta->localitadiappartenenza, strlen(meta->localitadiappartenenza));
-	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, meta->nomemeta, strlen(meta->nomemeta));
-	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, meta->emailmeta, strlen(meta->emailmeta));
-	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, meta->telefonometa, strlen(meta->telefonometa));
-	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, meta->faxmeta, strlen(meta->faxmeta));
-	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, meta->indirizzo, strlen(meta->indirizzo));
-	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, meta->tipologiameta, strlen(meta->tipologiameta));
-	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, meta->categoriaalbergo, strlen(meta->categoriaalbergo));
-	set_binding_param(&param[8], MYSQL_TYPE_TIME, &orariodiapertura, sizeof(orariodiapertura));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, meta->regiodiappartenennza, strlen(meta->regiodiappartenennza));
+	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, meta->nomemeta, strlen(meta->nomemeta));
+	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, meta->emailmeta, strlen(meta->emailmeta));
+	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, meta->telefonometa, strlen(meta->telefonometa));
+	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, meta->faxmeta, strlen(meta->faxmeta));
+	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, meta->indirizzo, strlen(meta->indirizzo));
+	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, meta->tipologiameta, strlen(meta->tipologiameta));
+	set_binding_param(&param[8], MYSQL_TYPE_VAR_STRING, meta->categoriaalbergo, strlen(meta->categoriaalbergo));
+	set_binding_param(&param[9], MYSQL_TYPE_TIME, &orariodiapertura, sizeof(orariodiapertura));
 	
 	bind_exe(insert_destination, param, buff); 
 
@@ -2789,7 +2790,7 @@ int do_select_visit(struct visita *visita)
 
 int do_select_destination(struct meta *meta)
 {
-	MYSQL_BIND param[9];
+	MYSQL_BIND param[10];
 	MYSQL_TIME orariodiapertura;
 
 	char *buff = "select_destination";
@@ -2805,12 +2806,13 @@ int do_select_destination(struct meta *meta)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, meta->nomemeta, sizeof(meta->nomemeta));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, meta->tipologiameta, sizeof(meta->tipologiameta));
 	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, meta->localitadiappartenenza, sizeof(meta->localitadiappartenenza));
-	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, meta->indirizzo, sizeof(meta->indirizzo));
-	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, meta->telefonometa, sizeof(meta->telefonometa));
-	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, meta->emailmeta, sizeof(meta->emailmeta));
-	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, meta->faxmeta, sizeof(meta->faxmeta));
-	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, meta->categoriaalbergo, sizeof(meta->categoriaalbergo));
-	set_binding_param(&param[8], MYSQL_TYPE_TIME, &orariodiapertura, sizeof(orariodiapertura));
+	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, meta->regiodiappartenennza, sizeof(meta->regiodiappartenennza));
+	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, meta->indirizzo, sizeof(meta->indirizzo));
+	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, meta->telefonometa, sizeof(meta->telefonometa));
+	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, meta->emailmeta, sizeof(meta->emailmeta));
+	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, meta->faxmeta, sizeof(meta->faxmeta));
+	set_binding_param(&param[8], MYSQL_TYPE_VAR_STRING, meta->categoriaalbergo, sizeof(meta->categoriaalbergo));
+	set_binding_param(&param[9], MYSQL_TYPE_TIME, &orariodiapertura, sizeof(orariodiapertura));
 
 	rows = take_result(select_destination, param, buff); 
 	if(rows ==-1)

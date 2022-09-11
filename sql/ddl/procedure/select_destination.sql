@@ -6,6 +6,7 @@ select
 m.NomeMeta,
 m.TipologiaMeta,  
 m.LocalitaDiAppartenenza, 
+m.RegioneDiAppartenenza,
 m.Indirizzo,
 m.TelefonoMeta,
 m.EmailMeta, 

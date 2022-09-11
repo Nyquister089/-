@@ -161,6 +161,7 @@ struct meta {
 	char categoriaalbergo[VARCHAR_LEN]; 
 	char orariodiapertura[TIME_LEN]; 
 	char localitadiappartenenza[VARCHAR_LEN]; 		//FK
+	char regiodiappartenennza[VARCHAR_LEN]; 
 };
 
 struct mete_viaggio{	

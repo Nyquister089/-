@@ -431,10 +431,11 @@ int show_destination(struct meta *meta){
 	get_input("Inserisci l'id  d'interesse:",NUM_LEN, buff, false); 
 	meta->idmeta= atoi(buff); 
 	if(do_select_destination(meta) > 0){
-		printf("*Nome:		%s\n Tipologia:	%s\n Località:	%s\n Indirizzo:	%s\n Telefono:	%s\n E-mail:	%s\n Fax:		%s\n",
+		printf("*Nome:		%s\n Tipologia:	%s\n Località:	%s\n Regione:	%s \n Indirizzo:	%s\n Telefono:	%s\n E-mail:	%s\n Fax:		%s\n",
 			meta->nomemeta,
 			meta->tipologiameta,
 			meta->localitadiappartenenza,
+			meta->regiodiappartenennza,
 			meta->indirizzo,
 			meta->telefonometa,
 			meta->emailmeta,
@@ -515,7 +516,7 @@ int show_map(struct mappa *mappa){
 	get_input("Inserisci l'id d'interesse:",NUM_LEN, buff, false); 
 	mappa->idmappa = atoi(buff); 
 	if(do_select_map(mappa) > 0) {
-		printf("*Città:		%s \n Località:	%s \n Dettaglio:	%s \n Zona:		%s \n Immagine: 	%s \n\n",
+		printf("*Città:		%s \n Regione:	%s \n Dettaglio:	%s \n Zona:		%s \n Immagine: 	%s \n\n",
 			mappa->citta,
 			mappa->localitarappresentata,
 			mappa->dettaglio, 

@@ -1,6 +1,7 @@
 DELETE FROM `tripdb`.`meta`;
 INSERT INTO `tripdb`.`meta` (  
     `LocalitaDiAppartenenza`,
+    `RegioneDiAppartenenza`,
     `NomeMeta`, 
     `TelefonoMeta`, 
     `EmailMeta`,
@@ -11,6 +12,7 @@ INSERT INTO `tripdb`.`meta` (
     `OrarioDiApertura`) 
     VALUES (
         'Roma', 
+        'Lazio',
         'Chiesa', 
         '123', 
         's@gmail.com', 
@@ -21,6 +23,7 @@ INSERT INTO `tripdb`.`meta` (
         '08:00');
         INSERT INTO `tripdb`.`meta` (  
     `LocalitaDiAppartenenza`,
+    `RegioneDiAppartenenza`,
     `NomeMeta`, 
     `TelefonoMeta`, 
     `EmailMeta`,
@@ -31,6 +34,7 @@ INSERT INTO `tripdb`.`meta` (
     `OrarioDiApertura`) 
     VALUES (
         'Roma', 
+        'Lazio',
         'Piazza', 
         '123', 
         's@gmail.com', 
@@ -41,6 +45,7 @@ INSERT INTO `tripdb`.`meta` (
         '08:00');
         INSERT INTO `tripdb`.`meta` (  
     `LocalitaDiAppartenenza`,
+    `RegioneDiAppartenenza`,
     `NomeMeta`, 
     `TelefonoMeta`, 
     `EmailMeta`,
@@ -51,6 +56,7 @@ INSERT INTO `tripdb`.`meta` (
     `OrarioDiApertura`) 
     VALUES (
         'Roma', 
+        'Lazio',
         'Domus', 
         '123', 
         's@gmail.com', 
@@ -61,6 +67,7 @@ INSERT INTO `tripdb`.`meta` (
         '-');
         INSERT INTO `tripdb`.`meta` (  
     `LocalitaDiAppartenenza`,
+    `RegioneDiAppartenenza`,
     `NomeMeta`, 
     `TelefonoMeta`, 
     `EmailMeta`,
@@ -70,7 +77,8 @@ INSERT INTO `tripdb`.`meta` (
     `CategoriaAlbergo`, 
     `OrarioDiApertura`) 
     VALUES (
-        'Milano', 
+        'Milano',
+        'Lombardia', 
         'Chiesa', 
         '123', 
         's@gmail.com', 
@@ -82,6 +90,7 @@ INSERT INTO `tripdb`.`meta` (
 
     INSERT INTO `tripdb`.`meta` (  
     `LocalitaDiAppartenenza`,
+    `RegioneDiAppartenenza`,
     `NomeMeta`, 
     `TelefonoMeta`, 
     `EmailMeta`,
@@ -92,6 +101,7 @@ INSERT INTO `tripdb`.`meta` (
     `OrarioDiApertura`) 
     VALUES (
         'Milano', 
+        'Lombardia',
         'museo', 
         '123', 
         's@gmail.com', 
@@ -102,6 +112,7 @@ INSERT INTO `tripdb`.`meta` (
         '08:00');
          INSERT INTO `tripdb`.`meta` (  
     `LocalitaDiAppartenenza`,
+    `RegioneDiAppartenenza`,
     `NomeMeta`, 
     `TelefonoMeta`, 
     `EmailMeta`,
@@ -112,6 +123,7 @@ INSERT INTO `tripdb`.`meta` (
     `OrarioDiApertura`) 
     VALUES (
         'Milano', 
+        'Lombardia',
         'Albergo Milano ', 
         '123', 
         's@gmail.com', 

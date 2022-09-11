@@ -336,6 +336,7 @@ void ins_destination(struct meta *meta)
 {	
 	printf("** Dettagli inserimento meta **\n\n");
 	get_input("Inserisci la localita di appartenenza: ", VARCHAR_LEN, meta->localitadiappartenenza, false);
+	get_input("Inserisci la regione di appartenenza: ", VARCHAR_LEN, meta->regiodiappartenennza, false);
 	get_input("Inserisci il nome: ", VARCHAR_LEN, meta->nomemeta, false);
 	get_input("Inserisci l'indirizzo e-mail: ", VARCHAR_LEN, meta->emailmeta, false);
 	get_input("Inserisci il numero di telefono: ", VARCHAR_LEN, meta->telefonometa, false);
@@ -430,7 +431,7 @@ void ins_map(struct mappa *mappa)
 {	
 	printf("** Dettagli inserimento mappa **\n\n");
 	get_input("Inserisci il nome della citta' rappresentata nella mappa: ", VARCHAR_LEN, mappa->citta, false);
-	get_input("Inserisci il nome della località in cui è ubicata la citta' rappresentata: ", VARCHAR_LEN, mappa->localitarappresentata, false);
+	get_input("Inserisci il nome della regione in cui è ubicata la citta' rappresentata: ", VARCHAR_LEN, mappa->localitarappresentata, false);
 	get_input("Inserisci il livello di dettaglio: ", VARCHAR_LEN, mappa->dettaglio, false);
 	get_input("Inserisci il nome della zona rappresentata dalla mappa: ", VARCHAR_LEN, mappa->zona, false);
 	get_input("Inserisci il file della mappa: ", BLOB_LEN, mappa->immagine, false); 

@@ -2,19 +2,19 @@ DELETE FROM `tripdb`.`mappa`;
 INSERT INTO `tripdb`.`mappa` 
 (
   `Citta`,
-  `LocalitaRappresentata`,
+  `RegioneInQuestione`,
   `Dettaglio`,
   `Zona`)
-   VALUES ('Roma','Roma', 'Medio', 'Roma Sud');
+   VALUES ('Roma','Lazio', 'Medio', 'Roma Sud');
 INSERT INTO `tripdb`.`mappa` (
   `Citta`,
-  `LocalitaRappresentata`,
+  `RegioneInQuestione`,
   `Dettaglio`,
   `Zona`) 
-  VALUES ('Milano', 'Milano', 'Basso', 'Navigli');
+  VALUES ('Milano', 'Lombardia', 'Basso', 'Navigli');
 INSERT INTO `tripdb`.`mappa` (
   `Citta`,
-  `LocalitaRappresentata`,
+  `RegioneInQuestione`,
   `Dettaglio`,
   `Zona`) 
-  VALUES ('Graz', 'Graz', 'Alto', 'Graz');
+  VALUES ('Graz', 'Stiria', 'Alto', 'Graz');
