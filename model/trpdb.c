@@ -1570,20 +1570,18 @@ void do_validate_reservation(struct prenotazione *prenotazione) // Funziona
 
 	MYSQL_TIME datadiconferma;
 	MYSQL_TIME datasaldo;
+	char *buff = "validate_reservation"; 
 
-	int numerodiprenotazione;
-
-	numerodiprenotazione = prenotazione->numerodiprenotazione;
-
+	printf("Here\n\n"); 
 	date_to_mysql_time(prenotazione->datadiconferma, &datadiconferma);
 	date_to_mysql_time(prenotazione->datasaldo, &datasaldo);
-
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &numerodiprenotazione, sizeof(numerodiprenotazione));
+	printf("Here\n\n"); 
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &prenotazione->numerodiprenotazione, sizeof(prenotazione->numerodipostiprenotati));
 	set_binding_param(&param[1], MYSQL_TYPE_DATE, &datadiconferma, sizeof(datadiconferma));
 	set_binding_param(&param[2], MYSQL_TYPE_DATE, &datasaldo, sizeof(datasaldo));
-
-	bind_exe(validate_reservation, param, "validate_reservation");
-
+	printf("Here\n\n"); 
+	bind_exe(validate_reservation, param, buff);
+	printf("Here\n\n"); 
 	mysql_stmt_free_result(validate_reservation);
 	mysql_stmt_reset(validate_reservation);
 }

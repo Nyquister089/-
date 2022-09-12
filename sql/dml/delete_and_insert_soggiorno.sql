@@ -31,14 +31,14 @@ INSERT INTO `tripdb`.`soggiorno`(
     `DataInizioSoggiorno`, 
     `DataFineSoggiorno`)
 VALUES('1','3','3','2','2022-07-12','2022-07-12');
-INSERT INTO `tripdb`.`soggiorno`(
+/*INSERT INTO `tripdb`.`soggiorno`(
     `CameraPrenotata`,
     `Ospite`,
     `AlbergoInQuestione`,
     `PrenotazioneInQuestione`,
     `DataInizioSoggiorno`, 
     `DataFineSoggiorno`)
-VALUES('2','2','6','2','2022-07-12','2022-07-12');
+VALUES('2','2','6','2','2022-07-12','2022-07-12');*/
 INSERT INTO `tripdb`.`soggiorno`(
     `CameraPrenotata`,
     `Ospite`,

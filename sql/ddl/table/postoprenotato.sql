@@ -7,4 +7,5 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`postoprenotato` (
   PRIMARY KEY (`NumeroDiPosto`,`PrenotazioneAssociata`),
   KEY `prenotazioneAssociata_idx` (`PrenotazioneAssociata`),
   CONSTRAINT `prenotazioneAssociata` FOREIGN KEY (`PrenotazioneAssociata`) REFERENCES `prenotazione` (`NumeroDiPrenotazione`)on delete cascade
+
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;

@@ -609,6 +609,7 @@ void validate_reservation(struct prenotazione *prenotazione , struct postoprenot
 		}
 
 	do_validate_reservation(prenotazione);
+
 	bool seat_ans, association_ans;   
 
 	do {

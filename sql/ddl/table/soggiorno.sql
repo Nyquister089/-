@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`soggiorno` (
   `DataInizioSoggiorno` DATE NOT NULL, 
   `DataFineSoggiorno` DATE NOT NULL,
   PRIMARY KEY (`IdSoggiorno`),
-  UNIQUE KEY(`IdSoggiorno`), 
   KEY `AlbergoInQuestione_idx` (`AlbergoInQuestione`),
   KEY `Ospite_idx` (`Ospite`),
   KEY `CameraPrenotata_idx`(`CameraPrenotata`),
