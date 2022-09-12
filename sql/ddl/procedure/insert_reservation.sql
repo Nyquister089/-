@@ -1,14 +1,19 @@
 create procedure if not exists `tripdb`.`insert_reservation`( 
  IN cli VARCHAR(45), 
- IN dp DATE
+ IN vgg int, 
+ IN nmp int
  )
 BEGIN
 INSERT INTO prenotazione
 			(ClientePrenotante,
-			 DataDiPrenotazione
+			 ViaggioAssociato,
+			 DataDiPrenotazione, 
+			 NumeroDiPostiPrenotati
              )
 		VALUES
-			(cli, 
-             dp
+			(cli,
+			 vgg, 
+			 curdate(),
+             nmp
              );
 END

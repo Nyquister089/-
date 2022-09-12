@@ -2,17 +2,21 @@
 #include "../model/trpdb.h"
 #include "show.h" 
 
+
+
 int show_reservation (struct prenotazione * prenotazione)
 {	
+
 	char buff[NUM_LEN];
 	printf("\n\n**  Dettagli prenotazione ** \n\n"); 
 	get_input("Inserisci numero d'interesse : ", NUM_LEN , buff, false); 
 	prenotazione->numerodiprenotazione = atoi(buff); 
     if(do_select_reservation(prenotazione)>0) {
 		printf("\n\n** Dettagli prenotazione **\n\n");
- 		printf(" Prenotazione numero: 	%d \n E-mail cliente: 	%s \n Data di prenotazione: 	%s \n Data di conferma: 	%s \n Data Saldo: 		%s \n\n",
-			prenotazione->numerodiprenotazione, 
+ 		printf(" E-mail cliente: 	%s \n Id viaggio: 		%d \n Posti prenotati:	%d \n Data di prenotazione: 	%s \n Data di conferma: 	%s \n Data Saldo: 		%s \n\n",
 			prenotazione->clienteprenotante,
+			prenotazione->viaggioassociato, 
+			prenotazione->numerodipostiprenotati,
 			prenotazione->datadiprenotazione, 
 			prenotazione->datadiconferma, 
 			prenotazione->datasaldo);
@@ -125,7 +129,7 @@ int show_review (struct revisione *revisione){
 	get_input("Inserisci l'id d'interesse: ", NUM_LEN, buff, false); 
 	revisione->idrevisione = atoi(buff);
 	if(do_select_review(revisione) > 0){
- 		printf("*Mezzo revsionato:	%s \n Id adetto: 		%s \n Data inizio: 		%s \n Data fine: 		%s\n Chilometraggio:	%d\n Operazioni eseguite:	%s \n Tipologia revsione:	%s \n Motivazione:	%s \n\n",
+ 		printf("*Mezzo revsionato:	%s \n Mail adetto: 		%s \n Data inizio: 		%s \n Data fine: 		%s\n Chilometraggio:	%d\n Operazioni eseguite:	%s \n Tipologia revsione:	%s \n Motivazione:	%s \n\n",
 			revisione->mezzorevisionato,
 			revisione->addettoallarevisione,
 			revisione->datainizio,
@@ -173,11 +177,11 @@ int show_stay(struct soggiorno *soggiorno)
 	printf("show\n\n"); 
 	if(do_select_stay(soggiorno) > 0){
 		printf("show\n\n"); 
- 		printf("*Albergo:	%s \n Camera:	%d \n Ospite:	%s \n Viaggio:	%d \n Data inizio soggiorno: %s \n Data fine soggiorno:	%s \n\n",
+ 		printf("*Albergo:	%s \n Camera:	%d \n Ospite:	%s \n Prenotazione:	%d \n Data inizio soggiorno: %s \n Data fine soggiorno:	%s \n\n",
 			soggiorno->nomealbergo,
 			soggiorno->cameraprenotata,
 			soggiorno->nomeospite,
-			soggiorno->viaggioinquestione,
+			soggiorno->prenotazioneinquestione,
 			soggiorno->datainiziosoggiorno,
 			soggiorno->datafinesoggiorno); 
 		}
@@ -372,14 +376,13 @@ int show_seat(struct postoprenotato *postoprenotato){
 	printf("\n\n** Dettagli posto prenotato  **\n\n");
 	get_input("Inserisci il numero di posto d'interesse:",NUM_LEN, buff, false); 
 	postoprenotato->numerodiposto = atoi(buff); 
-	get_input("Inserisci l'id del viaggio d'interesse:",NUM_LEN, buff, false);
-	postoprenotato->viaggioassociato = atoi(buff); 
+	get_input("Inserisci il numero di prenotazione associata ",NUM_LEN, buff, false);
+	postoprenotato->prenotazioneassociata = atoi(buff); 
 	if(do_select_seat(postoprenotato) > 0){
- 		printf("*Nome passeggero:	%s\n Cognome passeggero:	%s \n Età:			%d \n Numero di prenotazione:%d\n\n",
+ 		printf("*Nome passeggero:	%s\n Cognome passeggero:	%s \n Età:			%d \n\n",
 			postoprenotato->nomepasseggero,
 			postoprenotato->cognomepasseggero,
-			postoprenotato->etapasseggero,
-			postoprenotato->prenotazioneassociata);
+			postoprenotato->etapasseggero);
 	}
 	else {
 		printf("Il posto prenotato d'interesse non esiste\n\n"); 

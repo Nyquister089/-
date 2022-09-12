@@ -121,12 +121,12 @@ void create_tables()
     execute_query_from_file_sql("../sql/ddl/table/offre.sql");
     execute_query_from_file_sql("../sql/ddl/table/camera.sql");
     execute_query_from_file_sql("../sql/ddl/table/cliente.sql");
-    execute_query_from_file_sql("../sql/ddl/table/prenotazione.sql");
     execute_query_from_file_sql("../sql/ddl/table/modello.sql");
     execute_query_from_file_sql("../sql/ddl/table/mezzo.sql");
     execute_query_from_file_sql("../sql/ddl/table/tour.sql");
     execute_query_from_file_sql("../sql/ddl/table/dipendenti.sql");
     execute_query_from_file_sql("../sql/ddl/table/viaggio.sql");
+    execute_query_from_file_sql("../sql/ddl/table/prenotazione.sql");
     execute_query_from_file_sql("../sql/ddl/table/postoprenotato.sql");
     execute_query_from_file_sql("../sql/ddl/table/soggiorno.sql");
     execute_query_from_file_sql("../sql/ddl/table/comfort.sql");

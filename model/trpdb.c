@@ -724,12 +724,12 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(insert_costumer, "Unable to initialize insert costumer statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&insert_reservation, "call insert_reservation(?, ?)", conn))
+		if (!setup_prepared_stmt(&insert_reservation, "call insert_reservation(?, ?, ?)", conn))
 		{
 			print_stmt_error(insert_reservation, "Unable to initialize insert reservation statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&insert_seat, "call insert_seat (?, ?, ?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(&insert_seat, "call insert_seat (?, ?, ?, ?, ?)", conn))
 		{
 			print_stmt_error(insert_seat, "Unable to initialize insert seat statement\n");
 			return false;
@@ -895,12 +895,12 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(insert_costumer, "Unable to initialize insert costumer statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&insert_reservation, "call insert_reservation(?, ?)", conn))
+		if (!setup_prepared_stmt(&insert_reservation, "call insert_reservation(?, ?, ?)", conn))
 		{
 			print_stmt_error(insert_reservation, "Unable to initialize insert reservation statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&insert_seat, "call insert_seat (?, ?, ?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(&insert_seat, "call insert_seat (?, ?, ?, ?, ?)", conn))
 		{
 			print_stmt_error(insert_seat, "Unable to initialize insert seat statement\n");
 			return false;
@@ -1485,24 +1485,14 @@ void do_insert_costumer(struct cliente *cliente)
 
 void do_insert_reservation(struct prenotazione *prenotazione)
 {
-	MYSQL_BIND param[2];
-	MYSQL_TIME datadiprenotazione;
-
-	date_to_mysql_time(prenotazione->datadiprenotazione, &datadiprenotazione);
+	MYSQL_BIND param[3];
+	char *buff = "insert_reservation"; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, prenotazione->clienteprenotante, strlen(prenotazione->clienteprenotante));
-	set_binding_param(&param[1], MYSQL_TYPE_DATE, &datadiprenotazione, sizeof(datadiprenotazione));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &prenotazione->viaggioassociato, sizeof(prenotazione->viaggioassociato));
+	set_binding_param(&param[2], MYSQL_TYPE_LONG, &prenotazione->numerodipostiprenotati, sizeof(prenotazione->numerodipostiprenotati));
 
-	if (mysql_stmt_bind_param(insert_reservation, param) != 0)
-	{
-		print_stmt_error(insert_reservation, "Could not bind parameters for insert_reservation");
-		return;
-	}
-	if (mysql_stmt_execute(insert_reservation) != 0)
-	{
-		print_stmt_error(insert_reservation, "Could not execute insert_reservation");
-		return;
-	}
+	bind_exe(insert_reservation, param, buff); 
 
 	mysql_stmt_free_result(insert_reservation);
 	mysql_stmt_reset(insert_reservation);
@@ -1510,14 +1500,13 @@ void do_insert_reservation(struct prenotazione *prenotazione)
 
 void do_insert_seat(struct postoprenotato *postoprenotato)
 {
-	MYSQL_BIND param[6];
+	MYSQL_BIND param[5];
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &postoprenotato->numerodiposto, sizeof(postoprenotato->numerodiposto));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &postoprenotato->viaggioassociato, sizeof(postoprenotato->viaggioassociato));
-	set_binding_param(&param[2], MYSQL_TYPE_LONG, &postoprenotato->prenotazioneassociata, sizeof(postoprenotato->prenotazioneassociata));
-	set_binding_param(&param[3], MYSQL_TYPE_LONG, &postoprenotato->etapasseggero, sizeof(postoprenotato->etapasseggero));
-	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, postoprenotato->nomepasseggero, strlen(postoprenotato->nomepasseggero));
-	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, postoprenotato->cognomepasseggero, strlen(postoprenotato->cognomepasseggero));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &postoprenotato->prenotazioneassociata, sizeof(postoprenotato->prenotazioneassociata));
+	set_binding_param(&param[2], MYSQL_TYPE_LONG, &postoprenotato->etapasseggero, sizeof(postoprenotato->etapasseggero));
+	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, postoprenotato->nomepasseggero, strlen(postoprenotato->nomepasseggero));
+	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, postoprenotato->cognomepasseggero, strlen(postoprenotato->cognomepasseggero));
 
 	bind_exe(insert_seat, param, "insert_seat");
 
@@ -1539,7 +1528,7 @@ void do_insert_stay(struct soggiorno *soggiorno)
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &soggiorno->cameraprenotata, sizeof(soggiorno->cameraprenotata));
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &soggiorno->ospite, sizeof(soggiorno->ospite));
 	set_binding_param(&param[2], MYSQL_TYPE_LONG, &soggiorno->albergoinquestione, sizeof(soggiorno->albergoinquestione));
-	set_binding_param(&param[3], MYSQL_TYPE_LONG, &soggiorno->viaggioinquestione, sizeof(soggiorno->viaggioinquestione));
+	set_binding_param(&param[3], MYSQL_TYPE_LONG, &soggiorno->prenotazioneinquestione, sizeof(soggiorno->prenotazioneinquestione));
 	set_binding_param(&param[4], MYSQL_TYPE_DATE, &datainiziosoggiorno, sizeof(datainiziosoggiorno));
 	set_binding_param(&param[5], MYSQL_TYPE_DATE, &datafinesoggiorno, sizeof(datafinesoggiorno));
 
@@ -2105,13 +2094,13 @@ int do_select_model(struct modello *modello)
 
 int do_select_seat(struct postoprenotato *postoprenotato)
 {
-	MYSQL_BIND param[4];
+	MYSQL_BIND param[3];
 	
 	char *buff = "select_seat";
 	int rows; 
 
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &postoprenotato->numerodiposto, sizeof(postoprenotato->numerodiposto));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &postoprenotato->viaggioassociato, sizeof(postoprenotato->viaggioassociato));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &postoprenotato->prenotazioneassociata, sizeof(postoprenotato->prenotazioneassociata));
 	
 	if (bind_exe(select_seat, param, buff) == -1)
 		goto stop;
@@ -2119,7 +2108,6 @@ int do_select_seat(struct postoprenotato *postoprenotato)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, postoprenotato->nomepasseggero, sizeof(postoprenotato->nomepasseggero));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, postoprenotato->cognomepasseggero, sizeof(postoprenotato->cognomepasseggero));
 	set_binding_param(&param[2], MYSQL_TYPE_LONG, &postoprenotato->etapasseggero, sizeof(postoprenotato->etapasseggero));
-	set_binding_param(&param[3], MYSQL_TYPE_LONG, &postoprenotato->prenotazioneassociata, sizeof(postoprenotato->prenotazioneassociata));
 	
 	rows = take_result(select_seat, param, buff);
  
@@ -2329,7 +2317,7 @@ int do_select_stay(struct soggiorno *soggiorno)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, soggiorno->nomealbergo, sizeof(soggiorno->nomealbergo));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, soggiorno->nomeospite, sizeof(soggiorno->nomeospite));
 	set_binding_param(&param[2], MYSQL_TYPE_LONG, &soggiorno->cameraprenotata, sizeof(soggiorno->cameraprenotata));
-	set_binding_param(&param[3], MYSQL_TYPE_LONG, &soggiorno->viaggioinquestione, sizeof(soggiorno->viaggioinquestione));
+	set_binding_param(&param[3], MYSQL_TYPE_LONG, &soggiorno->prenotazioneinquestione, sizeof(soggiorno->prenotazioneinquestione));
 	set_binding_param(&param[4], MYSQL_TYPE_DATE, &datainiziosoggiorno, sizeof(datainiziosoggiorno));
 	set_binding_param(&param[5], MYSQL_TYPE_DATE, &datafinesoggiorno, sizeof(datafinesoggiorno));
 	
@@ -2556,7 +2544,7 @@ int do_select_costumer(struct cliente *cliente)
 
 int do_select_reservation(struct prenotazione *prenotazione)
 {
-	MYSQL_BIND param[4];
+	MYSQL_BIND param[6];
 	MYSQL_TIME datadiprenotazione;
 	MYSQL_TIME datadiconferma;
 	MYSQL_TIME datasaldo;
@@ -2568,15 +2556,18 @@ int do_select_reservation(struct prenotazione *prenotazione)
 	date_to_mysql_time(prenotazione->datadiconferma, &datadiconferma);
 	date_to_mysql_time(prenotazione->datasaldo, &datasaldo);
 
+
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &prenotazione->numerodiprenotazione, sizeof(prenotazione->numerodiprenotazione));
 	
 	if (bind_exe(select_reservation, param, buff) == -1)
 		goto stop;
 
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, prenotazione->clienteprenotante, sizeof(prenotazione->clienteprenotante));
-	set_binding_param(&param[1], MYSQL_TYPE_DATE, &datadiprenotazione, sizeof(datadiprenotazione));
-	set_binding_param(&param[2], MYSQL_TYPE_DATE, &datadiconferma, sizeof(datadiconferma));
-	set_binding_param(&param[3], MYSQL_TYPE_DATE, &datasaldo, sizeof(datasaldo));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &prenotazione->viaggioassociato,sizeof(prenotazione->viaggioassociato)); 
+	set_binding_param(&param[2], MYSQL_TYPE_LONG, &prenotazione->numerodipostiprenotati,sizeof(prenotazione->numerodipostiprenotati)); 
+	set_binding_param(&param[3], MYSQL_TYPE_DATE, &datadiprenotazione, sizeof(datadiprenotazione));
+	set_binding_param(&param[4], MYSQL_TYPE_DATE, &datadiconferma, sizeof(datadiconferma));
+	set_binding_param(&param[5], MYSQL_TYPE_DATE, &datasaldo, sizeof(datasaldo));
 
 	rows = take_result(select_reservation, param, buff);
 	if (rows == -1)
@@ -2947,7 +2938,7 @@ void do_delete_seat(struct postoprenotato *postoprenotato)
 	
 	char *buff = "delete_seat";
 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &postoprenotato->viaggioassociato, sizeof(postoprenotato->viaggioassociato));
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &postoprenotato->prenotazioneassociata, sizeof(postoprenotato->prenotazioneassociata));
 
 	set_binding_param(&param[1], MYSQL_TYPE_LONG, &postoprenotato->numerodiposto, sizeof(postoprenotato->numerodiposto));
 	
@@ -3656,7 +3647,6 @@ struct info_mete *get_mete_info(int idv)
 	MYSQL_TIME opartenza;
 	MYSQL_TIME oapertura;
 	
-	printf("Malloc");
 	struct info_mete *info_mete = NULL;
 	int status;
 	int cmpr;

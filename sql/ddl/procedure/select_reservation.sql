@@ -4,6 +4,8 @@ Create procedure if not exists `tripdb`.`select_reservation`(
 BEGIN
 SELECT
  p.ClientePrenotante, 
+ p.ViaggioAssociato, 
+ p.NumeroDiPostiPrenotati,
  p.DataDiPrenotazione,
  p.DataDiConferma, 
  p.DataSaldo

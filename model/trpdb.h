@@ -50,7 +50,7 @@ struct soggiorno{
 	int  cameraprenotata; 				//FK //Corretto trasformandolo da carattere a puntatore di carattere
 	int  ospite; 						//FK //Corretto trasformandolo da carattere a puntatore di carattere
 	int  albergoinquestione; 			//FK //Corretto trasformandolo da carattere a puntatore di carattere
-	int  viaggioinquestione;
+	int  prenotazioneinquestione;
 	char datainiziosoggiorno[DATE_LEN]; 
 	char datafinesoggiorno[DATE_LEN];
 	//variabili di appoggio
@@ -211,8 +211,7 @@ struct offre {
 }; 
 
 struct postoprenotato {
-	int numerodiposto; //Corretto trasformandolo da carattere a puntatore di carattere
-	int viaggioassociato; 					//Fk //Corretto trasformandolo da carattere a puntatore di carattere
+	int numerodiposto; //Corretto trasformandolo da carattere a puntatore di carattere					//Fk //Corretto trasformandolo da carattere a puntatore di carattere
 	int prenotazioneassociata; 				//Fk //Corretto trasformandolo da carattere a puntatore di carattere
 	int etapasseggero;  //Corretto trasformandolo da carattere a puntatore di carattere
 	char nomepasseggero[VARCHAR_LEN]; 
@@ -221,6 +220,8 @@ struct postoprenotato {
 
 struct prenotazione {
 	int numerodiprenotazione;
+	int viaggioassociato; 
+	int numerodipostiprenotati; 
 	char clienteprenotante[VARCHAR_LEN];
 	char datadiprenotazione[DATE_LEN]; 
 	char datadiconferma[DATE_LEN]; 

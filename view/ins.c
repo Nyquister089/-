@@ -46,15 +46,13 @@ void ins_sostitution_review(struct sostituito *sostituito)
 
 void ins_prenotation(struct prenotazione *prenotazione)
 {	
-	
+	char buff[NUM_LEN];
 	printf("\n** Dettagli inserimento prenotazione **\n\n");
 	get_input("Inserisci l'indirizzo e-mail del cliente che ha effettuato la prenotazione : ", VARCHAR_LEN, prenotazione->clienteprenotante, false);
-	while(true){
-		get_input("Inserisci data [YYYY-MM-DD]: ", DATE_LEN, prenotazione->datadiprenotazione, false);
-		if(validate_date(prenotazione->datadiprenotazione))
-			break;
-		fprintf(stderr, "Data errata!\n");
-	}
+	get_input("Inserisci l'id del viaggio da prenotare : ", NUM_LEN, buff, false);
+	prenotazione->viaggioassociato = atoi(buff); 
+	get_input("Inserisci il numero di posti che si desiderano prenotare : ", NUM_LEN, buff, false);
+	prenotazione->numerodipostiprenotati = atoi(buff); 
 
 	do_insert_reservation(prenotazione); 
 }
@@ -67,8 +65,6 @@ void ins_seat(struct postoprenotato *postoprenotato)
 	postoprenotato->prenotazioneassociata = atoi(buff); 
 	get_input("Inserisci il numero di posto: ", NUM_LEN, buff, false);
 	postoprenotato->numerodiposto = atoi(buff); 
-	get_input("Inserisci l'ID del viaggio a cui partecipera' il passeggero: ", NUM_LEN, buff, false);
-	postoprenotato->viaggioassociato = atoi(buff); 
 	get_input("Inserisci l'età: ", NUM_LEN, buff, false);
 	postoprenotato->etapasseggero = atoi(buff); 
 	get_input("Inserisci il nome: ", VARCHAR_LEN, postoprenotato-> nomepasseggero, false);
@@ -239,8 +235,8 @@ void ins_stay(struct soggiorno *soggiorno)
 	soggiorno->cameraprenotata = atoi(buff); 
 	get_input("Inserisci l'albergo in cui è ubicata la camera: ", NUM_LEN, buff,false);	
 	soggiorno->albergoinquestione = atoi(buff); 
-	get_input("Inserisci l'id del viaggio a cui il passeggero partecipa: ", NUM_LEN, buff, false);
-	soggiorno->viaggioinquestione = atoi(buff); 
+	get_input("Inserisci il numero della prenotazione in questione: ", NUM_LEN, buff, false);
+	soggiorno->prenotazioneinquestione = atoi(buff); 
 	get_input("Inserisci il numero di posto di viaggio dell'ospite: ", NUM_LEN, buff, false);
 	soggiorno->ospite = atoi(buff); 
 	while(true){
@@ -623,8 +619,8 @@ void validate_reservation(struct prenotazione *prenotazione , struct postoprenot
 
 		get_input("Inserisci il numero di posto: ", NUM_LEN, buff, false);
 		postoprenotato->numerodiposto = atoi(buff); 
-		get_input("Inserisci l'ID del viaggio a cui partecipera' il passeggero: ", NUM_LEN, buff, false);
-		postoprenotato->viaggioassociato = atoi(buff); 
+		get_input("Inserisci il numero della prenotazione associata : ", NUM_LEN, buff, false);
+		postoprenotato->prenotazioneassociata = atoi(buff); 
 		get_input("Inserisci l'età: ", NUM_LEN, buff, false);
 		postoprenotato->etapasseggero = atoi(buff); 
 		get_input("Inserisci il nome: ", VARCHAR_LEN, postoprenotato-> nomepasseggero, false);
