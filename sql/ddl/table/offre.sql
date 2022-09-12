@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `tripdb`.`offre` (
-  `ServizioOfferto` int NOT NULL,
+  `ServizioOfferto` int unsigned NOT NULL,
   `AlbergoOfferente` int unsigned NOT NULL,
   PRIMARY KEY (`ServizioOfferto`,`AlbergoOfferente`),
   KEY `FK_IdServizio_idx` (`ServizioOfferto`),

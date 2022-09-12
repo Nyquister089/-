@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `tripdb`.`camera` (
-  `NumeroCamera` int NOT NULL,
+  `NumeroCamera` int unsigned NOT NULL,
   `IdAlbergo` int unsigned NOT NULL,
   `Tipologia` varchar(45) NOT NULL,
   `Costo` decimal(8,2) NOT NULL,

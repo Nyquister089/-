@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS `tripdb`.`mappa` (
-  `IdMappa` int NOT NULL AUTO_INCREMENT,
+  `IdMappa` int unsigned NOT NULL AUTO_INCREMENT,
   `Citta` varchar(45) NOT NULL,
   `RegioneInQuestione` varchar (45) NOT NULL,
   `Dettaglio` varchar(45) NOT NULL,

@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS `tripdb`.`soggiorno` (
-  `IdSoggiorno` int NOT NULL AUTO_INCREMENT, 
-  `CameraPrenotata` int NOT NULL,
+  `IdSoggiorno` int unsigned NOT NULL AUTO_INCREMENT, 
+  `CameraPrenotata` int unsigned NOT NULL,
   `Ospite` int unsigned NOT NULL,
-  `ViaggioInQuestione` int not NULL, 
+  `ViaggioInQuestione` int unsigned not NULL, 
   `AlbergoInQuestione` int unsigned NOT NULL,
   `DataInizioSoggiorno` DATE NOT NULL, 
   `DataFineSoggiorno` DATE NOT NULL,

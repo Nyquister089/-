@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS `tripdb`.`visita` (
-  `idvisita` int NOT NULL AUTO_INCREMENT,
-  `ViaggioRelativo` int NOT NULL,
+  `idvisita` int unsigned NOT NULL AUTO_INCREMENT,
+  `ViaggioRelativo` int unsigned NOT NULL,
   `MetaVisitata` int unsigned,
   `DataArrivo` date NOT NULL,
   `OraArrivo` time NOT NULL,

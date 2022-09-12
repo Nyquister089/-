@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `tripdb`.`dipendente` (
   `EmailDipendente` varchar (45) NOT NULL,
   `TipologiaDipendente` varchar(45) NOT NULL,
-  `TelefonoAziendale` varchar (15),
+  `TelefonoAziendale` varchar (15) NOT NULL,
   `NomeDipendente` varchar(45) NOT NULL,
   `CognomeDipendente` varchar(45) NOT NULL,
   `NumeroCompetenze` int default NULL, 
