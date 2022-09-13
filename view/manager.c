@@ -46,11 +46,7 @@ int allocation_gest(void)
 		{printf("Fallimento malloc su dipendente (manager) \n\n"); 
 		 return -1; 
 		}
-    offre = malloc(sizeof(struct offre));
-	if(offre == NULL)
-		{printf("Fallimento malloc offre (manager) \n\n"); 
-		 return -1; 
-	    }
+
 	servizio= malloc(sizeof(struct servizio));
 	if(servizio== NULL)
 		{printf("Fallimento malloc servizio(manager) \n\n"); 
@@ -215,6 +211,11 @@ int allocation_con_table(void)
 		{printf("Fallimento malloc fme (manager) \n\n"); 
 		 return -1; 
 		 }
+	offre = malloc(sizeof(struct offre));
+	if(offre == NULL)
+		{printf("Fallimento malloc offre (manager) \n\n"); 
+		 return -1; 
+	    }
 	
 }
 
