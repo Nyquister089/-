@@ -26,16 +26,6 @@ void ins_costumer_user(struct utente *utente){
 	do_insert_costumer_user(utente); 
 }
 
-void ins_sostitution_review(struct sostituito *sostituito)
-{
-	char buff[NUM_LEN]; 
-	printf("\n** Dettagli sostituzione ricambio**\n\n");
-	get_input("Inserisci il codice del ricambio utilizzato : ", VARCHAR_LEN, sostituito->ricambioutilizzato,false);
-	get_input("Inserisci la quantità di ricambi sostituiti : ",NUM_LEN, buff, false);
-	sostituito->quantitasostituita = atoi(buff); 
-	do_insert_sostitution(sostituito);
-
-}
 
 void ins_prenotation(struct prenotazione *prenotazione)
 {	
@@ -89,17 +79,17 @@ void ins_review(struct revisione *revisione, struct sostituito *sostituito, stru
 			break;
 		fprintf(stderr, "Data errata!\n");
 	}
-do_insert_review(revisione);
-
 
 ans = yes_or_no("In questa revisione sono statti sostituiti dei ricambi? ",'s','n',false, false); 
 if(ans)
-	{	do_select_max_idreview(revisione); 
-		sostituito->revisioneassociata = revisione->idrevisione; 
-		
-		ins_sostitution_review(sostituito); 
+	{	
+	get_input("Inserisci il codice del ricambio utilizzato : ", VARCHAR_LEN, sostituito->ricambioutilizzato,false);
+	get_input("Inserisci la quantità di ricambi sostituiti : ",NUM_LEN, buff, false);
+	sostituito->quantitasostituita = atoi(buff); 
+	do_insert_sost_review(revisione,sostituito);
 	}
-
+else
+	do_insert_review(revisione);
 }
 
 void ins_costumer(struct cliente *cliente, struct utente *utente)
@@ -218,7 +208,9 @@ void ins_model(struct modello *modello, struct competenze *competenze)
 	get_input("Inserisci il primo meccanico competente : ", VARCHAR_LEN, competenze->meccanicocompetente, false);
 	get_input("Inserisci il secondo meccanico competente : ", VARCHAR_LEN, competenze->nomemeccanico, false);
 	do_insert_model(modello, competenze); 
+	
 	while(yes_or_no("Vuoi inserire un'altro meccanico competente? ", 's', 'n', false, false)){
+		strcpy(competenze->modelloassociato, modello->nomemodello); 
 		ins_another_skill(competenze); 
 	}
 }
@@ -598,7 +590,6 @@ void validate_reservation(struct prenotazione *prenotazione , struct postoprenot
 		printf("\n\n** Associa un passeggero alla prenotazione ** \n\n"); 
 
 		postoprenotato ->prenotazioneassociata = prenotazione ->numerodiprenotazione; 
-		printf(" Numero di prenotazione hostess %d \n", postoprenotato ->prenotazioneassociata);
 
 		get_input("Inserisci il numero di posto: ", NUM_LEN, buff, false);
 		postoprenotato->numerodiposto = atoi(buff); 

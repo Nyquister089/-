@@ -151,13 +151,13 @@ void drop_views()
 }
 
 void create_views()
-{/*
+{
     execute_query_from_file_sql("../sql/ddl/view/Autista_mete_visistate.sql");
     execute_query_from_file_sql("../sql/ddl/view/Cliente_mete_tour.sql");
     execute_query_from_file_sql("../sql/ddl/view/Cliente_modello_info.sql");
     execute_query_from_file_sql("../sql/ddl/view/Meccanico_pianifica_revisione.sql");
     execute_query_from_file_sql("../sql/ddl/view/Hostess_clienti_prenotazioni.sql");
-    execute_query_from_file_sql("../sql/ddl/view/Mezzi_Con_Revisione_Scaduta.sql");*/
+    execute_query_from_file_sql("../sql/ddl/view/Mezzi_Con_Revisione_Scaduta.sql");
 }
 
 void populate_tables()
@@ -209,7 +209,7 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/select_expired_review.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_sparepart.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_review.sql"); 
-    execute_query_from_file_sql("../sql/ddl/procedure/select_max_idreview.sql"); 
+    execute_query_from_file_sql("../sql/ddl/procedure/insert_sost_review.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_assigned_trip.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_dest_time.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_dvr_map.sql"); 
@@ -332,7 +332,7 @@ int main(int argc, char *argv[]){
     drop_procedures();
     create_database();
     create_tables();
-    create_views();
+   // create_views();
     create_procedures();
     create_trigger(); 
     populate_tables();

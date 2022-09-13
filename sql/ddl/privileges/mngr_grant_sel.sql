@@ -25,7 +25,6 @@ grant execute on procedure tripdb. select_seat to 'Manager'@'localhost';
 grant execute on procedure tripdb. select_stay to 'Manager'@'localhost'; 
 grant execute on procedure tripdb. select_review to 'Manager'@'localhost';  
 grant execute on procedure tripdb. select_sostitution  to 'Manager'@'localhost'; 
-grant execute on procedure tripdb. select_max_idreview to 'Manager'@'localhost';  
 grant execute on procedure tripdb. select_presents to 'Manager'@'localhost'; 
 grant execute on procedure tripdb. select_rt to 'Manager'@'localhost'; 
 

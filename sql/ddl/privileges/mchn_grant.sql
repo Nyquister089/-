@@ -29,7 +29,7 @@ tripdb.select_expired_review
 to 'Meccanico'@'localhost'; 
 
 grant execute on procedure 
-tripdb.select_max_idreview 
+tripdb.insert_sost_review 
 to 'Meccanico'@'localhost'; 
 
 

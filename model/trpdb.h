@@ -515,7 +515,7 @@ extern void do_delete_sostitution(struct sostituito *sostituito);
 extern void do_delete_presents(struct presenti *presenti);
 extern void do_delete_rt(struct rt *rt); 
 
-extern void do_select_max_idreview(struct revisione *revisione ); 
+extern void do_insert_sost_review(struct revisione *revisione, struct sostituito *sostituito ); 
 extern void do_init_skill(struct competenze *competenze);
 
 extern struct tour_info *get_tour_info (void);

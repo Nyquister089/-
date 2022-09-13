@@ -1,3 +1,4 @@
+USE `tripdb`; 
 create procedure if not exists `tripdb`.`login`(
 	IN usrn VARCHAR(45), 
     IN pass VARCHAR(8),

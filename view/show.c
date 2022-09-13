@@ -116,7 +116,7 @@ int show_sparepart(struct ricambio *ricambio)
 			ricambio->descrizione);	
 		}
 	else {
-		printf("Il codice inserito non esisten\n\n"); 
+		printf("Il codice inserito non esiste\n\n"); 
 		return -1; 
 	}
 	return 0; 

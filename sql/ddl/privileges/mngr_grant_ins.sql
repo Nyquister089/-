@@ -32,6 +32,7 @@ grant execute on procedure tripdb. insert_review to 'Manager'@'localhost';
 grant execute on procedure tripdb. insert_sostitution to 'Manager'@'localhost'; 
 grant execute on procedure tripdb. insert_presents to 'Manager'@'localhost'; 
 grant execute on procedure tripdb. insert_rt to 'Manager'@'localhost'; 
+grant execute on procedure tripdb. insert_sost_review to 'Manager'@'localhost';  
 
 grant execute on procedure tripdb. validate_reservation to 'Manager'@'localhost'; 
 

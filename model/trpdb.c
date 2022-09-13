@@ -120,7 +120,7 @@ static MYSQL_STMT *select_dest_tour;	  	// ok Cliente
 static MYSQL_STMT *select_hotel_service;  	// ok Cliente
 static MYSQL_STMT *select_model_comfort;  	// ok Cliente
 static MYSQL_STMT *select_expired_review; 	// ok Meccanico
-static MYSQL_STMT *select_max_idreview;   	// ok Meccanico
+static MYSQL_STMT *insert_sost_review;   	// ok Meccanico
 static MYSQL_STMT *select_assigned_trip; 	// ok AUTISTA 
 static MYSQL_STMT *select_dest_time;		// ok AUTISTA
 static MYSQL_STMT *select_dvr_map; 			// ok AUTISTA
@@ -388,10 +388,10 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close(select_dest_tour);
 		select_dest_tour = NULL;
 	}
-	if (select_max_idreview)
+	if (insert_sost_review)
 	{ 
-		mysql_stmt_close(select_max_idreview);
-		select_max_idreview = NULL;
+		mysql_stmt_close(insert_sost_review);
+		insert_sost_review = NULL;
 	}
 	if(select_dest_time) {
 		mysql_stmt_close(select_dest_time);
@@ -800,7 +800,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 
 
 
-		if (!setup_prepared_stmt(&insert_review, "call insert_review(?, ?, ?, ?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(&insert_review, "call insert_review(?, ?, ?, ?, ?, ?, ?, ?)", conn))
 		{ // Insert
 			print_stmt_error(insert_review, "Unable to initialize insert review statement\n");
 			return false;
@@ -820,9 +820,9 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(select_review, "Unable to initialize select_review statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&select_max_idreview, "call select_max_idreview()", conn))
+		if (!setup_prepared_stmt(&insert_sost_review, "call insert_sost_review(?,?,?,?,?,?,?,?,?)", conn))
 		{
-			print_stmt_error(select_max_idreview, "Unable to initialize select_max_idreview statement\n");
+			print_stmt_error(insert_sost_review, "Unable to initialize insert_sost_review statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&select_expired_review, "call select_expired_review()", conn))
@@ -849,7 +849,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(insert_stay, "Unable to initialize insert_stay statement statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&insert_review, "call insert_review(?, ?, ?, ?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(&insert_review, "call insert_review(?, ?, ?, ?, ?, ?, ?, ?)", conn))
 		{
 			print_stmt_error(insert_review, "Unable to initialize insert review statement\n");
 			return false;
@@ -1285,9 +1285,9 @@ static bool initialize_prepared_stmts(role_t for_role)
 		print_stmt_error(select_reservation_info, "Unable to select_reservation_info statement\n");
 		return false;
 		}
-		if (!setup_prepared_stmt(&select_max_idreview, "call select_max_idreview()", conn))
+		if (!setup_prepared_stmt(&insert_sost_review, "call insert_sost_review(?,?,?,?,?,?,?,?,?)", conn))
 		{
-			print_stmt_error(select_max_idreview, "Unable to initialize select_max_idreview statement\n");
+			print_stmt_error(insert_sost_review, "Unable to initialize insert_sost_review statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&validate_reservation, "call validate_reservation(?, ?, ?)", conn))
@@ -1520,6 +1520,7 @@ void do_insert_review(struct revisione *revisione)
 	set_binding_param(&param[4], MYSQL_TYPE_LONG, &revisione->chilometraggio, sizeof(revisione->chilometraggio));
 	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, revisione->operazionieseguite, strlen(revisione->operazionieseguite));
 	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, revisione->motivazione, strlen(revisione->motivazione));
+	
 
 	bind_exe(insert_review, param, buff);
 
@@ -1535,16 +1536,15 @@ void do_validate_reservation(struct prenotazione *prenotazione) // Funziona
 	MYSQL_TIME datasaldo;
 	char *buff = "validate_reservation"; 
 
-	printf("Here\n\n"); 
+ 
 	date_to_mysql_time(prenotazione->datadiconferma, &datadiconferma);
 	date_to_mysql_time(prenotazione->datasaldo, &datasaldo);
-	printf("Here\n\n"); 
+
 	set_binding_param(&param[0], MYSQL_TYPE_LONG, &prenotazione->numerodiprenotazione, sizeof(prenotazione->numerodiprenotazione));
 	set_binding_param(&param[1], MYSQL_TYPE_DATE, &datadiconferma, sizeof(datadiconferma));
 	set_binding_param(&param[2], MYSQL_TYPE_DATE, &datasaldo, sizeof(datasaldo));
-	printf("Here\n\n"); 
+
 	bind_exe(validate_reservation, param, buff);
-	printf("Here\n\n"); 
 	mysql_stmt_free_result(validate_reservation);
 	mysql_stmt_reset(validate_reservation);
 }
@@ -1951,6 +1951,7 @@ void do_insert_sparepart(struct ricambio *ricambio)
 {		
 	MYSQL_BIND param[6]; 
 	char *buff ="insert_sparepart"; 
+
 	
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, ricambio->codice, strlen(ricambio->codice));
 	set_binding_param(&param[1], MYSQL_TYPE_FLOAT, &ricambio->costounitario, sizeof(ricambio->costounitario));
@@ -2282,7 +2283,7 @@ int do_select_sparepart(struct ricambio *ricambio)
 	set_binding_param(&param[4], MYSQL_TYPE_LONG, &ricambio->quantitainmagazzino, sizeof(ricambio->quantitainmagazzino));
 
 	rows = take_result(select_sparepart, param, buff);
-	printf("orw %d \n\n", rows); 
+
 	stop:
 	mysql_stmt_free_result(select_sparepart);
 	mysql_stmt_reset(select_sparepart);
@@ -3268,22 +3269,35 @@ void do_delete_service(struct servizio *servizio)
 
 // Richiamo procedure speciali
 
-void do_select_max_idreview(struct revisione *revisione )
+void do_insert_sost_review(struct revisione *revisione, struct sostituito *sostituito )
 {
-	MYSQL_BIND param[1]; 
-	char *buff = "select_max_idreview"; 
-	 
-	if(exe_proc(select_max_idreview, buff)==-1)
-		goto stop; 
-	 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &revisione->idrevisione, sizeof(revisione->idrevisione));
-	 
-	take_result(select_max_idreview,param,buff); 
-	 
-	stop: 
-	mysql_stmt_free_result(select_max_idreview);
-	mysql_stmt_reset(select_max_idreview);
+
+	MYSQL_BIND param[9];
+	MYSQL_TIME datainizio;
+	MYSQL_TIME datafine;
+
+	char *buff = "insert_sost_review";
+
+	date_to_mysql_time(revisione->datainizio, &datainizio);
+	date_to_mysql_time(revisione->datafine, &datafine);
+
+	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, revisione->mezzorevisionato, strlen(revisione->mezzorevisionato));
+	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, revisione->addettoallarevisione, strlen(revisione->addettoallarevisione));
+	set_binding_param(&param[2], MYSQL_TYPE_DATE, &datainizio, sizeof(datainizio));
+	set_binding_param(&param[3], MYSQL_TYPE_DATE, &datafine, sizeof(datafine));
+	set_binding_param(&param[4], MYSQL_TYPE_LONG, &revisione->chilometraggio, sizeof(revisione->chilometraggio));
+	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, revisione->operazionieseguite, strlen(revisione->operazionieseguite));
+	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, revisione->motivazione, strlen(revisione->motivazione));
+	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, sostituito->ricambioutilizzato, strlen(sostituito->ricambioutilizzato));
+	set_binding_param(&param[8], MYSQL_TYPE_LONG, &sostituito->quantitasostituita, sizeof(sostituito->quantitasostituita));
+	
+
+	bind_exe(insert_sost_review, param, buff);
+
+	mysql_stmt_free_result(insert_sost_review);
+	mysql_stmt_reset(insert_sost_review);
 }
+
 
 void do_update_user_type(struct utente *utente)
 {	
