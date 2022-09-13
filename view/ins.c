@@ -489,15 +489,6 @@ void ins_fmo(struct fmo *fmo)
 	do_insert_fmo(fmo); 
 }
 
-void ins_tome(struct tome *tome)
-{	
-	char buff[NUM_LEN]; 
-	printf("** Dettagli inserimento tome **\n\n");
-	get_input("Inserisci il nome del tour in questione: ", VARCHAR_LEN, tome->tourinquestione, false);
-	get_input("Inserisci l'id della meta in questione: ", NUM_LEN, buff, false);
-	tome->metainquestione = atoi(buff); 
-	do_insert_tome(tome); 
-}
 
 void ins_comfort(struct comfort *comfort)
 {	

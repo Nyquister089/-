@@ -290,13 +290,6 @@ struct tagliando {
 	char validitasuperate[DES_LEN];
 }; 
 
-struct tome {
-	char tourinquestione[VARCHAR_LEN]; 
-	int metainquestione;
-
-	char descrizione[DES_LEN]; 
-	char meta[VARCHAR_LEN]; 
-}; 
 
 struct tour {
 	char denominazionetour[VARCHAR_LEN]; 
@@ -453,7 +446,6 @@ extern void do_insert_employee(struct dipendente *dipendente);
 extern void do_insert_user(struct utente *utente); 
 extern void do_insert_offert(struct offre *offre); 
 extern void do_insert_service(struct servizio *servizio); 
-extern void do_insert_tome(struct tome *tome);
 extern void do_insert_fmo(struct fmo *fmo); 
 extern void do_insert_fme(struct fme *fme); 
 extern void do_insert_model(struct modello * modello, struct competenze *competenze); 
@@ -478,7 +470,6 @@ extern int do_select_employee(struct dipendente* dipendente);
 extern int do_select_fmo(struct fmo *fmo); 
 extern int do_select_fme(struct fme *fme);
 extern int do_select_ofr(struct offre *offre);  
-extern int do_select_tome(struct tome *tome);
 extern int do_select_user(struct utente *utente); 
 extern int do_select_seat(struct postoprenotato *postoprenotato); 
 extern int do_select_model(struct modello *modello); 
@@ -508,7 +499,6 @@ extern void do_delete_employee(struct dipendente* dipendente);
 extern void do_delete_fmo(struct fmo *fmo); 
 extern void do_delete_fme(struct fme *fme);
 extern void do_delete_ofr(struct offre *offre);  
-extern void do_delete_tome(struct tome *tome);
 extern void do_delete_user(struct utente *utente); 
 extern void do_delete_seat(struct postoprenotato *postoprenotato); 
 extern void do_delete_model(struct modello *modello); 

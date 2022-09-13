@@ -25,7 +25,6 @@ typedef enum{
 typedef enum{
     TABELLA_OFFRE,
     TABELLA_PRESENTI,
-    TABELLA_TOME,
     TABELLA_FMO, 
     TABELLA_FME,
     TABELLA_RT,

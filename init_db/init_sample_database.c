@@ -138,7 +138,6 @@ void create_tables()
     execute_query_from_file_sql("../sql/ddl/table/rt.sql");
     execute_query_from_file_sql("../sql/ddl/table/fme.sql");
     execute_query_from_file_sql("../sql/ddl/table/fmo.sql");
-    execute_query_from_file_sql("../sql/ddl/table/tome.sql");
     execute_query_from_file_sql("../sql/ddl/table/mappa.sql");
     execute_query_from_file_sql("../sql/ddl/table/visita.sql");
     execute_query_from_file_sql("../sql/ddl/table/sostituito.sql");
@@ -152,13 +151,13 @@ void drop_views()
 }
 
 void create_views()
-{
+{/*
     execute_query_from_file_sql("../sql/ddl/view/Autista_mete_visistate.sql");
     execute_query_from_file_sql("../sql/ddl/view/Cliente_mete_tour.sql");
     execute_query_from_file_sql("../sql/ddl/view/Cliente_modello_info.sql");
     execute_query_from_file_sql("../sql/ddl/view/Meccanico_pianifica_revisione.sql");
     execute_query_from_file_sql("../sql/ddl/view/Hostess_clienti_prenotazioni.sql");
-    execute_query_from_file_sql("../sql/ddl/view/Mezzi_Con_Revisione_Scaduta.sql");
+    execute_query_from_file_sql("../sql/ddl/view/Mezzi_Con_Revisione_Scaduta.sql");*/
 }
 
 void populate_tables()
@@ -176,7 +175,6 @@ void populate_tables()
     execute_query_from_file_sql("../sql/dml/delete_and_insert_cliente.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_camera.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_prenotazione.sql"); 
-    execute_query_from_file_sql("../sql/dml/delete_and_insert_tome.sql"); 
     execute_query_from_file_sql("../sql/dml/delete_and_insert_visite.sql"); 
     execute_query_from_file_sql("../sql/dml/delete_and_insert_offre.sql"); 
     execute_query_from_file_sql("../sql/dml/delete_and_insert_presenti.sql");
@@ -225,7 +223,6 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/select_fmo.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_fme.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_ofr.sql");
-    execute_query_from_file_sql("../sql/ddl/procedure/select_tome.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/select_user.sql");  
     execute_query_from_file_sql("../sql/ddl/procedure/select_seat.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/select_model.sql"); 
@@ -255,7 +252,6 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/insert_user.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/insert_offert.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/insert_service.sql"); 
-    execute_query_from_file_sql("../sql/ddl/procedure/insert_tome.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/insert_fmo.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/insert_fme.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/insert_model.sql"); 
@@ -287,7 +283,6 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/delete_fmo.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/delete_fme.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/delete_ofr.sql");
-    execute_query_from_file_sql("../sql/ddl/procedure/delete_tome.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/delete_user.sql"); 
     execute_query_from_file_sql("../sql/ddl/procedure/delete_seat.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/delete_model.sql"); 

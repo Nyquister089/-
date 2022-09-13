@@ -23,7 +23,6 @@ extern int show_employee(struct dipendente *dipendente);
 extern int show_fmo(struct fmo *fmo); 
 extern int show_fme(struct fme *fme); 
 extern int show_ofr(struct offre *offre);
-extern int show_tome(struct tome *tome); 
 extern int show_user(struct utente *utente); 
 extern int show_seat(struct postoprenotato *postoprenotato); 
 extern int show_model(struct modello *modello); 

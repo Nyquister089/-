@@ -292,24 +292,6 @@ int show_ofr(struct offre *offre)
 	return 0; 
 }
 
-int show_tome(struct tome *tome)
-{	
-	char buff [NUM_LEN]; 
-	printf("\n\n** Dettagli tour-meta  **\n\n");
-	get_input("Inserisci il nome del tour d'interesse:",VARCHAR_LEN, tome->tourinquestione, false); 
-	get_input("Inserisci l'id della meta d'interesse:",NUM_LEN, buff, false);
-	tome->metainquestione = atoi(buff); 
-	if(do_select_tome(tome) > 0){
- 		printf("*Descrizione tour:	%s\n Meta:		%s\n\n",
-			tome->descrizione,
-			tome->meta); 
-	}
-	else {
-		printf("La relazione tour-mete d'interesse non esiste\n\n"); 
-		return -1; 
-	}
-	return 0; 
-}
 
 
 int show_presents(struct presenti *presenti){

@@ -33,7 +33,6 @@ struct ricambio *ricambio;
 struct servizio *servizio; 
 struct sostituito *sostituito; 
 struct tagliando *tagliando; 
-struct tome *tome;
 struct tour *tour; 
 struct viaggio *viaggio;
 struct visita *visita;  
@@ -214,11 +213,6 @@ int allocation_con_table(void)
 	fme = malloc(sizeof(struct fme));
 	if(fme == NULL)
 		{printf("Fallimento malloc fme (manager) \n\n"); 
-		 return -1; 
-		 }
-    tome = malloc(sizeof(struct tome));
-	if(tome == NULL)
-		{printf("Fallimento malloc tome (manager) \n\n"); 
 		 return -1; 
 		 }
 	
@@ -860,7 +854,7 @@ int gest_section(void)
 
 bool get_table_con_tab (char sel)
 {   char act;
-    if(offre == NULL||fme == NULL ||fmo == NULL ||  tome == NULL  || presenti == NULL || rt == NULL) {
+    if(offre == NULL||fme == NULL ||fmo == NULL || presenti == NULL || rt == NULL) {
 		allocation_con_table();
 		printf("\n\nAllocazione gest avvenuta.\n\n");
      } 
@@ -909,29 +903,6 @@ bool get_table_con_tab (char sel)
             } 
 		return true; 
         }    
-		
-		case TABELLA_TOME: {
-        act = get_mngr_action();
-            switch (act){
-                case GESTIONE_SELECT: {
-                    show_tome(tome); 
-                return true; 
-                }
-	            case GESTIONE_INSERT: {
-                    ins_tome(tome); 
-                return true; 
-                }
-	            case GESTIONE_DELETE: {
-                    dlt_tome(tome); 
-                return true; 
-                }
-	            case QUIT_GEST_OP: {
-                    return false; 
-                }
-            } 
-        
-        return true; 
-        }
 
         case TABELLA_FMO: {
 			act = get_mngr_action();
@@ -1007,17 +978,16 @@ bool get_table_con_tab (char sel)
 
 int tab_con_section(void)
  {	    
-		char options[7] = {'1','2','3','4','5','6','7'};
+		char options[6] = {'1','2','3','4','5','6'};
         char op; 
 		 puts("*** Su quale delle tabelle di connessione ? ***\n");
 		 puts("1) Offre");
 		 puts("2) Presenti"); 							///
-		 puts("3) Collegamento tour-mete");
-         puts("4) Collegamento foto-modelli");
-         puts("5) Collegamento foto-mete");
-		 puts("6) Collegamento revisione-tagliando");  ///
-         puts("7) Esci"); 
-		 op = multi_choice("Seleziona un'opzione", options, 7);
+         puts("3) Collegamento foto-modelli");
+         puts("4) Collegamento foto-mete");
+		 puts("5) Collegamento revisione-tagliando");  ///
+         puts("6) Esci"); 
+		 op = multi_choice("Seleziona un'opzione", options, 6);
          get_table_con_tab ((op - '1')); 
 }
 

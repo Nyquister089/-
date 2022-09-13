@@ -89,12 +89,7 @@ void dlt_ofr(struct offre *offre)
         do_delete_ofr(offre);
 }
 
-void dlt_tome(struct tome *tome)
-{		
-	if(show_tome(tome)!=-1)
-	 if(yes_or_no("Vuoi cancellare questa associazione tour-mete? (s/n)",'s','n',false,false) == true)
-        do_delete_tome(tome); 
-}
+
 void dlt_user(struct utente *utente)
 {
 	if(show_user(utente)!=-1)

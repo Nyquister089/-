@@ -34,7 +34,7 @@ static MYSQL_STMT *insert_employee; 	// ok Manager
 static MYSQL_STMT *insert_user; 		// ok Manager 
 static MYSQL_STMT *insert_offert; 		// ok Manager
 static MYSQL_STMT *insert_service; 		// ok Manager
-static MYSQL_STMT *insert_tome; 		// ok Manager
+
 static MYSQL_STMT *insert_fmo;			// ok Manager
 static MYSQL_STMT *insert_fme; 			// ok Manager
 static MYSQL_STMT *insert_model; 		// ok Manager
@@ -66,7 +66,7 @@ static MYSQL_STMT *select_employee;		// ok Manager
 static MYSQL_STMT *select_fmo;			// ok Manager
 static MYSQL_STMT *select_fme;			// ok Manager
 static MYSQL_STMT *select_ofr;			// ok Manager
-static MYSQL_STMT *select_tome; 		// non funziona Manager
+
 static MYSQL_STMT *select_user; 		// ok Manager
 static MYSQL_STMT *select_seat; 		// ok Manager
 static MYSQL_STMT *select_model; 		// ok Manager
@@ -96,7 +96,6 @@ static MYSQL_STMT *delete_employee;		// ok Manager
 static MYSQL_STMT *delete_fmo;			// ok Manager
 static MYSQL_STMT *delete_fme;			// ok Manager
 static MYSQL_STMT *delete_ofr;			// ok Manager
-static MYSQL_STMT *delete_tome; 		// non funziona Manager
 static MYSQL_STMT *delete_user; 		// ok Manager
 static MYSQL_STMT *delete_seat; 		// ok Manager
 static MYSQL_STMT *delete_model; 		// ok Manager
@@ -243,11 +242,6 @@ static void close_prepared_stmts(void)
 	{
 		mysql_stmt_close(delete_user);
 		delete_user = NULL;
-	}
-	if (delete_tome)
-	{
-		mysql_stmt_close(delete_tome);
-		delete_tome = NULL;
 	}
 	if (delete_ofr)
 	{
@@ -442,11 +436,7 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close(select_user);
 		select_user = NULL;
 	}
-	if (select_tome)
-	{
-		mysql_stmt_close(select_tome);
-		select_tome = NULL;
-	}
+
 	if (select_ofr)
 	{
 		mysql_stmt_close(select_ofr);
@@ -491,11 +481,6 @@ static void close_prepared_stmts(void)
 	{ 
 		mysql_stmt_close(insert_room);
 		insert_room = NULL;
-	}
-	if ( insert_tome)
-	{ 
-		mysql_stmt_close( insert_tome);
-		 insert_tome = NULL;
 	}
 	if ( insert_fmo)
 	{ 
@@ -899,11 +884,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(insert_seat, "Unable to initialize insert seat statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&insert_tome, "call  insert_tome(?, ?)", conn))
-		{ 
-			print_stmt_error(insert_tome, "Unable to initialize insert_tome statement\n");
-			return false;
-		}
+
 		if (!setup_prepared_stmt(&insert_fmo, "call  insert_fmo(?, ?)", conn))
 		{ 
 			print_stmt_error(insert_fmo, "Unable to initialize insert_fmo statement\n");
@@ -1067,11 +1048,6 @@ static bool initialize_prepared_stmts(role_t for_role)
 		if (!setup_prepared_stmt(&delete_ofr, "call  delete_ofr(?,?)", conn))
 		{ 
 			print_stmt_error(delete_ofr, "Unable to initialize delete_ofr statement\n");
-			return false;
-		}
-		if (!setup_prepared_stmt(&delete_tome, "call  delete_tome(?,?)", conn))
-		{ 
-			print_stmt_error(delete_tome, "Unable to initialize delete_tome statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&delete_user, "call  delete_user(?)", conn))
@@ -1267,11 +1243,6 @@ static bool initialize_prepared_stmts(role_t for_role)
 		if (!setup_prepared_stmt(&select_user, "call  select_user(?)", conn))
 		{ 
 			print_stmt_error(select_user, "Unable to initialize select_user statement\n");
-			return false;
-		}
-		if (!setup_prepared_stmt(&select_tome, "call  select_tome(?,?)", conn))
-		{ 
-			print_stmt_error(select_tome, "Unable to initialize select_tome statement\n");
 			return false;
 		}
 		if (!setup_prepared_stmt(&select_ofr, "call  select_ofr(?,?)", conn))
@@ -1893,20 +1864,6 @@ void do_insert_service(struct servizio *servizio)
 	
 }
 
-void do_insert_tome(struct tome *tome)
-{
-	MYSQL_BIND param[2];
-	
-	char *buff = "insert_tome";
-
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, tome->tourinquestione, strlen(tome->tourinquestione));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &tome->metainquestione, sizeof(tome->metainquestione));
-	
-	bind_exe(insert_tome, param, buff); 
-	
-	mysql_stmt_free_result(insert_tome);
-	mysql_stmt_reset(insert_tome);
-}
 
 void do_insert_fmo(struct fmo *fmo)
 {
@@ -2135,29 +2092,6 @@ int do_select_user(struct utente *utente)
 	return (rows); 
 }
 
-int do_select_tome(struct tome *tome)
-{
-	MYSQL_BIND param[2];
-	
-	char *buff = "select_tome";
-	int rows; 
-
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, tome->tourinquestione, strlen(tome->tourinquestione));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &tome->metainquestione, sizeof(tome->metainquestione));
-	
-	if (bind_exe(select_tome, param, buff) == -1)
-		goto stop;
-
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, tome->descrizione, sizeof(tome->descrizione));
-	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, tome->meta, sizeof(tome->meta));
-	
-	rows = take_result(select_tome, param, buff);
- 
-	stop:
-	mysql_stmt_free_result(select_tome);
-	mysql_stmt_reset(select_tome);
-	return (rows); 
-}
 
 int do_select_ofr(struct offre *offre)
 {
@@ -2956,21 +2890,6 @@ void do_delete_user(struct utente *utente)
  
 }
 
-void do_delete_tome(struct tome *tome)
-{
-	MYSQL_BIND param[2];
-	
-	char *buff = "delete_tome";
-
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, tome->tourinquestione, strlen(tome->tourinquestione));
-	set_binding_param(&param[1], MYSQL_TYPE_LONG, &tome->metainquestione, sizeof(tome->metainquestione));
-	
-	bind_exe(delete_tome, param, buff);
-
-	mysql_stmt_free_result(delete_tome);
-	mysql_stmt_reset(delete_tome);
- 
-}
 
 void do_delete_ofr(struct offre *offre)
 {

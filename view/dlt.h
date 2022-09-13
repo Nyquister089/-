@@ -31,7 +31,6 @@ extern void dlt_employee(struct dipendente *dipendente);
 extern void dlt_user(struct utente *utente);
 extern void dlt_ofr(struct offre *offre); 
 extern void dlt_service(struct servizio *servizio);
-extern void dlt_tome(struct tome *tome); 
 extern void dlt_fmo(struct fmo *fmo); 
 extern void dlt_fme(struct fme *fme); 
 extern void dlt_bus(struct mezzo *mezzo);
