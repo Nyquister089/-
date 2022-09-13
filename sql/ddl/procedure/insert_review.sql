@@ -5,7 +5,6 @@ in dnz date,
 in dfn date,
 in clm int, 
 in cnt varchar(1000),
-in tip varchar(45), 
 in mtv varchar(1000)
 )
 BEGIN
@@ -16,7 +15,6 @@ insert into revisione (
    DataFine,
    Chilometraggio,
    ControlliEffettuati,
-   TipologiaRevisione,
    Motivazione 
   )
 values(
@@ -26,7 +24,6 @@ values(
 	dfn,
 	clm, 
 	cnt,
-	tip, 
 	mtv
 ); 
 END

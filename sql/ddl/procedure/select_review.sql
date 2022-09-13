@@ -9,7 +9,6 @@ SELECT
    r.DataFine,
    r.Chilometraggio,
    r.ControlliEffettuati,
-   r.TipologiaRevisione,
    r.Motivazione 
 FROM revisione as r
 join mezzo as m on r.MezzoRevisionato = m.Targa

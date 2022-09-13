@@ -53,9 +53,6 @@ struct soggiorno{
 	int  prenotazioneinquestione;
 	char datainiziosoggiorno[DATE_LEN]; 
 	char datafinesoggiorno[DATE_LEN];
-	//variabili di appoggio
-	char nomeospite[VARCHAR_LEN]; 
-	char nomealbergo[VARCHAR_LEN]; 
 }; 
 
 struct camera {
@@ -247,7 +244,6 @@ struct revisione {
 	char datafine[DATE_LEN]; 
 	int chilometraggio;//Corretto trasformandolo da carattere a puntatore di carattere
 	char operazionieseguite[DES_LEN]; 
-	char tipologiarevisione[VARCHAR_LEN]; 
 	char motivazione[DES_LEN]; 
 };
 

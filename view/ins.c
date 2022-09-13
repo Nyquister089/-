@@ -76,9 +76,7 @@ void ins_review(struct revisione *revisione, struct sostituito *sostituito, stru
 	get_input("Inserisci la descrizione delle operazioni eseguite (massimo 5000 caratteri): ", DES_LEN, revisione-> operazionieseguite, false);
 	get_input("Inserisci il numero di km presenti sul conta chilometri del mezzo revisionato : ",NUM_LEN, buff, false);
 	revisione-> chilometraggio = atoi(buff); 
-	get_input("Inserisci la tipologia(ordinaria o straordinaria) : ", VARCHAR_LEN, revisione-> tipologiarevisione, false);
-	if(strcmp(revisione->tipologiarevisione,"straordinaria") == 0)
-		get_input("Inserisci la motivazione della revisione straordinaria (massimo 5000 caratteri) : ", DES_LEN, revisione-> motivazione, false);
+	get_input("Inserisci la motivazione della revisione (massimo 5000 caratteri) : ", DES_LEN, revisione-> motivazione, false);
 	while(true){
 		get_input("Inserisci la data di inizio[YYYY-MM-DD]: ", DATE_LEN, revisione->datainizio, false);
 		if(validate_date(revisione->datainizio))

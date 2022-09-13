@@ -129,14 +129,13 @@ int show_review (struct revisione *revisione){
 	get_input("Inserisci l'id d'interesse: ", NUM_LEN, buff, false); 
 	revisione->idrevisione = atoi(buff);
 	if(do_select_review(revisione) > 0){
- 		printf("*Mezzo revsionato:	%s \n Mail adetto: 		%s \n Data inizio: 		%s \n Data fine: 		%s\n Chilometraggio:	%d\n Operazioni eseguite:	%s \n Tipologia revsione:	%s \n Motivazione:	%s \n\n",
+ 		printf("*Mezzo revsionato:	%s \n Mail adetto: 		%s \n Data inizio: 		%s \n Data fine: 		%s\n Chilometraggio:	%d\n Operazioni eseguite:	%s \n Motivazione:	%s \n\n",
 			revisione->mezzorevisionato,
 			revisione->addettoallarevisione,
 			revisione->datainizio,
 			revisione->datafine,
 			revisione->chilometraggio,
 			revisione->operazionieseguite,
-			revisione->tipologiarevisione,
 			revisione->motivazione);
 		}
 	else { 
@@ -177,10 +176,10 @@ int show_stay(struct soggiorno *soggiorno)
 	printf("show\n\n"); 
 	if(do_select_stay(soggiorno) > 0){
 		printf("show\n\n"); 
- 		printf("*Albergo:	%s \n Camera:	%d \n Ospite:	%s \n Prenotazione:	%d \n Data inizio soggiorno: %s \n Data fine soggiorno:	%s \n\n",
-			soggiorno->nomealbergo,
+ 		printf("*Albergo:	%d \n Camera:	%d \n Ospite:	%d\n Prenotazione:	%d \n Data inizio soggiorno: %s \n Data fine soggiorno:	%s \n\n",
+			soggiorno->albergoinquestione,
 			soggiorno->cameraprenotata,
-			soggiorno->nomeospite,
+			soggiorno->ospite,
 			soggiorno->prenotazioneinquestione,
 			soggiorno->datainiziosoggiorno,
 			soggiorno->datafinesoggiorno); 

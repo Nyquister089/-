@@ -815,7 +815,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 
 
 
-		if (!setup_prepared_stmt(&insert_review, "call insert_review(?, ?, ?, ?, ?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(&insert_review, "call insert_review(?, ?, ?, ?, ?, ?, ?)", conn))
 		{ // Insert
 			print_stmt_error(insert_review, "Unable to initialize insert review statement\n");
 			return false;
@@ -864,7 +864,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(insert_stay, "Unable to initialize insert_stay statement statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(&insert_review, "call insert_review(?, ?, ?, ?, ?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(&insert_review, "call insert_review(?, ?, ?, ?, ?, ?, ?)", conn))
 		{
 			print_stmt_error(insert_review, "Unable to initialize insert review statement\n");
 			return false;
@@ -1533,7 +1533,7 @@ void do_insert_stay(struct soggiorno *soggiorno)
 
 void do_insert_review(struct revisione *revisione)
 {
-	MYSQL_BIND param[8];
+	MYSQL_BIND param[7];
 	MYSQL_TIME datainizio;
 	MYSQL_TIME datafine;
 
@@ -1548,8 +1548,7 @@ void do_insert_review(struct revisione *revisione)
 	set_binding_param(&param[3], MYSQL_TYPE_DATE, &datafine, sizeof(datafine));
 	set_binding_param(&param[4], MYSQL_TYPE_LONG, &revisione->chilometraggio, sizeof(revisione->chilometraggio));
 	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, revisione->operazionieseguite, strlen(revisione->operazionieseguite));
-	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, revisione->tipologiarevisione, strlen(revisione->tipologiarevisione));
-	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, revisione->motivazione, strlen(revisione->motivazione));
+	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, revisione->motivazione, strlen(revisione->motivazione));
 
 	bind_exe(insert_review, param, buff);
 
@@ -2297,6 +2296,7 @@ int do_select_stay(struct soggiorno *soggiorno)
 	MYSQL_TIME datainiziosoggiorno; 
 	MYSQL_TIME datafinesoggiorno;
 
+
 	char *buff = "select_stay";
 	int rows; 
 
@@ -2307,9 +2307,8 @@ int do_select_stay(struct soggiorno *soggiorno)
 	 
 	if (bind_exe(select_stay, param, buff) == -1)
 		goto stop;
-
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, soggiorno->nomealbergo, sizeof(soggiorno->nomealbergo));
-	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, soggiorno->nomeospite, sizeof(soggiorno->nomeospite));
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &soggiorno->ospite, sizeof(soggiorno->ospite));
+	set_binding_param(&param[1], MYSQL_TYPE_LONG, &soggiorno->albergoinquestione, sizeof(soggiorno->albergoinquestione));
 	set_binding_param(&param[2], MYSQL_TYPE_LONG, &soggiorno->cameraprenotata, sizeof(soggiorno->cameraprenotata));
 	set_binding_param(&param[3], MYSQL_TYPE_LONG, &soggiorno->prenotazioneinquestione, sizeof(soggiorno->prenotazioneinquestione));
 	set_binding_param(&param[4], MYSQL_TYPE_DATE, &datainiziosoggiorno, sizeof(datainiziosoggiorno));
@@ -2418,7 +2417,7 @@ int do_select_bus(struct mezzo *mezzo)
 
 int do_select_review(struct revisione *revisione) 
 {
-	MYSQL_BIND param[8];
+	MYSQL_BIND param[7];
 	MYSQL_TIME datainizio;
 	MYSQL_TIME datafine;
 
@@ -2440,8 +2439,7 @@ int do_select_review(struct revisione *revisione)
 	set_binding_param(&param[3], MYSQL_TYPE_DATE, &datafine, sizeof(datafine));
 	set_binding_param(&param[4], MYSQL_TYPE_LONG, &revisione->chilometraggio, sizeof(revisione->chilometraggio));
 	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, revisione->operazionieseguite, sizeof(revisione->operazionieseguite));
-	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, revisione->tipologiarevisione, sizeof(revisione->tipologiarevisione));
-	set_binding_param(&param[7], MYSQL_TYPE_VAR_STRING, revisione->motivazione, sizeof(revisione->motivazione));
+	set_binding_param(&param[6], MYSQL_TYPE_VAR_STRING, revisione->motivazione, sizeof(revisione->motivazione));
 	
 	rows = take_result(select_review, param, buff); 
 	if (rows == -1)
