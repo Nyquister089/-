@@ -6,8 +6,8 @@ BEGIN
     NomeDipendente, 
     CognomeDipendente,
     TipologiaDipendente, 
-    TelefonoAziendale, 
-    NumeroCompetenze
+    TelefonoAziendale
+
 FROM dipendente
     WHERE EmailDipendente = mld;
 END;

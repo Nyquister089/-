@@ -5,7 +5,8 @@ begin
 select 
 m.CasaCostruttrice,
 m.DatiTecnici,
-m.NumeroPosti
+m.NumeroPosti,
+m.NumeroMeccaniciCompetenti
 from modello as m 
 where m.NomeModello = nmd; 
 end

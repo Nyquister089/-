@@ -466,7 +466,7 @@ bool get_table_workshop(char sel){
                 return true; 
                 }
 	            case GESTIONE_INSERT: {
-                    ins_model(modello); 
+                    ins_model(modello, competenze); 
                 return true; 
                 }
 	            case GESTIONE_DELETE: {
@@ -780,7 +780,7 @@ bool get_table_gest (char sel)
                 return true; 
                 }
 	            case GESTIONE_INSERT: {
-                    ins_employee(dipendente, utente, competenze); 
+                    ins_employee(dipendente, utente); 
                 return true; 
                 }
 	            case GESTIONE_DELETE: {

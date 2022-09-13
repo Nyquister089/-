@@ -129,8 +129,7 @@ static MYSQL_STMT *select_reservation_info;
 
 static MYSQL_STMT *validate_reservation;	 // ok HOSTESS
 static MYSQL_STMT *update_km;				// Autista
-static MYSQL_STMT *update_user_type; 		// Manager
-static MYSQL_STMT *init_skill; 
+static MYSQL_STMT *update_user_type; 		// Manager 
 
 
 static void close_prepared_stmts(void)
@@ -639,11 +638,6 @@ static void close_prepared_stmts(void)
 		mysql_stmt_close(update_km);
 		update_km = NULL;
 	}
-	if(init_skill)
-	{ 				
-		mysql_stmt_close(init_skill);
-		init_skill = NULL;
-	}
 	if(update_user_type)
 	{ 				
 		mysql_stmt_close(update_user_type);
@@ -940,7 +934,7 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error( insert_comfort, "Unable to initialize  insert_comfort statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(& insert_model, "call   insert_model(?, ?, ?, ?)", conn))
+		if (!setup_prepared_stmt(& insert_model, "call   insert_model(?, ?, ?, ?, ?, ?)", conn))
 		{ 
 			print_stmt_error( insert_model, "Unable to initialize  insert_model statement\n");
 			return false;
@@ -1300,11 +1294,6 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(select_skills, "Unable to initialize select_skills statement\n");
 			return false;
 		}
-		if (!setup_prepared_stmt(& init_skill, "call  init_skill(?,?,?)", conn))
-		{
-			print_stmt_error( init_skill, "Unable to initialize init_skill statement\n");
-			return false;
-		}
 		if (!setup_prepared_stmt(& update_user_type, "call  update_user_type(?,?)", conn))
 		{
 			print_stmt_error( update_user_type, "Unable to initialize update_user_type statement\n");
@@ -1330,7 +1319,11 @@ static bool initialize_prepared_stmts(role_t for_role)
 			print_stmt_error(select_max_idreview, "Unable to initialize select_max_idreview statement\n");
 			return false;
 		}
-
+		if (!setup_prepared_stmt(&validate_reservation, "call validate_reservation(?, ?, ?)", conn))
+		{
+			print_stmt_error(validate_reservation, "Unable to initialize validate reservation statement\n");
+			return false;
+		}
 		break;
 
 	default:
@@ -1576,7 +1569,7 @@ void do_validate_reservation(struct prenotazione *prenotazione) // Funziona
 	date_to_mysql_time(prenotazione->datadiconferma, &datadiconferma);
 	date_to_mysql_time(prenotazione->datasaldo, &datasaldo);
 	printf("Here\n\n"); 
-	set_binding_param(&param[0], MYSQL_TYPE_LONG, &prenotazione->numerodiprenotazione, sizeof(prenotazione->numerodipostiprenotati));
+	set_binding_param(&param[0], MYSQL_TYPE_LONG, &prenotazione->numerodiprenotazione, sizeof(prenotazione->numerodiprenotazione));
 	set_binding_param(&param[1], MYSQL_TYPE_DATE, &datadiconferma, sizeof(datadiconferma));
 	set_binding_param(&param[2], MYSQL_TYPE_DATE, &datasaldo, sizeof(datasaldo));
 	printf("Here\n\n"); 
@@ -1946,9 +1939,9 @@ void do_insert_fme(struct fme *fme)
 	mysql_stmt_reset(insert_fme);
 }
 
-void do_insert_model(struct modello *modello)
+void do_insert_model(struct modello *modello, struct competenze *competenze)
 {		
-	MYSQL_BIND param[4]; 
+	MYSQL_BIND param[6]; 
 	char *buff = "insert_model"; 
 	
 	
@@ -1956,7 +1949,8 @@ void do_insert_model(struct modello *modello)
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, modello->datitecnici, strlen(modello->datitecnici));
 	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, modello->casacostruttrice, strlen(modello->casacostruttrice));
 	set_binding_param(&param[3], MYSQL_TYPE_LONG, &modello->numeroposti, sizeof(modello->numeroposti));
-	
+	set_binding_param(&param[4], MYSQL_TYPE_VAR_STRING, competenze->meccanicocompetente, strlen(competenze->meccanicocompetente));
+	set_binding_param(&param[5], MYSQL_TYPE_VAR_STRING, competenze->nomemeccanico, strlen(competenze->nomemeccanico));
 
 	if(mysql_stmt_bind_param(insert_model, param) != 0) {
 		print_stmt_error(insert_model, "Could not bind parameters for insert_model");
@@ -2067,7 +2061,7 @@ void do_insert_skills(struct competenze *competenze)
 
 int do_select_model(struct modello *modello)
 {
-	MYSQL_BIND param[3];
+	MYSQL_BIND param[4];
 	
 	char *buff = "select_model";
 	int rows; 
@@ -2080,6 +2074,9 @@ int do_select_model(struct modello *modello)
 	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, modello->casacostruttrice, sizeof(modello->casacostruttrice));
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, modello->datitecnici, sizeof(modello->datitecnici));
 	set_binding_param(&param[2], MYSQL_TYPE_LONG, &modello->numeroposti, sizeof(modello->numeroposti));
+	set_binding_param(&param[3], MYSQL_TYPE_LONG, &modello->numeromeccanicicompetenti, sizeof(modello->numeromeccanicicompetenti));
+	
+
 	
 	rows = take_result(select_model, param, buff);
  
@@ -2245,7 +2242,7 @@ int do_select_fmo(struct fmo *fmo)
 
 int do_select_employee(struct dipendente*dipendente)
 {
-	MYSQL_BIND param[5];
+	MYSQL_BIND param[4];
 	
 	char *buff = "select_employee";
 	int rows; 
@@ -2259,7 +2256,6 @@ int do_select_employee(struct dipendente*dipendente)
 	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, dipendente->cognomedipendente, sizeof(dipendente->cognomedipendente));
 	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, dipendente->tipologiadipendente, sizeof(dipendente->tipologiadipendente));
 	set_binding_param(&param[3], MYSQL_TYPE_VAR_STRING, dipendente->telefonoaziendale, sizeof(dipendente->telefonoaziendale));
-	set_binding_param(&param[4], MYSQL_TYPE_LONG, &dipendente->numerocompetenze, sizeof(dipendente->numerocompetenze));
 
 	
 	rows = take_result(select_employee, param, buff); 
@@ -3386,21 +3382,6 @@ void do_update_user_type(struct utente *utente)
 	mysql_stmt_reset(update_user_type);
 }
 
-void do_init_skill(struct competenze *competenze)
-{	
-	MYSQL_BIND param[3]; 
-	char *buff = "init_skill"; 
-
-	set_binding_param(&param[0], MYSQL_TYPE_VAR_STRING, competenze->meccanicocompetente, strlen(competenze->meccanicocompetente));
-	set_binding_param(&param[1], MYSQL_TYPE_VAR_STRING, competenze->modelloassociato, strlen(competenze->modelloassociato));
-	set_binding_param(&param[2], MYSQL_TYPE_VAR_STRING, competenze->nomemeccanico, strlen(competenze->nomemeccanico));
-	
-	
-	bind_exe( init_skill, param, buff); 
-	
-	mysql_stmt_free_result(init_skill);
-	mysql_stmt_reset(init_skill);
-}
 
 
 struct info_modelli *get_info_modello(char *nmd)

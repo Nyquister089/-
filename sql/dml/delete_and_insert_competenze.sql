@@ -11,6 +11,3 @@ INSERT INTO `tripdb`.`competenze`(
 `CompetenzeModello`,
 `MeccanicoCompetente`)
 VALUES('RAXA','mch@mail.com');
-update dipendente
-set NumeroCompetenze = '3'
-where EmailDipendente = 'mch@mail.com';

@@ -201,7 +201,6 @@ void create_procedures(){
     execute_query_from_file_sql("../sql/ddl/procedure/login.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/update_km.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/validate_reservation.sql");
-    execute_query_from_file_sql("../sql/ddl/procedure/init_skill.sql"); 
 
     execute_query_from_file_sql("../sql/ddl/procedure/select_trip.sql");
     execute_query_from_file_sql("../sql/ddl/procedure/select_tour.sql");

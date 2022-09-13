@@ -102,7 +102,6 @@ struct dipendente{
 	char telefonoaziendale [TEL_LEN]; 
 	char nomedipendente[VARCHAR_LEN];
 	char cognomedipendente[VARCHAR_LEN];
-	int numerocompetenze; 
 };
 
 struct documentazionefotografica {
@@ -184,6 +183,7 @@ struct modello {
 	char datitecnici[DES_LEN]; 
 	char casacostruttrice[VARCHAR_LEN];
 	int numeroposti; //Corretto trasformandolo da carattere a puntatore di carattere
+	int numeromeccanicicompetenti; 
 }; 
 
 struct modelli_comfort {
@@ -460,7 +460,7 @@ extern void do_insert_service(struct servizio *servizio);
 extern void do_insert_tome(struct tome *tome);
 extern void do_insert_fmo(struct fmo *fmo); 
 extern void do_insert_fme(struct fme *fme); 
-extern void do_insert_model(struct modello * modello); 
+extern void do_insert_model(struct modello * modello, struct competenze *competenze); 
 extern void do_insert_bus(struct mezzo *mezzo); 
 extern void do_insert_sparepart(struct ricambio *ricambio);
 extern void do_insert_certify(struct tagliando *tagliando); 

@@ -18,13 +18,6 @@ void ins_user(struct utente *utente)
 	do_insert_user(utente);
 }
 
-void ins_init_skill(struct competenze *competenze){
-	char buff[VARCHAR_LEN];
-	printf("** Dettagli inizializzazione competenze **\n\n");
-	get_input("Inserisci il primo modello di competenza del meccanico : ", VARCHAR_LEN, competenze->modelloassociato, false);
-	get_input("Inserisci il secondo modello di competenza del meccanico ", VARCHAR_LEN, competenze->nomemeccanico, false);
-	do_init_skill(competenze); 
-}
 
 void ins_costumer_user(struct utente *utente){
 	printf("** Dettagli inserimento utente **\n\n");
@@ -207,16 +200,29 @@ void ins_bus(struct mezzo *mezzo)
 
 }
 
-void ins_model(struct modello *modello)
+void ins_another_skill (struct competenze *competenze)
 {	
-	char buff[VARCHAR_LEN];
+	printf("** Dettagli inserimento competenze **\n\n");
+	get_input("Inserisci la mail del meccanico competente : ", VARCHAR_LEN, competenze->meccanicocompetente, false);
+	do_insert_skills(competenze); 
+}
+
+void ins_model(struct modello *modello, struct competenze *competenze)
+{	
+	char buff[NUM_LEN];
 	printf("\n** Dettagli inserimento modello **\n\n");
-	get_input("Inserisci il nome : ", DEC_LEN, modello->nomemodello, false);
-	get_input("Inserisci la casa costruttrice : ", NUM_LEN, modello->casacostruttrice, false);
+	get_input("Inserisci il nome : ", VARCHAR_LEN, modello->nomemodello, false);
+	get_input("Inserisci la casa costruttrice : ", VARCHAR_LEN, modello->casacostruttrice, false);
 	get_input("Inserisci i dati tecnici (massimo 5000 caratteri) : ", DES_LEN, modello-> datitecnici, false);
 	get_input("Inserisci il numero di posti: ", NUM_LEN, buff, false);
 	modello->numeroposti = atoi(buff);
-	do_insert_model(modello); 
+	printf("** Dettagli inizializzazione competenze **\n\n");
+	get_input("Inserisci il primo meccanico competente : ", VARCHAR_LEN, competenze->meccanicocompetente, false);
+	get_input("Inserisci il secondo meccanico competente : ", VARCHAR_LEN, competenze->nomemeccanico, false);
+	do_insert_model(modello, competenze); 
+	while(yes_or_no("Vuoi inserire un'altro meccanico competente? ", 's', 'n', false, false)){
+		ins_another_skill(competenze); 
+	}
 }
 
 void ins_certify(struct tagliando *tagliando)
@@ -525,12 +531,7 @@ void ins_presents(struct presenti *presenti)
 }
 
 
-void ins_another_skill (struct competenze *competenze)
-{	
-	printf("** Dettagli inserimento competenze **\n\n");
-	get_input("Inserisci il nome del modello associato: ", VARCHAR_LEN, competenze->modelloassociato, false);
-	do_insert_skills(competenze); 
-}
+
 void ins_skills(struct competenze *competenze)
 {	
 	printf("** Dettagli inserimento competenze **\n\n");
@@ -539,7 +540,7 @@ void ins_skills(struct competenze *competenze)
 	do_insert_skills(competenze); 
 }
 
-void ins_employee(struct dipendente *dipendente, struct utente *utente, struct competenze *competenze) 
+void ins_employee(struct dipendente *dipendente, struct utente *utente) 
 {	
 	printf("** Crea un utente per questo dipendente **\n\n");
 	do{
@@ -571,15 +572,7 @@ void ins_employee(struct dipendente *dipendente, struct utente *utente, struct c
 	get_input("Inserisci il cognome: ", VARCHAR_LEN, dipendente->cognomedipendente, false);
 	get_input("Inserisci il numero di telefono aziendale: ", TEL_LEN ,dipendente->telefonoaziendale, false);
 	do_insert_employee(dipendente);
-	if (utente->tipo == 4)
-		{
-		strcpy(competenze->meccanicocompetente, dipendente->emaildipendente); 
-
-		ins_init_skill(competenze); 
-		while(yes_or_no("Vuoi inserire un altra competenza ? ", 's', 'n', false, false)){
-			ins_another_skill(competenze); 
-			}
-		}
+	
 }
 
 void validate_reservation(struct prenotazione *prenotazione , struct postoprenotato *postoprenotato, struct soggiorno *soggiorno)

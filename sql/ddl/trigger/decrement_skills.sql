@@ -1,7 +1,7 @@
 create trigger`tripdb`.`decrement_skills` after delete
 on `competenze`
 for each row
-  update dipendente
+  update modello
   join competenze 
-  set NumeroCompetenze = NumeroCompetenze - 1
-  where EmailDipendente= OLD.MeccanicoCompetente;
+  set NumeroMeccaniciCompetenti = NumeroMeccaniciCompetenti - 1
+  where NomeModello= OLD.CompetenzeModello;

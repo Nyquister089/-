@@ -220,9 +220,7 @@ int show_employee(struct dipendente *dipendente)
 			dipendente->nomedipendente,
 			dipendente->cognomedipendente,
 			dipendente->tipologiadipendente,
-			dipendente->telefonoaziendale); 
-		if ((strcmp(dipendente->tipologiadipendente,"Meccanico") == 0 )||( strcmp(dipendente->tipologiadipendente,"meccanico") == 0))
-			printf("Numero competenze:	%d \n", dipendente->numerocompetenze); 
+			dipendente->telefonoaziendale);
 		
 	}
 	else { 
@@ -397,10 +395,11 @@ int show_model(struct modello *modello){
 	printf("\n\n** Dettagli modello  **\n\n");
 	get_input("Inserisci il nome d'interesse:",VARCHAR_LEN, modello->nomemodello, false); 
 	if(do_select_model(modello) > 0){
- 		printf("* Casa costruttrice:	%s\n Dati tecnici:		%s \n Numero di posti:	%d\n\n",
+ 		printf("* Casa costruttrice:	%s\n Dati tecnici:		%s \n Numero di posti:	%d\n Meccanici competenti:	%d\n",
 			modello->casacostruttrice,
 			modello->datitecnici,
-			modello->numeroposti);
+			modello->numeroposti,
+			modello->numeromeccanicicompetenti);
 	}
 	else { 
 		printf("Il nome del modello inserito non esiste\n\n"); 
