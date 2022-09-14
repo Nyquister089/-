@@ -226,7 +226,7 @@ void ins_certify(struct tagliando *tagliando)
 void ins_stay(struct soggiorno *soggiorno)
 {	
 	char buff[NUM_LEN]; 
-	printf("\n** Dettagli associazione camera**\n\n");
+	printf("\n** Dettagli soggiorno**\n\n");
 	get_input("Inserisci il numero della camera: ", NUM_LEN, buff, false);
 	soggiorno->cameraprenotata = atoi(buff); 
 	get_input("Inserisci l'albergo in cui è ubicata la camera: ", NUM_LEN, buff,false);	
@@ -593,8 +593,6 @@ void validate_reservation(struct prenotazione *prenotazione , struct postoprenot
 
 		get_input("Inserisci il numero di posto: ", NUM_LEN, buff, false);
 		postoprenotato->numerodiposto = atoi(buff); 
-		get_input("Inserisci il numero della prenotazione associata : ", NUM_LEN, buff, false);
-		postoprenotato->prenotazioneassociata = atoi(buff); 
 		get_input("Inserisci l'età: ", NUM_LEN, buff, false);
 		postoprenotato->etapasseggero = atoi(buff); 
 		get_input("Inserisci il nome: ", VARCHAR_LEN, postoprenotato-> nomepasseggero, false);
@@ -604,9 +602,26 @@ void validate_reservation(struct prenotazione *prenotazione , struct postoprenot
 
 		ans = yes_or_no("\n\n Vuoi associare una camera a questo passeggero? (s/n) ",'s','n',false,false);
 		if (ans)
-			do{	printf("** Associa camera al passeggero ** ");
-			 	soggiorno ->ospite = postoprenotato ->numerodiposto; 
-				ins_stay(soggiorno); 
+			do{	
+				soggiorno->prenotazioneinquestione= prenotazione->numerodiprenotazione; 
+				soggiorno->ospite  = postoprenotato->numerodiposto; 
+				printf("\n** Associa soggiorno**\n\n");
+				get_input("Inserisci il numero della camera: ", NUM_LEN, buff, false);
+				soggiorno->cameraprenotata = atoi(buff); 
+				get_input("Inserisci l'albergo in cui è ubicata la camera: ", NUM_LEN, buff,false);	
+				soggiorno->albergoinquestione = atoi(buff); 
+				while(true){
+					get_input("Inserici la data d'inizio del soggiorno [YYYY-MM-DD]: ",DATE_LEN, soggiorno->datainiziosoggiorno,false); 
+					if(validate_date(soggiorno->datainiziosoggiorno))
+						break;
+					fprintf(stderr, "Data errata!\n");
+				}
+				while(true){
+					get_input("Inserisci la data di fine soggiorno [YYYY-MM-DD]: ",DATE_LEN, soggiorno->datafinesoggiorno, false);
+					if(validate_date(soggiorno->datafinesoggiorno))
+						break;
+					fprintf(stderr, "Data errata!\n");
+				} 
 				association_ans= yes_or_no("\n\n Vuoi associare un'altra camera a questo passeggero? (s/n) ",'s','n',false,false);
 			}while(association_ans);
 		seat_ans =yes_or_no("\n\n Vuoi associare un'altro passeggero a questa prenotazione ? (s/n) ",'s','n',false,false);
