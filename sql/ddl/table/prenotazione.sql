@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`prenotazione` (
   `DataDiConferma` DATE DEFAULT NULL,
   `DataSaldo` DATE DEFAULT NULL,
   PRIMARY KEY (`NumeroDiPrenotazione`),
-  UNIQUE KEY `NumeroDiPrenotazione_UNIQUE` (`NumeroDiPrenotazione`),
   CONSTRAINT `ClientePrenotatne` FOREIGN KEY (`ClientePrenotante`) REFERENCES `cliente` (`EmailCliente`) on delete cascade,
   CONSTRAINT `viaggioAssociato` FOREIGN KEY (`ViaggioAssociato`) REFERENCES `viaggio` (`idviaggio`) on delete cascade,
   CONSTRAINT `DataDiConfermaCannotBeLesserThanDataDiPrenotazione` CHECK (`DataDiConferma` IS NULL OR `DataDiConferma` >= `DataDiPrenotazione`),

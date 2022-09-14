@@ -6,7 +6,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`mappa` (
   `Zona` varchar(45) NOT NULL,
   `ImmagineMappa` blob DEFAULT NULL,
   PRIMARY KEY (`IdMappa`),
-  UNIQUE KEY `IdMappa_UNIQUE` (`IdMappa`),
   KEY `Fk_RegioneInQuestione_idx` (`RegioneInQuestione`),
   KEY `Fk_Citta_idx` (`Citta`),
   CONSTRAINT `Fk_Città` FOREIGN KEY (`Citta`) REFERENCES `localita`(`NomeLocalita`) on delete cascade,

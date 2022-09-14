@@ -11,7 +11,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`meta` (
   `CategoriaAlbergo` varchar(45) DEFAULT NULL,
   `OrarioDiApertura` time DEFAULT NULL,
   PRIMARY KEY (`IdMeta`),
-  UNIQUE KEY `IdMeta_UNIQUE` (`IdMeta`),
   KEY `LocalitaDiappartenenza_idx` (`LocalitadiAppartenenza`),
   CONSTRAINT `FK_LocalitaDiAppartenenza` FOREIGN KEY (`LocalitaDiAppartenenza`) REFERENCES `localita` (`NomeLocalita`) on delete set null,
   CONSTRAINT `FK_RegioneDiAppartenenza` FOREIGN KEY (`RegioneDiAppartenenza`) REFERENCES `localita` (`Regione`) on delete set null,

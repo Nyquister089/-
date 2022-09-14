@@ -11,7 +11,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`viaggio` (
   `PostiDisponibili` int unsigned NOT NULL,
   `DataCancellazione` date DEFAULT NULL,
   PRIMARY KEY (`idviaggio`),
-  UNIQUE KEY `idviaggio_UNIQUE` (`idviaggio`),
   KEY `FK_TourAssocciato_idx` (`TourAssociato`),
   KEY `FK_Conducente_idx` (`Conducente`),
   KEY `FK_Accompagnatrice_idx`(`Accompagnatrice`),

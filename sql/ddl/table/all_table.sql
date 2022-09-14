@@ -7,7 +7,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`camera` (
   KEY `FK_IdAlbergo_idx` (`IdAlbergo`),
   CONSTRAINT `FK_idAlbergoCamera` FOREIGN KEY (`IdAlbergo`) REFERENCES `meta` (`IdMeta`) on delete cascade
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`cliente` (
   `EmailCliente` varchar(45) NOT NULL,
   `NomeCliente` varchar(45) NOT NULL,
@@ -26,9 +25,8 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`comfort` (
   `IdComfort` int unsigned NOT NULL AUTO_INCREMENT,
   `NomeComfort` varchar(45) NOT NULL,
   `DescrizioneComfort` varchar(1000) NOT NULL,
-  PRIMARY KEY (`IdComfort`),
+  PRIMARY KEY (`IdComfort`)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`competenze` (
   `CompetenzeModello` varchar(45) NOT NULL,
   `MeccanicoCompetente` varchar(45) not null,
@@ -39,9 +37,7 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`competenze` (
   CONSTRAINT `FK_MeccanicoCompetente` FOREIGN KEY (`MeccanicoCompetente`) REFERENCES `dipendente` (`EmailDipendente`)on delete cascade
 
 
-) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
-CREATE TABLE IF NOT EXISTS `tripdb`.`dipendente` (
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;CREATE TABLE IF NOT EXISTS `tripdb`.`dipendente` (
   `EmailDipendente` varchar (45) NOT NULL,
   `TipologiaDipendente` varchar(45) NOT NULL,
   `TelefonoAziendale` varchar (15) NOT NULL,
@@ -57,12 +53,68 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`documentazionefotografica` (
   `idDocumentazioneFotografica` int unsigned NOT NULL AUTO_INCREMENT,
   `Immagine` blob DEFAULT NULL,
   `DescrizioneFoto` varchar(5000),
-  PRIMARY KEY (`idDocumentazioneFotografica`),
+  PRIMARY KEY (`idDocumentazioneFotografica`)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS `tripdb`.`associata`;
+DROP TABLE IF EXISTS `tripdb`.`camera`;
+DROP TABLE IF EXISTS `tripdb`.`cliente`;
+DROP TABLE IF EXISTS `tripdb`.`comfort`;
+DROP TABLE IF EXISTS `tripdb`.`dipendente`;
+DROP TABLE IF EXISTS `tripdb`.`documentazionefotografica`;
+DROP TABLE IF EXISTS `tripdb`.`fme`;
+DROP TABLE IF EXISTS `tripdb`.`fmo`;
+DROP TABLE IF EXISTS `tripdb`.`localita`;
+DROP TABLE IF EXISTS `tripdb`.`mappa`;
+DROP TABLE IF EXISTS `tripdb`.`meta`;
+DROP TABLE IF EXISTS `tripdb`.`mezzo`;
+DROP TABLE IF EXISTS `tripdb`.`modello`;
+DROP TABLE IF EXISTS `tripdb`.`offre`;
+DROP TABLE IF EXISTS `tripdb`.`postoprenotato`;
+DROP TABLE IF EXISTS `tripdb`.`prenotazione`;
+DROP TABLE IF EXISTS `tripdb`.`presenti`;
+DROP TABLE IF EXISTS `tripdb`.`rt`;
+DROP TABLE IF EXISTS `tripdb`.`revisione`;
+DROP TABLE IF EXISTS `tripdb`.`ricambio`;
+DROP TABLE IF EXISTS `tripdb`.`servizio`;
+DROP TABLE IF EXISTS `tripdb`.`tagliando`;
+DROP TABLE IF EXISTS `tripdb`.`tome`;
+DROP TABLE IF EXISTS `tripdb`.`tour`;
+DROP TABLE IF EXISTS `tripdb`.`utente`;
+DROP TABLE IF EXISTS `tripdb`.`viaggio`;
+DROP TABLE IF EXISTS `tripdb`.`visita`;
 
 SET FOREIGN_KEY_CHECKS = 1;SET FOREIGN_KEY_CHECKS = 0;
 
-CREATE TABLE IF NOT EXISTS `tripdb`.`fme` (
+DROP TABLE IF EXISTS `tripdb`.`soggiorno`;
+DROP TABLE IF EXISTS `tripdb`.`camera`;
+DROP TABLE IF EXISTS `tripdb`.`cliente`;
+DROP TABLE IF EXISTS `tripdb`.`comfort`;
+DROP TABLE IF EXISTS `tripdb`.`dipendente`;
+DROP TABLE IF EXISTS `tripdb`.`documentazionefotografica`;
+DROP TABLE IF EXISTS `tripdb`.`fme`;
+DROP TABLE IF EXISTS `tripdb`.`fmo`;
+DROP TABLE IF EXISTS `tripdb`.`localita`;
+DROP TABLE IF EXISTS `tripdb`.`mappa`;
+DROP TABLE IF EXISTS `tripdb`.`meta`;
+DROP TABLE IF EXISTS `tripdb`.`mezzo`;
+DROP TABLE IF EXISTS `tripdb`.`modello`;
+DROP TABLE IF EXISTS `tripdb`.`offre`;
+DROP TABLE IF EXISTS `tripdb`.`postoprenotato`;
+DROP TABLE IF EXISTS `tripdb`.`prenotazione`;
+DROP TABLE IF EXISTS `tripdb`.`presenti`;
+DROP TABLE IF EXISTS `tripdb`.`rt`;
+DROP TABLE IF EXISTS `tripdb`.`revisione`;
+DROP TABLE IF EXISTS `tripdb`.`ricambio`;
+DROP TABLE IF EXISTS `tripdb`.`servizio`;
+DROP TABLE IF EXISTS `tripdb`.`tagliando`;
+DROP TABLE IF EXISTS `tripdb`.`tour`;
+DROP TABLE IF EXISTS `tripdb`.`utente`;
+DROP TABLE IF EXISTS `tripdb`.`viaggi`;
+DROP TABLE IF EXISTS `tripdb`.`visita`;
+
+SET FOREIGN_KEY_CHECKS = 1;CREATE TABLE IF NOT EXISTS `tripdb`.`fme` (
   `MetaRappresentata` int unsigned NOT NULL,
   `FotoMeta` int unsigned NOT NULL,
   PRIMARY KEY (`MetaRappresentata`,`FotoMeta`),
@@ -70,7 +122,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`fme` (
   CONSTRAINT `FK_documentazioneFotografica` FOREIGN KEY (`FotoMeta`) REFERENCES `documentazionefotografica` (`idDocumentazioneFotografica`)on delete cascade,
   CONSTRAINT `FK_Meta` FOREIGN KEY (`MetaRappresentata`) REFERENCES `meta` (`IdMeta`) on delete cascade
 ) ENGINE=InnoDB  CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`fmo` (
   `FotoModello` int unsigned NOT NULL,
   `ModelloRappresentato` varchar(45) NOT NULL,
@@ -85,7 +136,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`fmo` (
   PRIMARY KEY (`NomeLocalita`,`Regione`),
   Index (`Regione`)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`mappa` (
   `IdMappa` int unsigned NOT NULL AUTO_INCREMENT,
   `Citta` varchar(45) NOT NULL,
@@ -99,7 +149,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`mappa` (
   CONSTRAINT `Fk_Città` FOREIGN KEY (`Citta`) REFERENCES `localita`(`NomeLocalita`) on delete cascade,
   CONSTRAINT `Fk_RegioneInQuestione`FOREIGN KEY(`RegioneInQuestione`) REFERENCES `localita` (`Regione`) on delete cascade
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`meta` (
   `IdMeta` int unsigned NOT NULL AUTO_INCREMENT,
   `LocalitaDiAppartenenza` varchar(45), 
@@ -118,7 +167,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`meta` (
   CONSTRAINT `FK_RegioneDiAppartenenza` FOREIGN KEY (`RegioneDiAppartenenza`) REFERENCES `localita` (`Regione`) on delete set null,
   CONSTRAINT `TipologiaMetaNotValid` CHECK (`TipologiaMeta` IN ('Bene','Albergo', 'bene', 'albergo') )
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`mezzo` (
   `Targa` varchar(10) NOT NULL,
   `ModelloMezzo` varchar(45) NOT NULL,
@@ -131,7 +179,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`mezzo` (
   KEY `FK_modello_idx` (`ModelloMezzo`),
   CONSTRAINT `FK_ModelloMezzo` FOREIGN KEY (`ModelloMezzo`) REFERENCES `modello` (`NomeModello`) on delete cascade
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`modello` (
   `NomeModello` varchar(45) NOT NULL,
   `DatiTecnici` varchar(5000) NOT NULL,
@@ -141,7 +188,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`modello` (
   PRIMARY KEY (`NomeModello`),
   CONSTRAINT `NumeroCompetenzeNotValid` CHECK  (`NumeroMeccaniciCompetenti`=  0 OR `NumeroMeccaniciCompetenti`>1)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`offre` (
   `ServizioOfferto` int unsigned NOT NULL,
   `AlbergoOfferente` int unsigned NOT NULL,
@@ -151,7 +197,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`offre` (
   CONSTRAINT `FK_IdAlbergo` FOREIGN KEY (`AlbergoOfferente`) REFERENCES `meta` (`IdMeta`)on delete cascade,
   CONSTRAINT `FK_IdServizio` FOREIGN KEY (`ServizioOfferto`) REFERENCES `servizio` (`IdServizio`)on delete cascade
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`postoprenotato` (
   `NumeroDiPosto` int unsigned NOT NULL,
   `PrenotazioneAssociata` int unsigned NOT NULL,
@@ -163,7 +208,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`postoprenotato` (
   CONSTRAINT `prenotazioneAssociata` FOREIGN KEY (`PrenotazioneAssociata`) REFERENCES `prenotazione` (`NumeroDiPrenotazione`)on delete cascade
 
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`prenotazione` (
   `NumeroDiPrenotazione` int unsigned NOT NULL AUTO_INCREMENT,
   `ViaggioAssociato` int unsigned NOT NULL,
@@ -177,18 +221,14 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`prenotazione` (
   CONSTRAINT `viaggioAssociato` FOREIGN KEY (`ViaggioAssociato`) REFERENCES `viaggio` (`idviaggio`) on delete cascade,
   CONSTRAINT `DataDiConfermaCannotBeLesserThanDataDiPrenotazione` CHECK (`DataDiConferma` IS NULL OR `DataDiConferma` >= `DataDiPrenotazione`),
   CONSTRAINT `DataSaldoCannotBeLesserThanDataDiConferma` CHECK (`DataSaldo` IS NULL OR (`DataDiConferma` IS NOT NULL AND `DataSaldo` >= `DataDiConferma`))
-) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
-CREATE TABLE IF NOT EXISTS `tripdb`.`presenti` (
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;CREATE TABLE IF NOT EXISTS `tripdb`.`presenti` (
   `ComfortPresenti` int unsigned NOT NULL,
   `ModelloAssociato` varchar(45) NOT NULL,
   PRIMARY KEY (`ComfortPresenti`,`ModelloAssociato`),
   KEY `FK_Modello_associato_idx` (`ModelloAssociato`),
   CONSTRAINT `FK_Comfort` FOREIGN KEY (`ComfortPresenti`) REFERENCES `comfort` (`IdComfort`)on delete cascade,
   CONSTRAINT `FK_Modello_associato` FOREIGN KEY (`ModelloAssociato`) REFERENCES `modello` (`NomeModello`)on delete cascade
-) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
-CREATE TABLE IF NOT EXISTS `tripdb`.`revisione` (
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;CREATE TABLE IF NOT EXISTS `tripdb`.`revisione` (
   `IdRevisione` int unsigned NOT NULL AUTO_INCREMENT,
   `MezzoRevisionato` varchar(45),
   `AddettoAllaRevisione` varchar(45), 
@@ -203,9 +243,7 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`revisione` (
   CONSTRAINT `FK_revisione_mezzo` FOREIGN KEY (`MezzoRevisionato`) REFERENCES `mezzo` (`Targa`) on delete set null,
   CONSTRAINT `FK_revisione_dipendente` FOREIGN KEY (`AddettoAllaRevisione`) REFERENCES `dipendente` (`EmailDipendente`)on delete set null,
   CONSTRAINT `DataFineCannotBeLesserThanDataInizio` CHECK (`DataFine` >= `DataInizio`)
-) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
-CREATE TABLE IF NOT EXISTS `tripdb`.`ricambio` (
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;CREATE TABLE IF NOT EXISTS `tripdb`.`ricambio` (
   `Codice` varchar(45) NOT NULL,
   `CostoUnitario` decimal(8,2) NOT NULL,
   `QuantitaDiRiordino` int unsigned NOT NULL,
@@ -215,7 +253,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`ricambio` (
   PRIMARY KEY (`Codice`),
   constraint `QuantitaMagazzino_notvalid` check (`QuantitaMagazzino`>=0)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`rt` (
   `RevisioneRelativa` int unsigned NOT NULL,
   `TagliandoAssociato` int unsigned NOT NULL,
@@ -225,14 +262,12 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`rt` (
   CONSTRAINT `FK_rt_revisione` FOREIGN KEY (`RevisioneRelativa`) REFERENCES `revisione` (`IdRevisione`),
   CONSTRAINT `FK_rt_taglianto` FOREIGN KEY (`TagliandoAssociato`) REFERENCES `tagliando` (`IdTagliando`)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`servizio` (
   `IdServizio` int unsigned NOT NULL AUTO_INCREMENT ,
   `NomeServizio` varchar(45) NOT NULL,
   `DescrizioneServizio` varchar(1000) DEFAULT NULL,
   PRIMARY KEY (`IdServizio`)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`soggiorno` (
   `IdSoggiorno` int unsigned NOT NULL AUTO_INCREMENT, 
   `CameraPrenotata` int unsigned NOT NULL,
@@ -267,10 +302,8 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`sostituito` (
   `IdTagliando` int unsigned NOT NULL AUTO_INCREMENT,
   `TipologiaTagliando` varchar(45) NOT NULL,
   `ValiditaSuperate` varchar(5000) NOT NULL,
-  PRIMARY KEY (`IdTagliando`),
-    `IdTagliando_UNIQUE` (`IdTagliando`)
+  PRIMARY KEY (`IdTagliando`)
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`tour` (
   `DenominazioneTour` varchar(45) NOT NULL,
   `DescrizioneTour` varchar(5000) NOT NULL,
@@ -280,17 +313,13 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`tour` (
   `CostoGaranziaAnnullamento` decimal(8,2) unsigned not null,
   `Accompagnatrice`tinyint DEFAULT NULL,
   PRIMARY KEY (`DenominazioneTour`)
-) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci COMMENT='Programma di viaggio consultabile da clienti ed impiegati dell’azienda.';
-
-CREATE TABLE IF NOT EXISTS `tripdb`.`utente` (
+) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci COMMENT='Programma di viaggio consultabile da clienti ed impiegati dell’azienda.';CREATE TABLE IF NOT EXISTS `tripdb`.`utente` (
   `EmailUtente` varchar(45) NOT NULL,
   `Pswrd` varchar(8) NOT NULL,
   `TipoUtente` int unsigned NOT NULL,
   PRIMARY KEY (`EmailUtente`),
-    `EmailUtente_UNIQUE` (`EmailUtente`), 
   CONSTRAINT `TipoUtenteNotvalid` CHECK (`TipoUtente` IN ('1','2','3','4','5') )
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`viaggio` (
   `IdViaggio` int unsigned NOT NULL AUTO_INCREMENT,
   `TourAssociato` varchar(45) not null,
@@ -314,7 +343,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`viaggio` (
   CONSTRAINT `FK_TourAssocciato` FOREIGN KEY (`TourAssociato`) REFERENCES `tour` (`DenominazioneTour`) on delete cascade,
   CONSTRAINT `DataRitornoViaggioCannotBeLesserThanDataPartenzaViaggio` CHECK ((`DataRitornoViaggio` IS NULL) OR (`DataPartenzaViaggio` IS NULL AND `DataRitornoViaggio` IS NULL) OR (`DataRitornoViaggio` >= `DataPartenzaViaggio`))
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
-
 CREATE TABLE IF NOT EXISTS `tripdb`.`visita` (
   `idvisita` int unsigned NOT NULL AUTO_INCREMENT,
   `ViaggioRelativo` int unsigned NOT NULL,
