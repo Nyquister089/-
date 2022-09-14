@@ -1,6 +1,6 @@
 SET FOREIGN_KEY_CHECKS = 0;
 
-DROP TABLE IF EXISTS `tripdb`.`associata`;
+DROP TABLE IF EXISTS `tripdb`.`soggiorno`;
 DROP TABLE IF EXISTS `tripdb`.`camera`;
 DROP TABLE IF EXISTS `tripdb`.`cliente`;
 DROP TABLE IF EXISTS `tripdb`.`comfort`;
@@ -22,7 +22,6 @@ DROP TABLE IF EXISTS `tripdb`.`revisione`;
 DROP TABLE IF EXISTS `tripdb`.`ricambio`;
 DROP TABLE IF EXISTS `tripdb`.`servizio`;
 DROP TABLE IF EXISTS `tripdb`.`tagliando`;
-DROP TABLE IF EXISTS `tripdb`.`tome`;
 DROP TABLE IF EXISTS `tripdb`.`tour`;
 DROP TABLE IF EXISTS `tripdb`.`utente`;
 DROP TABLE IF EXISTS `tripdb`.`viaggi`;

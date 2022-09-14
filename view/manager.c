@@ -657,7 +657,7 @@ bool get_table_costumer (char sel )
                 return true; 
                 }
 	            case GESTIONE_INSERT: {
-                    ins_costumer(cliente, utente); 
+                    ins_costumer(cliente); 
                 return true; 
                 }
 	            case GESTIONE_DELETE: {
@@ -775,7 +775,7 @@ bool get_table_gest (char sel)
                 return true; 
                 }
 	            case GESTIONE_INSERT: {
-                    ins_employee(dipendente, utente); 
+                    ins_employee(dipendente); 
                 return true; 
                 }
 	            case GESTIONE_DELETE: {

@@ -112,7 +112,7 @@ void drop_tables()
 }
 
 void create_tables()
-{   //execute_query_from_file_sql("../sql/ddl/table/create_all.sql");
+{  
 
     execute_query_from_file_sql("../sql/ddl/table/utente.sql");
     execute_query_from_file_sql("../sql/ddl/table/localita.sql");
@@ -169,6 +169,7 @@ void populate_tables()
     execute_query_from_file_sql("../sql/dml/delete_and_insert_dipendenti.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_modello.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_mezzo.sql"); 
+    execute_query_from_file_sql("../sql/dml/delete_and_insert_revisione.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_comfort.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_meta.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_viaggio.sql");
@@ -181,7 +182,6 @@ void populate_tables()
     execute_query_from_file_sql("../sql/dml/delete_and_insert_foto.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_fmo.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_fme.sql");
-    execute_query_from_file_sql("../sql/dml/delete_and_insert_revisione.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_ricambio.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_mappa.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_postoprenotato.sql");
@@ -308,7 +308,15 @@ void create_procedures(){
         execute_query_from_file_sql("../sql/ddl/trigger/decrement_sparepart.sql"); 
         execute_query_from_file_sql("../sql/ddl/trigger/update_tripseat.sql"); 
         execute_query_from_file_sql("../sql/ddl/trigger/update_data_doc.sql"); 
-         execute_query_from_file_sql("../sql/ddl/trigger/update_km_after_review.sql"); 
+        execute_query_from_file_sql("../sql/ddl/trigger/update_km_after_review.sql"); 
+        execute_query_from_file_sql("../sql/ddl/trigger/update_data_doc1.sql"); 
+       
+    }
+
+    void create_trigger_afeter_insert(void)
+    {
+         execute_query_from_file_sql("../sql/ddl/trigger/insert_default_rev.sql");
+
     }
 
     void privileges (void){
@@ -336,6 +344,7 @@ int main(int argc, char *argv[]){
     create_procedures();
     create_trigger(); 
     populate_tables();
+   // create_trigger_afeter_insert();
     privileges(); 
 
     close_connection_mysql();

@@ -44,6 +44,10 @@ VALUES(
     mch2
 );
 
+update modello
+set NumeroMeccaniciCompetenti = '2'
+where NomeModello = nmd; 
+
 select COUNT(1) 
 into count_mech_per_model 
 from competenze 
@@ -54,9 +58,9 @@ then signal sqlstate '45001'
 set message_text = "Errore nell'inserimento delle competenze";
 end if;
 
-update modello
-set NumeroMeccaniciCompetenti = '2'
-where NomeModello = nmd; 
+
 
 commit;
 end
+/*All'inserimento di un modello devono essere associati almeno due meccanici, 
+questa transazione previene che venga inserito un solo meccanico competente in caso il secondo inserimento fallisca */

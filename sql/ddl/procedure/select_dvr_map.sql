@@ -8,9 +8,9 @@ SELECT distinct
     m.Zona,
     m.ImmagineMappa	
 from mappa as m
-join localita as l on m.LocalitaRappresentata = l.NomeLocalita
+join localita as l on m.Citta = l.NomeLocalita
 join meta as me on l.NomeLocalita = me.LocalitaDiAppartenenza
-where m.LocalitaRappresentata = lcl;
+where m.Citta = lcl;
 END
 
 

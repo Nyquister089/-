@@ -19,12 +19,6 @@ void ins_user(struct utente *utente)
 }
 
 
-void ins_costumer_user(struct utente *utente){
-	printf("** Dettagli inserimento utente **\n\n");
-	get_input("Inserisci la mail: ", VARCHAR_LEN, utente->email, false);
-	get_input("Inserisci la password: ", VARCHAR_LEN, utente->pswrd, false);
-	do_insert_costumer_user(utente); 
-}
 
 
 void ins_prenotation(struct prenotazione *prenotazione)
@@ -92,21 +86,18 @@ else
 	do_insert_review(revisione);
 }
 
-void ins_costumer(struct cliente *cliente, struct utente *utente)
+void ins_costumer(struct cliente *cliente)
 {	
-	char buff[VARCHAR_LEN]; 
-	printf("** Crea un utente per questo cliente **\n"); 
-	ins_costumer_user(utente); 
-	strcpy(cliente->emailcliente, utente->email); 
-	printf("\nEmail: %s \n\n",cliente->emailcliente ); 
+
 	
 	printf("\n** Dettagli inserimento cliente **\n\n");
+	get_input("Inserisci la mail: ", VARCHAR_LEN, cliente->emailcliente, false);
 	get_input("Inserisci il nome: ", VARCHAR_LEN, cliente->nomecliente, false);
 	get_input("Inserisci il cognome: ", VARCHAR_LEN, cliente->cognomecliente, false);
 	get_input("Inserisci l'indirizzo: ", VARCHAR_LEN, cliente->indirizzocliente, false);
 	get_input("Inserisci il codice fiscale: ", VARCHAR_LEN, cliente->codicefiscale, false);
-	get_input("Inserisci il recapito telefonico: ", NUM_LEN, cliente->recapitotelefonico, false);
-	get_input("Inserisci il numero di fax: ", NUM_LEN, cliente->fax, false);
+	get_input("Inserisci il recapito telefonico: ", VARCHAR_LEN, cliente->recapitotelefonico, false);
+	get_input("Inserisci il numero di fax: ", VARCHAR_LEN, cliente->fax, false);
 
 
 	while(true){
@@ -122,9 +113,8 @@ void ins_costumer_hstss(struct cliente *cliente, struct utente *utente)
 {	
 	char buff[VARCHAR_LEN]; 
 	printf("** Crea un utente per questo cliente **\n"); 
-	ins_costumer_user(utente); 
-	strcpy(cliente->emailcliente, utente->email); 
-	printf("\nEmail: %s \n\n",cliente->emailcliente ); 
+	get_input("Inserisci la mail: ", VARCHAR_LEN, cliente->emailcliente, false);
+	get_input("Inserisci la password: ", VARCHAR_LEN, utente->pswrd, false);
 	
 	printf("\n** Dettagli inserimento cliente **\n\n");
 	get_input("Inserisci il nome: ", VARCHAR_LEN, cliente->nomecliente, false);
@@ -141,7 +131,7 @@ void ins_costumer_hstss(struct cliente *cliente, struct utente *utente)
 			break;
 		fprintf(stderr, "Data errata!\n");
 	}
-	do_insert_costumer(cliente); 
+	do_insert_costumer_user(utente, cliente); 
 }
 
 void ins_sparepart(struct ricambio *ricambio)
@@ -521,34 +511,10 @@ void ins_skills(struct competenze *competenze)
 	do_insert_skills(competenze); 
 }
 
-void ins_employee(struct dipendente *dipendente, struct utente *utente) 
+void ins_employee(struct dipendente *dipendente) 
 {	
-	printf("** Crea un utente per questo dipendente **\n\n");
-	do{
-		ins_user(utente); 
-		if(utente->tipo == 2)
-			 update_user_type(utente, utente->tipo); 
-	}while (utente->tipo == 2); 
-
-	strcpy(dipendente->emaildipendente, utente->email); 
-	switch (utente->tipo)
-	{
-	case 1:
-		strcpy(dipendente->tipologiadipendente, "Autista"); 
-		break;
-	case 3: 
-		strcpy(dipendente->tipologiadipendente, "Hostess"); 
-		break; 
-	case 4: 
-		strcpy(dipendente->tipologiadipendente, "Meccanico"); 
-		break; 
-	case 5: 
-		strcpy(dipendente->tipologiadipendente, "Manager"); 
-		break; 
-	default:
-		break;
-	}
 	printf("** Dettagli inserimento dipendente **\n\n");
+	get_input("Inserisci la mail: ", VARCHAR_LEN, dipendente->emaildipendente, false);
 	get_input("Inserisci il nome: ", VARCHAR_LEN, dipendente->nomedipendente, false);
 	get_input("Inserisci il cognome: ", VARCHAR_LEN, dipendente->cognomedipendente, false);
 	get_input("Inserisci il numero di telefono aziendale: ", TEL_LEN ,dipendente->telefonoaziendale, false);

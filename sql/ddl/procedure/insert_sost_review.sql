@@ -68,3 +68,5 @@ end if;
 commit;
 
 end
+
+/* Questa transazione viene implementata per garantire che al fallimento dell'insermento di una revisione l'eventuale sostituzione non venga associata*/
