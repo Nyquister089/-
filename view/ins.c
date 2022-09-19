@@ -517,6 +517,7 @@ void ins_employee(struct dipendente *dipendente)
 	get_input("Inserisci la mail: ", VARCHAR_LEN, dipendente->emaildipendente, false);
 	get_input("Inserisci il nome: ", VARCHAR_LEN, dipendente->nomedipendente, false);
 	get_input("Inserisci il cognome: ", VARCHAR_LEN, dipendente->cognomedipendente, false);
+	get_input("Inserisci il tipologia(Autista  Hostess  Meccanico Manager) ", VARCHAR_LEN, dipendente->tipologiadipendente, false);
 	get_input("Inserisci il numero di telefono aziendale: ", TEL_LEN ,dipendente->telefonoaziendale, false);
 	do_insert_employee(dipendente);
 	

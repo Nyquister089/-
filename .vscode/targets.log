@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Sep 14 08:45:42 2022
+# Make data base, printed on Mon Sep 19 12:50:41 2022
 
 # Variables
 
@@ -45,11 +45,11 @@ XDG_DATA_DIRS = /usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/d
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = /home/giordano/.config/Code/CachedData/784b0177c56c607789f9638da7b6bf3230d47a8c
+VSCODE_CODE_CACHE_PATH = /home/giordano/.config/Code/CachedData/74b1f979648cc44d385a2286793c226e611f59e7
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.OGUXS1
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.WCG0S1
 # default
 .LOADED := 
 # default
@@ -83,13 +83,13 @@ MAKEFILE_LIST :=
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 3874
+VSCODE_PID = 26409
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
 # environment
-SESSION_MANAGER = local/oem-Aspire-E5-553G:@/tmp/.ICE-unix/1148,unix/oem-Aspire-E5-553G:/tmp/.ICE-unix/1148
+SESSION_MANAGER = local/oem-Aspire-E5-553G:@/tmp/.ICE-unix/1199,unix/oem-Aspire-E5-553G:/tmp/.ICE-unix/1199
 # automatic
 *F = $(notdir $*)
 # environment
@@ -99,7 +99,7 @@ DBUS_SESSION_BUS_ADDRESS = unix:path=/run/user/1000/bus
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # environment
-VSCODE_NLS_CONFIG = {"locale":"it","availableLanguages":{"*":"it"},"_languagePackId":"8df8b9222d3a83af275f3dcd401f5bf8.it","_translationsConfigFile":"/home/giordano/.config/Code/clp/8df8b9222d3a83af275f3dcd401f5bf8.it/tcf.json","_cacheRoot":"/home/giordano/.config/Code/clp/8df8b9222d3a83af275f3dcd401f5bf8.it","_resolvedLanguagePackCoreLocation":"/home/giordano/.config/Code/clp/8df8b9222d3a83af275f3dcd401f5bf8.it/784b0177c56c607789f9638da7b6bf3230d47a8c","_corruptedFile":"/home/giordano/.config/Code/clp/8df8b9222d3a83af275f3dcd401f5bf8.it/corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"it","availableLanguages":{"*":"it"},"_languagePackId":"7a9ccbb39d855d2d5642a9a76174bf85.it","_translationsConfigFile":"/home/giordano/.config/Code/clp/7a9ccbb39d855d2d5642a9a76174bf85.it/tcf.json","_cacheRoot":"/home/giordano/.config/Code/clp/7a9ccbb39d855d2d5642a9a76174bf85.it","_resolvedLanguagePackCoreLocation":"/home/giordano/.config/Code/clp/7a9ccbb39d855d2d5642a9a76174bf85.it/74b1f979648cc44d385a2286793c226e611f59e7","_corruptedFile":"/home/giordano/.config/Code/clp/7a9ccbb39d855d2d5642a9a76174bf85.it/corrupted.info","_languagePackSupport":true}
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
@@ -127,7 +127,7 @@ MAKEFILES :=
 # automatic
 ^F = $(notdir $^)
 # environment
-INVOCATION_ID = 98ec0406d5d44f839b8518a24cbb36fd
+INVOCATION_ID = 30761d0df150499b94d11c30463d9269
 # environment
 USERNAME = giordano
 # environment
@@ -155,7 +155,7 @@ GIO_LAUNCHED_DESKTOP_FILE = /usr/share/applications/code.desktop
 # makefile
 .DEFAULT_GOAL := 
 # environment
-SYSTEMD_EXEC_PID = 1176
+SYSTEMD_EXEC_PID = 1224
 # environment
 DISPLAY = :0
 # environment
@@ -165,15 +165,15 @@ GTK_MODULES = gail:atk-bridge
 # default
 MAKE_VERSION := 4.3
 # environment
-MANAGERPID = 1011
+MANAGERPID = 1046
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 3874
+GIO_LAUNCHED_DESKTOP_FILE_PID = 26409
 # environment
 _ = /usr/share/code/code
 # environment
 XDG_RUNTIME_DIR = /run/user/1000
 # environment
-JOURNAL_STREAM = 8:34094
+JOURNAL_STREAM = 8:34872
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -185,7 +185,7 @@ QT_IM_MODULE = ibus
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK = /run/user/1000/vscode-dffbc31b-1.71.0-main.sock
+VSCODE_IPC_HOOK = /run/user/1000/vscode-dffbc31b-1.71.2-main.sock
 # environment
 IM_CONFIG_PHASE = 1
 # default
@@ -209,9 +209,9 @@ GDMSESSION = ubuntu
 
 # Directories
 
-# . (device 2050, inode 22611580): 9 files, no impossibilities.
+# . (device 2050, inode 22611580): 11 files, no impossibilities.
 
-# 9 files, no impossibilities in 1 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -261,12 +261,12 @@ GNUmakefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 17 / storage = 132 B / avg = 7 B
-# current buf: size = 8162 B / used = 132 B / count = 17 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 19 / storage = 146 B / avg = 7 B
+# current buf: size = 8162 B / used = 146 B / count = 19 / avg = 7 B
 
-# strcache performance: lookups = 20 / hit rate = 15%
+# strcache performance: lookups = 22 / hit rate = 13%
 # hash-table stats:
-# Load=17/8192=0%, Rehash=0, Collisions=0/20=0%
-# Finished Make data base on Wed Sep 14 08:45:42 2022
+# Load=19/8192=0%, Rehash=0, Collisions=0/22=0%
+# Finished Make data base on Mon Sep 19 12:50:41 2022
 
  
