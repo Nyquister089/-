@@ -142,6 +142,8 @@ void create_tables()
     execute_query_from_file_sql("../sql/ddl/table/visita.sql");
     execute_query_from_file_sql("../sql/ddl/table/sostituito.sql");
     execute_query_from_file_sql("../sql/ddl/table/competenze.sql"); 
+
+    
     execute_query_from_file_sql("../sql/ddl/table/Tabelladiprova.sql"); 
     
 }
@@ -189,7 +191,8 @@ void populate_tables()
     execute_query_from_file_sql("../sql/dml/delete_and_insert_soggiorno.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_competenze.sql");
     execute_query_from_file_sql("../sql/dml/delete_and_insert_tagliando.sql");
-    //execute_query_from_file_sql("../sql/dml/Insert_prova.sql"); 
+
+    execute_query_from_file_sql("../sql/dml/Insert_prova.sql"); 
 }
 
 void drop_procedures(){

@@ -17,7 +17,7 @@ void view_login(struct credentials *cred)
 	puts("*   BENVENUTI IN TRIPBUS *");
 	puts("*********************************\n");
 	get_input("Username: ", USERNAME_LEN, cred->username, false);
-	get_input("Password: ", PASSWORD_LEN, cred->password, true);
+	get_input("Password: ", PASSWORD_LEN, cred->password, truemake);
 
 }
 

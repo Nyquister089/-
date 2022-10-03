@@ -1,13 +1,13 @@
 DELETE FROM `tripdb`.`Prova`;
 INSERT INTO `tripdb`.`Prova` (`rif_modello`, `rif_meta`)
-VALUES('HONDA', NULL); 
+VALUES('Roma', 'Lazio'); 
 INSERT INTO `tripdb`.`Prova` (`rif_modello`, `rif_meta`)
-VALUES('IVECO', NULL);
+VALUES('Milano', 'Lazio');/*
 INSERT INTO `tripdb`.`Prova` (`rif_modello`, `rif_meta`)
-VALUES('SCANIA', NULL);
+VALUES('SCANIA',NULL );
 INSERT INTO `tripdb`.`Prova` (`rif_modello`, `rif_meta`)
-VALUES(NULL, '1');
+VALUES(NULL, 'ALFA ROMEO');
 INSERT INTO `tripdb`.`Prova` (`rif_modello`, `rif_meta`)
-VALUES(NULL, '2');
+VALUES(NULL, 'ALFA ROMEO');
 INSERT INTO `tripdb`.`Prova` (`rif_modello`, `rif_meta`)
-VALUES(NULL, '3');
+VALUES(NULL, 'ALFA ROMEO');*/
