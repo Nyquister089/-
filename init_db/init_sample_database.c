@@ -142,7 +142,7 @@ void create_tables()
     execute_query_from_file_sql("../sql/ddl/table/visita.sql");
     execute_query_from_file_sql("../sql/ddl/table/sostituito.sql");
     execute_query_from_file_sql("../sql/ddl/table/competenze.sql"); 
-   // execute_query_from_file_sql("../sql/ddl/table/Tabelladiprova.sql"); 
+    execute_query_from_file_sql("../sql/ddl/table/Tabelladiprova.sql"); 
     
 }
 

@@ -5,7 +5,6 @@ CREATE TABLE IF NOT EXISTS `tripdb`.`Prova` (
   PRIMARY KEY (`idprova`),
   Key `rif_modello_fk` (`rif_modello`),
   key `rif_meta_fk` (`rif_meta`),
-  CONSTRAINT `rif_modello_fk` FOREIGN key (`rif_modello`) REFERENCES `modello` (`NomeModello`),
-  CONSTRAINT `rif_meta_fk` FOREIGN key (`rif_meta`) REFERENCES `meta` (`IdMeta`)
+  CONSTRAINT `rif_modello_fk` FOREIGN key (`rif_modello`) REFERENCES `modello` (`NomeModello`)
 
 ) ENGINE=InnoDB CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci;
