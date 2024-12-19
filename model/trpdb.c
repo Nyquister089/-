@@ -7,8 +7,6 @@
 #include "trpdb.h"
 #include "../utils/db.h"
 
-
-
 static char *opt_host_name = "localhost"; /* host (default=localhost) */
 static char *opt_user_name = "Login";  /* username (default=login name)*/
 static char *opt_password = "lgn";	  /* password (default=none) */
